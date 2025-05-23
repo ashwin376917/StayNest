@@ -1,0 +1,190 @@
+@font-face {
+  font-family: 'NType';
+  src: url('assets/NType-Regular.ttf') format('opentype');
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+  background-color: rgb(235, 235, 235);
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  flex: 0.65;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  position: relative;
+}
+
+.top-bar {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: absolute;
+  top: 20px;
+  left: 0;
+  padding: 0 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 25px; /* ← change this to increase spacing */
+  font-weight: bold;
+  font-size: 18px;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+
+.logo img {
+  width: 50px;
+  height: auto;
+}
+
+a {
+  text-decoration: none;
+  font-family: 'NType', sans-serif;
+  color: #000;
+  font-weight:400;
+}
+
+
+.signin-link {
+  font-size: 14px;
+}
+
+.form-box {
+  max-width: 300px;
+  width: 100%;
+}
+
+.form-box h2 {
+  margin-bottom: 20px;
+  text-align: left;
+  font-family: 'NType', sans-serif;
+  font-weight: normal;
+}
+
+.form-box input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 14px;
+}
+
+.form-box button {
+  width: 100%;
+  padding: 10px;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.social-login {
+  text-align: center;
+  margin: 20px 0 10px;
+  font-size: 14px;
+  color: #666;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.social-btn {
+  width: 100px;
+  height: 40px;
+  border-radius: 999px !important; /* ensure pill shape */
+  border: none;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+  transition: transform 0.5s ease;
+}
+
+
+
+.social-btn:hover {
+  transform: scale(1.1);
+}
+
+.social-btn img {
+  width: 20px;
+  height: 20px;
+  filter: brightness(0) invert(1); /* make white icons visible */
+}
+
+/* 🎨 Platform-specific background colors */
+.google-btn {
+  background-color: #c71610 !important;
+}
+
+.facebook-btn {
+  background-color: #335CA6 !important;
+}
+
+.apple-btn {
+  background-color: #000000 !important;
+}
+
+
+
+
+.terms {
+  font-size: 12px;
+  color: #666;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.right {
+  flex: 1;
+  background: url('https://i.imgur.com/E7x3PbR.jpg') center/cover no-repeat;
+}
+
+@media (max-width: 768px) {
+  .container {
+    flex-direction: column;
+  }
+
+  .right {
+    height: 250px;
+  }
+
+  .top-bar {
+    flex-direction: column;
+    gap: 10px;
+    position: static;
+    padding: 20px;
+  }
+
+  .logo,
+  .signin-link {
+    text-align: center;
+  }
+}
