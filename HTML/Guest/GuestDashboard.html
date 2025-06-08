@@ -9,17 +9,14 @@
 <body>
 
    <!-- HEADER -->
-   <header class = "main-header">
-
-      <div class = "left">
-         <img src="../../assets/staynest_logo.png"  alt="StayNest Logo" class="logo" >
+   <header class="main-header">
+      <div class="left">
+         <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo">
       </div>
-
-      <div class ="center">
-      <input type="text"  placeholder="Find you stay..." class="search-bar">
+      <div class="center">
+         <input type="text" placeholder="Find your stay..." class="search-bar">
       </div>
-
-      <div class = "right">
+      <div class="right">
          <img src="../../assets/Guest/notification.png" alt="Notification" class="icon">
          <img src="../../assets/Guest/message.png" alt="Messages" class="icon">
          <a href="../../Home/SignIn.html" class="SignIn">Sign in/Sign Up</a>
@@ -27,68 +24,99 @@
    </header>
 
    <!-- NAVIGATION -->
-    <nav class = "sub-nav">
-      <a href="#" class="active">Recommended For You</a>
-      <a href="#">Best Near You</a>
-    </nav>
+   <nav class="sub-nav">
+      <a href="#" class="tab-link active">Recommended For You</a>
+      <a href="#certified-nest" class="tab-link">Best Near You</a>
+   </nav>
 
-   <!-- RECOMMENDED SECTION -->
-    <section class = "recommended">
-      <div class="banner-container">
-         <img src="../../assets/Guest/mainbanner2.jpg" alt="The Rumah" class="main-banner">
-         <div class="banner-label">
-            <p class="small-title">BEST EXPERIENCE</p>
-            <h2 class ="main-title">The Rumah</h2>
-            <p class="subtitle">Modern an affordable nest in Melaka</p>
+   <!-- MAIN CONTENT -->
+   <div class="main-container">
+
+      <!-- RECOMMENDED SECTION -->
+      <section class="recommended">
+         <div class="banner-container image-wrapper">
+            <img src="../../assets/Guest/mainbanner2.jpg" alt="The Rumah" class="main-banner">
+            <div class="overlay"></div>
+            <div class="banner-label">
+               <p class="small-title">BEST EXPERIENCE</p>
+               <h2 class="main-title">The Rumah</h2>
+               <p class="subtitle">Modern and affordable nest in Melaka</p>
+            </div>
          </div>
-      </div>
-    </section>
+      </section>
 
-    <!-- MOST SEARCHED (DYNAMIC IMAGE)-->
-    <section class="most-searched">
-      <h2>Most searched for ""</h2>
-      <div class="photo-searched">
-      
-         <div class="photo-box"></div>
-         <div class="photo-box"></div>
-         <div class="photo-box"></div>
-         <div class="photo-box"></div>
-      </div>
-    </section>
-
-    <!-- EXPLORE CERTIFIED NEST (FIXED IMAGE)-->
-    <section class="certified-nest">
-      <h2>Explore Certified Nest in Ayer Keroh</h2>
-      <div class="certified-grid">
-        <div class="fixed-photo">
-          <img src="../../assets/Guest/familyfriendly.jpg" alt="Certified Nest" >
-          <p><img src="../../assets/Guest/certified.png" alt="Certified" class="certified-icon" >Family-Friendly</p>
+      <!-- MOST SEARCHED -->
+      <section class="most-searched">
+        <h2>Most searched for ""</h2>
+        <div class="photo-searched">
+          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
+          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
+          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
+          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
+          <div class="photo-box image-wrapper"><div class="overlay"></div></div> <!-- NEW -->
+          <div class="photo-box image-wrapper"><div class="overlay"></div></div> <!-- NEW -->
         </div>
-        <div class="fixed-photo">
-         <img src="../../assets/Guest/petfriendly.jpeg" alt="Certified Nest" >
-         <p><img src="../../assets/Guest/certified.png" alt="Certified" class="certified-icon" >Pet-Friendly</p>
-       </div>
-       <div class="fixed-photo">
-         <img src="../../assets/Guest/antique.jpg" alt="Certified Nest" >
-         <p><img src="../../assets/Guest/certified.png" alt="Certified" class="certified-icon" >Antique</p>
-       </div>
-       <div class="fixed-photo">
-         <img src="../../assets/Guest/shared.avif" alt="Certified Nest" >
-         <p><img src="../../assets/Guest/certified.png" alt="Certified" class="certified-icon" >Shared</p>
-       </div>
-       <div class="fixed-photo">
-         <img src="../../assets/Guest/luxury.jpg" alt="Certified Nest" >
-         <p><img src="../../assets/Guest/certified.png" alt="Certified" class="certified-icon" >Luxury</p>
-       </div>
-      </div>
+      </section>
 
+      <!-- CERTIFIED NEST -->
+      <section class="certified-nest" id="certified-nest">
+        <h2>Explore Certified Nest in Ayer Keroh</h2>
+        <div class="certified-grid">
+      
+          <div class="fixed-photo image-wrapper">
+            <img src="../../assets/Guest/familyfriendly.jpg" alt="Certified Nest">
+            <div class="top-label">
+               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+            </div>
+            <div class="bottom-label">Family-Friendly</div>
+          </div>
+      
+          <div class="fixed-photo image-wrapper">
+            <img src="../../assets/Guest/petfriendly.jpeg" alt="Certified Nest">
+            <div class="top-label">
+               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+            </div>
+            <div class="bottom-label">Pet-Friendly</div>
+          </div>
+      
+          <div class="fixed-photo image-wrapper">
+            <img src="../../assets/Guest/antique.jpg" alt="Certified Nest">
+            <div class="top-label">
+               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+            </div>
+            <div class="bottom-label">Antique</div>
+          </div>
+      
+          <div class="fixed-photo image-wrapper">
+            <img src="../../assets/Guest/shared.avif" alt="Certified Nest">
+            <div class="top-label">
+               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+            </div>
+            <div class="bottom-label">Shared</div>
+          </div>
+      
+          <div class="fixed-photo image-wrapper">
+            <img src="../../assets/Guest/luxury.jpg" alt="Certified Nest">
+            <div class="top-label">
+               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+            </div>
+            <div class="bottom-label">Luxury</div>
+          </div>
+      
+          <div class="fixed-photo image-wrapper">
+            <img src="../../assets/Guest/minimalist.avif" alt="Certified Nest">
+            <div class="top-label">
+               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+            </div>
+            <div class="bottom-label">Minimalist</div>
+          </div>      
+        </div>
+      </section>
+      
 
-
-
-
-
-
-
-    </section>
+   </div> <!-- END main-container -->
+   <footer>
+      <!-- footer html -->
+   </footer>
 </body>
 </html>

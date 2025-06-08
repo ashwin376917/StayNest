@@ -1,19 +1,28 @@
-/* GLOBAL RESET */
 @font-face {
-  font-family: 'Archivo';
-  src: url('../../assets/archivo/Archivo-Regular.ttf') format('opentype');
+  font-family: 'NType';
+  src: url('../../assets/NType-Regular.ttf') format('opentype');
 }
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Archivo', sans-serif;  
+  font-family: 'NType', sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
   background-color: #fff;
   color: #111;
+}
+
+/* WIDTH CONTAINER */
+.main-container {
+  width: 90%;
+  margin: 0 auto;
 }
 
 /* HEADER */
@@ -49,7 +58,14 @@ body {
   color: #333;
   border-radius: 30px;
   outline: none;
+  transition: width 1s ease; 
 }
+
+.search-bar:hover {
+  width: 120%;  
+  max-width: 500px;
+}
+
 
 .right {
   display: flex;
@@ -90,20 +106,50 @@ body {
 .sub-nav a {
   text-decoration: none;
   color: #444;
-  font-weight: 600;
   padding: 8px 12px;
   border-radius: 5px;
-  transition: background-color 0.3s ease;
+  background-color: transparent;
+  transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
-.sub-nav a.active,
 .sub-nav a:hover {
   background-color: #e6e6e6;
+  transform: scale(1.1);
 }
 
-/* RECOMMENDED BANNER SECTION */
+.sub-nav a.active {
+  font-weight: bold;
+}
+
+/* IMAGE WRAPPER + DARK OVERLAY */
+.image-wrapper {
+  position: relative;
+  overflow: hidden;
+}
+
+.image-wrapper .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.25);
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+.image-wrapper:hover .overlay {
+  background-color: rgba(0, 0, 0, 0.45);
+}
+
+.image-wrapper:hover img {
+  transform: scale(1.03);
+  transition: transform 0.3s ease;
+}
+
+/* RECOMMENDED SECTION */
 .recommended {
-  margin: 20px;
+  margin: 30px 0;
 }
 
 .banner-container {
@@ -116,79 +162,121 @@ body {
 }
 
 .main-banner {
-  width: 90%;
-  height: auto;
+  width: 100%;
+  height: 60vh;
+  object-fit: cover;
   border-radius: 10px;
   display: block;
-  margin: 0 auto;
 }
 
 .banner-label {
   position: absolute;
-  bottom: 20px;
+  bottom: 25px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: rgba(255, 255, 255, 0.9);
-  padding: 10px 15px;
+  background-color: rgba(255, 255, 255, 0.92);
+  padding: 35px 200px;
   border-radius: 10px;
   text-align: center;
+  z-index: 2;
+  transition: background-color 0.3s ease;
+}
+
+.banner-container:hover .banner-label {
+  background-color: rgba(255, 255, 255, 0.85);
 }
 
 .small-title {
-  font-size: 12px;
-  color: #999;
-  margin-bottom: 4px;
+  font-size: 20px;
+  color: #000;
+  margin-bottom: 20px;
 }
 
 .main-title {
-  font-size: 22px;
+  font-size: 70px;
   font-weight: bold;
-  margin-bottom: 2px;
+  margin-bottom: 20px;
 }
 
 .subtitle {
-  font-size: 14px;
+  font-size: 30px;
   color: #555;
 }
 
-/* MOST SEARCHED SECTION */
-.most-searched {
-  margin: 30px 20px;
+/* SECTION HEADINGS */
+.most-searched h2,
+.certified-nest h2 {
+  margin-bottom: 20px;
+  font-size: 44px;
+  position: relative;
+  padding-bottom: 10px;
+  display: block;
+  width: 100%;
 }
 
-.most-searched h2 {
-  margin-bottom: 15px;
-  font-size: 20px;
+.most-searched h2::after,
+.certified-nest h2::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  height: 4px;
+  width: 100%;
+  background-color: #111;
+  border-radius: 2px;
+}
+
+/* MOST SEARCHED */
+.most-searched {
+  margin: 50px 0;
 }
 
 .photo-searched {
   display: flex;
-  gap: 15px;
+  gap: 20px;
   overflow-x: auto;
-  padding-bottom: 10px;
+  padding-bottom: 12px;
+  scrollbar-width: auto;
+  scrollbar-color: #999 transparent;
+}
+
+.photo-searched::-webkit-scrollbar {
+  height: 10px;
+}
+
+.photo-searched::-webkit-scrollbar-track {
+  background: #f0f0f0;
+}
+
+.photo-searched::-webkit-scrollbar-thumb {
+  background-color: #999;
+  border-radius: 5px;
 }
 
 .photo-box {
-  min-width: 150px;
-  height: 120px;
+  min-width: 275px;
+  height: 40vh;
   background-color: #ccc;
   border-radius: 10px;
+  position: relative;
+  flex-shrink: 0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-/* CERTIFIED NEST SECTION */
+.photo-box:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+/* CERTIFIED NEST */
 .certified-nest {
-  margin: 30px 20px;
-}
-
-.certified-nest h2 {
-  margin-bottom: 15px;
-  font-size: 20px;
+  margin: 30px 0;
 }
 
 .certified-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 15px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px;
 }
 
 .fixed-photo {
@@ -196,26 +284,76 @@ body {
   border-radius: 10px;
   overflow: hidden;
   background-color: #f0f0f0;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  height: 520px;
+}
+
+.fixed-photo:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .fixed-photo img {
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
   display: block;
+  transition: transform 0.3s ease;
+  z-index: 0; /* Ensure the image stays behind the text */
 }
 
-.fixed-photo p {
-  position: absolute;
-  bottom: 10px;
-  left: 10px;
-  background-color: rgba(0, 0, 0, 0.6);
-  color: #fff;
-  padding: 5px 10px;
-  border-radius: 5px;
-  font-size: 13px;
+.fixed-photo .top-label,
+.fixed-photo .bottom-label {
+
+  font-weight: bold; /* Optional for making text bold */
+  position: absolute;  /* Ensure labels are positioned on top of the image */
+  z-index: 2;  /* Ensure the labels stay above the image */
   display: flex;
   align-items: center;
-  gap: 5px;
+}
+
+.fixed-photo .top-label {
+  /* background-color: rgba(0, 0, 0, 0.6);  Dark background for contrast */
+  color: rgb(0, 0, 0);  /* Set text color to white */
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  border-radius: 100px; /* Optional for rounded corners */
+}
+
+.fixed-photo .top-label img.certified-icon {
+  width: 30px;  /* Make the certified icon smaller */
+  height: 30px; /* Adjust height to maintain aspect ratio */
+  margin-right: 5px; /* Space between the logo and the text */
+}
+
+.fixed-photo .bottom-label {
+  /* background-color: rgba(0, 0, 0, 0.6);  Dark background for contrast */
+  color: rgb(255, 255, 255);  /* Set text color to white */
+  bottom: 10px;
+  left: 10px;
+  padding: 5px 10px;
+  border-radius: 5px; /* Optional for rounded corners */
+}
+
+
+.fixed-photo .top-label {
+  background-color: rgba(255, 255, 255, 0.5);
+  top: 10px;
+  left: 10px;
+  padding: 5px 10px;
+}
+
+.fixed-photo .bottom-label {
+  /* background-color: rgba(0, 0, 0, 0.6); */
+  background-color: rgb(0, 0, 0 ,0.5);
+  position: absolute; /* Ensure it's positioned relative to the parent */
+  bottom: 10px; /* Optional: Adjust to control vertical position */
+  left: 50%; /* Move it to the center horizontally */
+  transform: translateX(-50%); /* Offset the width of the element to truly center it */
+  padding: 5px 45px;
+  text-align: center; /* Ensure text is centered inside the label */
+  font-size: 30px; /* You can adjust the font size as needed */
 }
 
 .certified-icon {
