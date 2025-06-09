@@ -79,17 +79,35 @@ body {
   cursor: pointer;
 }
 
-.SignIn {
-  text-decoration: none;
-  color: black;
-  padding: 6px 12px;
-  border-radius: 5px;
-  transition: background 0.3s ease;
-  font-weight: 500;
+.be-a-host {
+ text-decoration: none;
+ padding: 6px 16px;
+ border: 2px solid black;
+ border-radius: 30px;
+ font-weight: 500;
+ color: black;
+ transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-.SignIn:hover {
-  background-color: #eee;
+.be-a-host:hover {
+ background-color: black;
+ color: white;
+}
+
+.profile-wrapper {
+ width: 40px;
+ height: 40px;
+ border-radius: 50%;
+ overflow: hidden;
+ border: 2px solid #ddd;
+ cursor: pointer;
+}
+
+.profile-icon {
+ width: 100%;
+ height: 100%;
+ object-fit: cover;
+ display: block;
 }
 
 /* NAVIGATION */
