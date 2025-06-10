@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guest Report System</title>
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Guest Report System</title>
+        <link rel="stylesheet" href="../../CSS/ReportSystem.css">
+    </head>
+    <body>
+    
+       <!-- HEADER -->
+       <header class="main-header">
+          <div class="left">
+             <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo">
+          </div>
+          <div class="center">
+             <input type="text" placeholder="Find your stay..." class="search-bar">
+          </div>
+          <div class="right">
+             <img src="../../assets/Guest/notification.png" alt="Notification" class="icon">
+             <img src="../../assets/Guest/message.png" alt="Messages" class="icon">
+             <!-- Profile Image -->
+             <img src="../../assets/Guest/profile-person.jpg" alt="Profile" class="profile-image"> <!-- Replace this path with dynamic image later -->
+          </div>
+       </header>
+    
+       <!-- REPORT PAGE FORM -->
+       <div class="main-container">
+          <h1>Report Page</h1>
+          <form class="report-form">
+             <label for="email">Email</label>
+             <input type="email" id="email" placeholder="johndoe@gmail.com" required>
+    
+             <label for="confirm-email">Confirm Email Address</label>
+             <input type="email" id="confirm-email" placeholder="johndoe@gmail.com" required>
+    
+             <label for="problem-category">Type of problem category</label>
+             <select id="problem-category">
+                <option value="" disabled selected>Please select</option>
+                <option value="technical">Technical Issue</option>
+                <option value="account">Account Issue</option>
+                <option value="payment">Payment Issue</option>
+             </select>
+    
+             <label for="issue-description">Please describe your issue</label>
+             <textarea id="issue-description" placeholder="Please describe your issues that you are facing..." required></textarea>
+    
+             <div class="upload-container">
+                <label for="upload-image">Upload Image</label>
+                <input type="file" id="upload-image">
+             </div>
+    
+             <button type="submit">Continue</button>
+          </form>
+       </div>
+    
+    </body>
+    </html>
+    
+</head>
+<body>
