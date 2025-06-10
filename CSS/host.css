@@ -1,0 +1,217 @@
+@font-face {
+  font-family: 'NType';
+  src: url('../assets/NType-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Monserrat';
+  src: url('../assets/Montserrat-Regular.ttf') format('truetype');
+}
+
+body {
+  font-family: 'NType', sans-serif;
+}
+
+/* Make all checkboxes rounded with center fill when checked */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 25%;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  cursor: pointer;
+  position: relative;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+}
+
+input[type="checkbox"]::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  background-color: black;
+  border-radius: 25%;
+  transform: translate(-50%, -50%) scale(0);
+  transition: transform 0.2s ease;
+}
+
+input[type="checkbox"]:checked::before {
+  transform: translate(-50%, -50%) scale(1);
+}
+
+/* Navigation Tabs */
+.host-nav-wrapper {
+  width: 100%;
+  margin-top: 30px;
+  margin-bottom: 65px;
+}
+
+.host-nav {
+  display: flex;
+  gap: 25px;
+  width: 80%;
+  margin: 0 auto;
+}
+
+.host-nav-link {
+  font-family: 'NType', sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  text-decoration: none;
+  color: black;
+  position: relative;
+  padding-bottom: 5px;
+}
+
+.host-nav-link.active {
+  font-weight: 600;
+}
+
+.host-nav-link.active::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 2px;
+  width: 100%;
+  background-color: black;
+}
+
+/* Layout Wrapper */
+.host-content {
+  width: 80%;
+  margin: 0 auto;
+}
+
+/* Title */
+.dashboard-title {
+  margin: 20px 0;
+  font-family: 'NType', sans-serif;
+  font-size: 35px;
+}
+
+/* Select + Add Property */
+.select-add {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 40px;
+  margin-bottom: 25px;
+}
+
+.select-all-label {
+  font-size: 14px;
+}
+
+.add-property-btn {
+  background-color: #000;
+  color: white;
+  padding: 15px 0;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-family: 'NType', sans-serif;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-property-btn:hover {
+  background-color: #222;
+}
+
+.full-width {
+  width: 100%;
+  text-align: center;
+}
+
+/* Property Cards */
+.property-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.property-card {
+  background-color: #f7f7f7;
+  display: flex;
+  align-items: center;
+  padding: 15px;
+  border-radius: 10px;
+  gap: 50px;
+}
+
+.property-thumb {
+  width: 121px;
+  height: 57px;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.property-info {
+  flex-grow: .65;
+}
+
+.property-info h3 {
+  font-size: 16px;
+  font-family: 'NType', sans-serif;
+  margin: 0;
+}
+
+.property-info p {
+  font-size: 13px;
+  color: #666;
+  margin: 4px 0 0;
+}
+
+/* Status Chips */
+.status {
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: bold;
+  margin-right: 10px;
+  text-transform: uppercase;
+}
+
+.status.listed,
+.status.pending,
+.status.hidden {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  padding: 7.5px 15px;
+}
+
+.status.listed {
+  background-color: #007bff;
+  color: white;
+}
+
+.status.pending {
+  background-color: #f0ad4e;
+  color: white;
+}
+
+.status.hidden {
+  background-color: #000;
+  color: white;
+}
+
+.availability {
+  font-size: 13px;
+  color: #333;
+  min-width: 100px;
+  text-align: right;
+  font-family: 'NType', sans-serif;
+}
+
+/* Align checkbox and text */
+.checkbox-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+

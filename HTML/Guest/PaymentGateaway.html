@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>StayNest | Payment Gateway</title>
+  <link rel="stylesheet" href="../../CSS/PaymentGateaway.css" />
+</head>
+<body>
+
+  <div class="container">
+    <!-- LEFT: Payment Form -->
+    <div class="left">
+      <div class="top-bar">
+        <div class="logo">
+          <img src="../../assets/staynest_logo.png" alt="StayNest Logo" />
+          <span>StayNest</span>
+        </div>
+      </div>
+
+      <div class="form-box">
+        <h2>Payment Method</h2>
+
+        <select>
+          <option>Debit Card / Credit Card</option>
+          <option>FPX Payment</option>
+          <option>E-Wallet</option>
+        </select>
+
+        <input type="text" placeholder="Name" />
+        <input type="text" placeholder="Card Number" />
+        <input type="text" placeholder="CVV" />
+
+        <button id="pay-button">Pay</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Image Background -->
+    <div class="right"></div>
+  </div>
+
+</body>
+</html>
