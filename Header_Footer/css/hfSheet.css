@@ -1,0 +1,72 @@
+@font-face {
+    font-family: 'NType';
+    src: url(../../assets/NType-Regular.ttf) format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'NType', 'Segoe UI', sans-serif;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.header_right {
+  display: flex;
+  align-items: center;
+  align-self: center;
+  gap: 10px; 
+}
+
+img {
+  height: 32px;
+}
+
+.search_bar {
+  flex: 1;
+  max-width: 500px;
+  display: flex;
+  align-items: center;
+  margin: 0 20px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+}
+
+.search_bar input {
+  flex: 1;
+  border: none;
+  outline: none;
+  background: transparent;
+  margin: 0 8px;
+}
+
+.material-icons {
+  color: #666;
+  cursor: pointer;
+}
+
+.type_button {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  background-color: white;
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.profile {
+  width: 32px;
+  height: auto;
+  border-radius: 50%;
+  object-fit: cover;
+}
