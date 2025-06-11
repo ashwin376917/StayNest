@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Manage Nest - StayNest Host</title>
   <link rel="stylesheet" href="../../CSS/HostDashboard.css" />
+  
+  
 </head>
 <body>
+
+  <script>
+  fetch('../../Header_Footer/Header.html')
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById('header-placeholder').innerHTML = data;
+    });
+</script>
 
   <!-- Navigation Tabs -->
   <div class="host-nav-wrapper">
