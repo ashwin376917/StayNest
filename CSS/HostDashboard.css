@@ -12,6 +12,11 @@ body {
   font-family: 'NType', sans-serif;
 }
 
+h2{
+  font-weight: normal;
+  font-size:large;
+}
+
 /* Make all checkboxes rounded with center fill when checked */
 input[type="checkbox"] {
   appearance: none;
