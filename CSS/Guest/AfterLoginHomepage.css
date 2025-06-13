@@ -1,0 +1,381 @@
+@font-face {
+   font-family: 'NType';
+   src: url('../../assets/NType-Regular.ttf') format('opentype');
+ }
+ 
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+   font-family: 'NType', sans-serif;
+ }
+ 
+ html {
+   scroll-behavior: smooth;
+ }
+ 
+ body {
+   background-color: #fff;
+   color: #111;
+ }
+ 
+ /* WIDTH CONTAINER */
+ .main-container {
+   width: 90%;
+   margin: 0 auto;
+ }
+ 
+ /* HEADER */
+ .main-header {
+   display: flex;
+   justify-content: space-between;
+   align-items: center;
+   padding: 10px 20px;
+   background-color: white;
+   font-size: 17px;
+   border-bottom: 1px solid #ddd;
+ }
+ 
+ .left .logo {
+   width: 50px;
+   height: 50px;
+ }
+ 
+ .center {
+   flex-grow: 1;
+   display: flex;
+   justify-content: center;
+   padding: 0 20px;
+ }
+ 
+ .search-bar {
+   width: 100%;
+   max-width: 400px;
+   padding: 8px 20px;
+   border: none;
+   background-color: rgb(248, 248, 248);
+   font-size: 16px;
+   color: #333;
+   border-radius: 30px;
+   outline: none;
+   transition: width 1s ease; 
+ }
+ 
+ .search-bar:hover {
+   width: 120%;  
+   max-width: 500px;
+ }
+ 
+ 
+ .right {
+   display: flex;
+   align-items: center;
+   gap: 20px;
+ }
+ 
+ .icon {
+   width: 25px;
+   height: 25px;
+   cursor: pointer;
+ }
+ 
+ .be-a-host {
+  text-decoration: none;
+  padding: 6px 16px;
+  border: 2px solid black;
+  border-radius: 30px;
+  font-weight: 500;
+  color: black;
+  transition: background-color 0.3s ease, color 0.3s ease;
+ }
+ 
+ .be-a-host:hover {
+  background-color: black;
+  color: white;
+ }
+ 
+ .profile-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  cursor: pointer;
+ }
+ 
+ .profile-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+ }
+ 
+ /* NAVIGATION */
+ .sub-nav {
+   display: flex;
+   justify-content: center;
+   gap: 40px;
+   padding: 20px 0;
+   margin-bottom: 30px;
+   background-color: #f7f7f7;
+   border: 1px solid #ddd;
+ }
+ 
+ .sub-nav a {
+   text-decoration: none;
+   color: #444;
+   padding: 8px 12px;
+   border-radius: 5px;
+   background-color: transparent;
+   transition: background-color 0.3s ease, transform 0.2s ease;
+ }
+ 
+ .sub-nav a:hover {
+   background-color: #e6e6e6;
+   transform: scale(1.1);
+ }
+ 
+ .sub-nav a.active {
+   font-weight: bold;
+ }
+ 
+ /* IMAGE WRAPPER + DARK OVERLAY */
+ .image-wrapper {
+   position: relative;
+   overflow: hidden;
+ }
+ 
+ .image-wrapper .overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.25);
+   transition: background-color 0.3s ease;
+   z-index: 1;
+ }
+ 
+ .image-wrapper:hover .overlay {
+   background-color: rgba(0, 0, 0, 0.45);
+ }
+ 
+ .image-wrapper:hover img {
+   transform: scale(1.03);
+   transition: transform 0.3s ease;
+ }
+ 
+ /* RECOMMENDED SECTION */
+ .recommended {
+   margin: 30px 0;
+ }
+ 
+ .banner-container {
+   display: flex;
+   position: relative;
+   border-radius: 10px;
+   overflow: hidden;
+   justify-content: center;
+   align-items: center;
+ }
+ 
+ .main-banner {
+   width: 100%;
+   height: 60vh;
+   object-fit: cover;
+   border-radius: 10px;
+   display: block;
+ }
+ 
+ .banner-label {
+   position: absolute;
+   bottom: 25px;
+   left: 50%;
+   transform: translateX(-50%);
+   background-color: rgba(255, 255, 255, 0.92);
+   padding: 35px 200px;
+   border-radius: 10px;
+   text-align: center;
+   z-index: 2;
+   transition: background-color 0.3s ease;
+ }
+ 
+ .banner-container:hover .banner-label {
+   background-color: rgba(255, 255, 255, 0.85);
+ }
+ 
+ .small-title {
+   font-size: 20px;
+   color: #000;
+   margin-bottom: 20px;
+ }
+ 
+ .main-title {
+   font-size: 70px;
+   font-weight: bold;
+   margin-bottom: 20px;
+ }
+ 
+ .subtitle {
+   font-size: 30px;
+   color: #555;
+ }
+ 
+ /* SECTION HEADINGS */
+ .most-searched h2,
+ .certified-nest h2 {
+   margin-bottom: 20px;
+   font-size: 44px;
+   position: relative;
+   padding-bottom: 10px;
+   display: block;
+   width: 100%;
+ }
+ 
+ .most-searched h2::after,
+ .certified-nest h2::after {
+   content: "";
+   position: absolute;
+   left: 0;
+   bottom: 0;
+   height: 4px;
+   width: 100%;
+   background-color: #111;
+   border-radius: 2px;
+ }
+ 
+ /* MOST SEARCHED */
+ .most-searched {
+   margin: 50px 0;
+ }
+ 
+ .photo-searched {
+   display: flex;
+   gap: 20px;
+   overflow-x: auto;
+   padding-bottom: 12px;
+   scrollbar-width: auto;
+   scrollbar-color: #999 transparent;
+ }
+ 
+ .photo-searched::-webkit-scrollbar {
+   height: 10px;
+ }
+ 
+ .photo-searched::-webkit-scrollbar-track {
+   background: #f0f0f0;
+ }
+ 
+ .photo-searched::-webkit-scrollbar-thumb {
+   background-color: #999;
+   border-radius: 5px;
+ }
+ 
+ .photo-box {
+   min-width: 275px;
+   height: 40vh;
+   background-color: #ccc;
+   border-radius: 10px;
+   position: relative;
+   flex-shrink: 0;
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+ }
+ 
+ .photo-box:hover {
+   transform: scale(1.03);
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+ }
+ 
+ /* CERTIFIED NEST */
+ .certified-nest {
+   margin: 30px 0;
+ }
+ 
+ .certified-grid {
+   display: grid;
+   grid-template-columns: repeat(3, 1fr);
+   gap: 25px;
+ }
+ 
+ .fixed-photo {
+   position: relative;
+   border-radius: 10px;
+   overflow: hidden;
+   background-color: #f0f0f0;
+   transition: transform 0.3s ease, box-shadow 0.3s ease;
+   height: 520px;
+ }
+ 
+ .fixed-photo:hover {
+   transform: scale(1.03);
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+ }
+ 
+ .fixed-photo img {
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+   display: block;
+   transition: transform 0.3s ease;
+   z-index: 0; /* Ensure the image stays behind the text */
+ }
+ 
+ .fixed-photo .top-label,
+ .fixed-photo .bottom-label {
+ 
+   font-weight: bold; /* Optional for making text bold */
+   position: absolute;  /* Ensure labels are positioned on top of the image */
+   z-index: 2;  /* Ensure the labels stay above the image */
+   display: flex;
+   align-items: center;
+ }
+ 
+ .fixed-photo .top-label {
+   /* background-color: rgba(0, 0, 0, 0.6);  Dark background for contrast */
+   color: rgb(0, 0, 0);  /* Set text color to white */
+   top: 10px;
+   left: 10px;
+   padding: 5px 10px;
+   border-radius: 100px; /* Optional for rounded corners */
+ }
+ 
+ .fixed-photo .top-label img.certified-icon {
+   width: 30px;  /* Make the certified icon smaller */
+   height: 30px; /* Adjust height to maintain aspect ratio */
+   margin-right: 5px; /* Space between the logo and the text */
+ }
+ 
+ .fixed-photo .bottom-label {
+   /* background-color: rgba(0, 0, 0, 0.6);  Dark background for contrast */
+   color: rgb(255, 255, 255);  /* Set text color to white */
+   bottom: 10px;
+   left: 10px;
+   padding: 5px 10px;
+   border-radius: 5px; /* Optional for rounded corners */
+ }
+ 
+ 
+ .fixed-photo .top-label {
+   background-color: rgba(255, 255, 255, 0.5);
+   top: 10px;
+   left: 10px;
+   padding: 5px 10px;
+ }
+ 
+ .fixed-photo .bottom-label {
+   /* background-color: rgba(0, 0, 0, 0.6); */
+   background-color: rgb(0, 0, 0 ,0.5);
+   position: absolute; /* Ensure it's positioned relative to the parent */
+   bottom: 10px; /* Optional: Adjust to control vertical position */
+   left: 50%; /* Move it to the center horizontally */
+   transform: translateX(-50%); /* Offset the width of the element to truly center it */
+   padding: 5px 45px;
+   text-align: center; /* Ensure text is centered inside the label */
+   font-size: 30px; /* You can adjust the font size as needed */
+ }
+ 
+ .certified-icon {
+   width: 14px;
+   height: 14px;
+ }
+ 
