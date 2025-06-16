@@ -1,11 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard</title>
+  <link rel="stylesheet" href="../../CSS/Guest/GuestDashboard.css" />
 </head>
 <body>
-   
+
+  <!-- NAVBAR (Same as your provided code) -->
+  <header class="main-header">
+    <div class="left">
+      <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo" />
+      <span class="WebName">StayNest</span>
+      <a href="#" class="nav-link">Dashboard</a>
+      <a href="#" class="nav-link">My Booking</a>
+    </div>
+
+    <div class="center">
+      <input type="text" placeholder="Find your stay..." class="search-bar" />
+    </div>
+
+    <div class="right">
+      <img src="../../assets/Guest/notification.png" alt="Notification" class="icon" />
+      <img src="../../assets/Guest/message.png" alt="Messages" class="icon" />
+      <a href="#" class="be-a-host">+ Be a Host</a>
+      <div class="profile-wrapper">
+        <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon" />
+      </div>
+    </div>
+  </header>
+
+  <!-- DASHBOARD CONTENT -->
+  <div class="main-container">
+
+    <!-- LAYER 1: Summary Boxes -->
+    <div class="summary-row">
+      <div class="summary-box">
+        <div class="summary-number">--</div>
+        <div class="summary-content">
+          <img src="../../assets/Guest/order_icon.png" alt="Orders" />
+          <span>Total Orders</span>
+        </div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-number">--</div>
+        <div class="summary-content">
+          <img src="../../assets/Guest/review_icon.png" alt="Reviews" />
+          <span>Total Reviews</span>
+        </div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-number">--</div>
+        <div class="summary-content">
+          <img src="../../assets/Guest/report_icon.png" alt="Reports" />
+          <span>Total Reports</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYER 2: Orders & Reviews -->
+    <div class="layer-two">
+      <!-- Recent Orders -->
+      <div class="recent-orders">
+        <h2>Recent Orders</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>No</th>
+              <th>Property Name</th>
+              <th>Date Booked</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <!-- Placeholder rows -->
+            <tr>
+              <td>1</td>
+              <td>Rumah Hijau</td>
+              <td>2025-06-01</td>
+              <td>Confirmed</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Recent Reviews -->
+      <div class="recent-reviews">
+        <h2>Recent Reviews</h2>
+        <div class="review-box">
+          <!-- Placeholder review -->
+          <p>User123: Great place, would book again!</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- LAYER 3: Reports -->
+    <div class="reports-section">
+      <h2>User Reports</h2>
+      <div class="report-box">
+        <!-- Placeholder report -->
+        <p>Report #1: Property not as described.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <footer>
+    <!-- Footer container -->
+  </footer>
+
 </body>
 </html>

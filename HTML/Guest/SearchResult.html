@@ -1,11 +1,74 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search Results</title>
+  <link rel="stylesheet" href="../../CSS/Guest/GuestDashboard.css" />
+  <link rel="stylesheet" href="../../CSS/Guest/SearchResults.css" />
 </head>
 <body>
-   
+
+  <!-- NAVBAR -->
+  <header class="main-header">
+    <div class="left">
+      <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo" />
+      <span class="WebName">StayNest</span>
+      <a href="#" class="nav-link">Dashboard</a>
+      <a href="#" class="nav-link">My Booking</a>
+    </div>
+
+    <div class="center">
+      <input type="text" placeholder="Find your stay..." class="search-bar" />
+    </div>
+
+    <div class="right">
+      <img src="../../assets/Guest/notification.png" alt="Notification" class="icon" />
+      <img src="../../assets/Guest/message.png" alt="Messages" class="icon" />
+      <a href="#" class="be-a-host">+ Be a Host</a>
+      <div class="profile-wrapper">
+        <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon" />
+      </div>
+    </div>
+  </header>
+
+  <!-- SEARCH RESULT SECTION -->
+  <div class="main-container">
+    <div class="search-result">
+      <h2>Search Results for "Homestay in Melaka"</h2>
+      <div class="result-grid">
+
+        <!-- Result Card 1 -->
+        <div class="result-card">
+          <img src="../../assets/Guest/sample1.jpg" alt="Property Image">
+          <div class="result-info">
+            <h3>Melaka Cozy Nest</h3>
+            <p>Located in Ayer Keroh, 5 mins from Zoo Melaka.</p>
+            <p><strong>RM150/night</strong></p>
+            <a href="viewpropertylisting.html" class="view-btn">View Property</a>
+          </div>
+        </div>
+
+        <!-- Result Card 2 -->
+        <div class="result-card">
+          <img src="../../assets/Guest/sample2.jpg" alt="Property Image">
+          <div class="result-info">
+            <h3>Urban Studio Suite</h3>
+            <p>Modern studio near Jonker Street.</p>
+            <p><strong>RM200/night</strong></p>
+            <a href="viewpropertylisting.html" class="view-btn">View Property</a>
+          </div>
+        </div>
+
+        <!-- Add more cards dynamically -->
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <!-- Footer content -->
+  </footer>
+
 </body>
 </html>
