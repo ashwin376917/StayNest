@@ -2,6 +2,10 @@
   font-family: 'NType';
   src: url('../../assets/NType-Regular.ttf') format('opentype');
 }
+@font-face {
+  font-family: 'Archivo';
+  src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
+}
 
 * {
   margin: 0;
@@ -37,6 +41,11 @@ body {
 }
 
 /* --- UPDATED LEFT SECTION --- */
+.WebName{
+  font-weight: bold;
+  font-family: 'Archivo', sans-serif;
+}
+
 .left {
   display: flex;
   align-items: center;
