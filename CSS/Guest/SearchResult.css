@@ -1,0 +1,70 @@
+.search-result {
+   margin-top: 30px;
+   padding: 30px;
+   background: #fff;
+   border-radius: 12px;
+   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+ }
+ 
+ .search-result h2 {
+   font-size: 26px;
+   margin-bottom: 25px;
+   color: #222;
+ }
+ 
+ .result-grid {
+   display: grid;
+   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+   gap: 25px;
+ }
+ 
+ .result-card {
+   background: #fefefe;
+   border-radius: 12px;
+   overflow: hidden;
+   transition: box-shadow 0.3s ease;
+   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+ }
+ 
+ .result-card:hover {
+   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+ }
+ 
+ .result-card img {
+   width: 100%;
+   height: 180px;
+   object-fit: cover;
+   display: block;
+ }
+ 
+ .result-info {
+   padding: 16px;
+ }
+ 
+ .result-info h3 {
+   font-size: 20px;
+   margin-bottom: 8px;
+   color: #111;
+ }
+ 
+ .result-info p {
+   font-size: 14px;
+   color: #555;
+   margin-bottom: 10px;
+ }
+ 
+ .view-btn {
+   display: inline-block;
+   padding: 8px 16px;
+   background-color: #007bff;
+   color: white;
+   text-decoration: none;
+   border-radius: 6px;
+   transition: background-color 0.3s ease;
+   font-size: 14px;
+ }
+ 
+ .view-btn:hover {
+   background-color: #0056b3;
+ }
+ 
