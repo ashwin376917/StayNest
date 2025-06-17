@@ -23,7 +23,7 @@
       <div class="right">
          <img src="../../assets/Guest/notification.png" alt="Notification" class="icon">
          <img src="../../assets/Guest/message.png" alt="Messages" class="icon">
-         <a href="#" class="be-a-host">+ Be a Host</a>
+         <a href="../../HTML/Host/HostDashboard.html" class="be-a-host">+ Be a Host</a>
          <div class="profile-wrapper">
             <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon">
          </div>
@@ -122,6 +122,44 @@
       
 
    </div> <!-- END main-container -->
+ <!-- NOTIFICATION SIDEBAR -->
+<div id="notificationSidebar" class="sidebar hidden">
+   <div class="sidebar-header">
+     <h3>Notifications</h3>
+     <button onclick="closeSidebar('notificationSidebar')">✕</button>
+   </div>
+   <ul id="notificationList">
+     <!-- Notifications go here -->
+   </ul>
+ </div>
+ 
+ <!-- MESSAGES SIDEBAR -->
+ <div id="messagesSidebar" class="sidebar hidden">
+   <div class="sidebar-header">
+     <h3>Messages</h3>
+     <button onclick="closeSidebar('messagesSidebar')">✕</button>
+   </div>
+   <div id="chatList">
+     <!-- Messages go here -->
+   </div>
+ </div>
+ 
+ 
+ <!-- CHAT WINDOW -->
+ <div id="chatWindow" class="chat-window hidden">
+   <div class="chat-header">
+     <span id="chatUser">Chat with Guest</span>
+     <button onclick="closeChat()">X</button>
+   </div>
+   <div class="chat-body" id="chatMessages"></div>
+   <div class="chat-input">
+     <input type="text" id="chatInputBox" placeholder="Type a message...">
+     <button onclick="sendMessage()">Send</button>
+   </div>
+ </div>
+ 
+ <script src="../../JS/Guest/AfterLoginHomepage.js"></script>
+ 
    <footer>
       <!-- footer html -->
    </footer>

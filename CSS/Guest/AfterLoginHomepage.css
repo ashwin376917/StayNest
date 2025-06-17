@@ -386,3 +386,126 @@ body {
   width: 14px;
   height: 14px;
 }
+
+/* SIDEBAR STYLES */
+.sidebar {
+  position: fixed;
+  top: 70px;
+  right: 0;
+  width: 300px;
+  height: calc(100% - 70px);
+  background-color: #fff;
+  border-left: 2px solid #ddd;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: -4px 0 10px rgba(0,0,0,0.1);
+  z-index: 999;
+}
+
+.sidebar.hidden {
+  display: none;
+}
+
+.sidebar h3 {
+  font-family: 'Archivo', sans-serif;
+  margin-bottom: 15px;
+}
+
+.sidebar-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+.sidebar-header button {
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+.sidebar-header button:hover {
+  color: red;
+}
+
+#notificationList li {
+  background: #f3f3f3;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+/* CHAT WINDOW */
+.chat-window {
+  position: fixed;
+  bottom: 0;
+  right: 320px;
+  width: 350px;
+  height: 450px;
+  background-color: #fff;
+  border: 2px solid #ddd;
+  box-shadow: -4px -4px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+}
+
+.chat-window.hidden {
+  display: none;
+}
+
+.chat-header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.chat-body {
+  flex-grow: 1;
+  padding: 10px;
+  overflow-y: auto;
+  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+.chat-body .message {
+  margin-bottom: 10px;
+}
+
+.chat-body .message.sent {
+  text-align: right;
+  color: blue;
+}
+
+.chat-body .message.received {
+  text-align: left;
+  color: green;
+}
+
+.chat-input {
+  display: flex;
+  padding: 10px;
+}
+
+.chat-input input {
+  flex-grow: 1;
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.chat-input button {
+  margin-left: 8px;
+  padding: 8px 12px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
