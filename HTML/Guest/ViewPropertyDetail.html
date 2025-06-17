@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>View Property - Guest</title>
+  <link rel="stylesheet" href="../../CSS/Guest/ViewPropertyDetail.css" />
+</head>
+<body>
+
+<div class="property-container">
+
+  <!-- Header -->
+  <div class="header-bar">
+    <div class="back-button" onclick="window.history.back()">
+      <img src="../../assets/back_button.png" alt="Back" class="back-icon" />
+      Back to Listings
+    </div>
+  </div>
+
+  <!-- Property Name and City -->
+  <div class="property-name-section">
+    <h1 id="propertyName"><!-- PROPERTY NAME FROM DATABASE --></h1>
+    <h3 id="propertyCity"><!-- PROPERTY CITY FROM DATABASE --></h3>
+  </div>
+
+  <!-- Image Gallery -->
+  <div class="image-gallery">
+    <div class="main-image" id="mainImage"><!-- MAIN IMAGE FROM DATABASE --></div>
+    <div class="side-images">
+      <!-- OPTIONAL: SIDE IMAGES FROM DATABASE -->
+      <div class="image-wrapper"><img src="../../assets/sample.jpg" /></div>
+      <div class="image-wrapper"><img src="../../assets/sample.jpg" /></div>
+    </div>
+  </div>
+
+  <!-- Amenities Section -->
+  <div class="amenities-box">
+    <p class="section-title">What this place offers</p>
+    <div class="amenities-list" id="amenitiesList">
+      <!-- AMENITIES FROM DATABASE (Loop in PHP or JavaScript) -->
+    </div>
+  </div>
+
+  <!-- Description Section -->
+  <div class="description-box">
+    <img src="../../assets/sample.jpg" class="description-img" />
+    <div class="description-tint"></div>
+    <div class="description-overlay">
+      <p class="section-title">About this place</p>
+      <p id="propertyDescription"><!-- DESCRIPTION FROM DATABASE --></p>
+    </div>
+  </div>
+</div>
+
+<!-- Floating Booking Box -->
+<div class="floating-booking-box">
+  <div class="booking-inputs">
+    <div class="booking-field">
+      <label>Check-in</label>
+      <input type="date" />
+    </div>
+    <div class="booking-field">
+      <label>Check-out</label>
+      <input type="date" />
+    </div>
+    <div class="booking-field">
+      <label>Guests</label>
+      <select>
+        <option>1 Guest</option>
+        <option>2 Guests</option>
+        <option>3 Guests</option>
+        <option>4 Guests</option>
+        <option>5 Guests</option>
+      </select>
+    </div>
+  </div>
+  <div class="price-book">
+    <div class="price-placeholder" id="propertyPrice"><!-- PRICE FROM DATABASE --></div>
+    <button class="book-btn">BOOK NOW</button>
+  </div>
+</div>
+
+<script src="../../JS/Guest/ViewPropertyDetail.js"></script>
+</body>
+</html>
