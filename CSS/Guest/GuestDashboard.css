@@ -25,7 +25,11 @@
    font-size: 17px;
    border-bottom: 1px solid #ddd;
  }
- 
+ .WebName{
+  font-weight: bold;
+  font-family: 'Archivo', sans-serif;
+}
+
  .left {
    display: flex;
    align-items: center;
