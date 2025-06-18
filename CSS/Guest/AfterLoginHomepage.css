@@ -41,10 +41,19 @@ body {
 }
 
 /* --- UPDATED LEFT SECTION --- */
-.WebName{
+.WebName {
   font-weight: bold;
   font-family: 'Archivo', sans-serif;
+  font-size: 24px;         /* change size */
+  color: #111;             /* change color */
+  letter-spacing: 1px;     /* spacing between letters */
+  transition: color 0.3s;  /* smooth hover effect */
 }
+
+.WebName:hover {
+  color: #777;
+}
+
 
 .left {
   display: flex;
@@ -76,23 +85,51 @@ body {
   padding: 0 20px;
 }
 
-.search-bar {
+/* Container to hold icon + input */
+.search-container {
+  position: relative;
   width: 100%;
   max-width: 400px;
-  padding: 8px 20px;
-  border: none;
-  background-color: rgb(248, 248, 248);
+  transition: max-width 0.6s ease;
+}
+
+/* Icon inside input */
+.search-icon {
+  position: absolute;
+  left: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+/* Input styling with expand animation on hover/focus */
+.search-bar {
+  width: 100%;
+  padding: 10px 20px 10px 45px; /* left space for icon */
+  border: 2px solid transparent;
+  background-color: #f8f8f8;
   font-size: 16px;
   color: #333;
   border-radius: 30px;
   outline: none;
-  transition: width 1s ease; 
+  transition:
+    max-width 0.6s ease,
+    background-color 0.3s ease,
+    border 0.3s ease,
+    box-shadow 0.3s ease;
 }
 
-.search-bar:hover {
-  width: 120%;  
+.search-bar:hover,
+.search-bar:focus {
   max-width: 500px;
+  background-color: #ffffff;
+  border: 2px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
+
 
 .right {
   display: flex;
@@ -508,4 +545,15 @@ body {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+.brand-link:hover .WebName {
+  color: #777; /* or any hover effect you want */
 }
