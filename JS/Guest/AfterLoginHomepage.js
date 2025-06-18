@@ -61,4 +61,12 @@ document.querySelectorAll('.icon').forEach((icon, index) => {
  function closeSidebar(id) {
    document.getElementById(id).classList.add('hidden');
  }
-  
+
+ function handleKeyPress(event) {
+  if (event.key === "Enter") {
+    const query = document.getElementById("searchInput").value.trim();
+    if (query) {
+      window.location.href = `../../HTML/Guest/SearchResults.html?query=${encodeURIComponent(query)}`;
+    }
+  }
+}
