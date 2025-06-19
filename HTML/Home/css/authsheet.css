@@ -1,3 +1,22 @@
+/* Add this CSS to your authsheet.css file */
+
+.forgot-password {
+  text-align: right; /* Aligns the link to the right */
+  margin-top: 5px; /* Adds a little space above the link */
+  margin-bottom: 15px; /* Adds space below the link and above the button */
+  font-size: 13px; /* Adjust font size for better readability */
+}
+
+.forgot-password a {
+  color: #007bff; /* A common color for links */
+  font-weight: normal; /* Override the default 'a' tag bolding if needed */
+}
+
+.forgot-password a:hover {
+  text-decoration: underline; /* Underline on hover for better UX */
+}
+
+/* Existing CSS below */
 @font-face {
   font-family: 'NType';
   src: url('assets/NType-Regular.ttf') format('opentype');
@@ -164,7 +183,7 @@ a {
 
 .right {
   flex: 1;
-  background: url('https://i.imgur.com/E7x3PbR.jpg') center/cover no-repeat;
+  background: url('../HomeAsset/bgmAuth.jpg') center/cover no-repeat;
 }
 
 @media (max-width: 768px) {
