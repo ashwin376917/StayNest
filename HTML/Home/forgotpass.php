@@ -86,6 +86,7 @@
 
             messageDiv.textContent = '';
             errorDiv.textContent = '';
+            
 
             
             if (!email) {
