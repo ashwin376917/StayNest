@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>User Reports</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" />
+</head>
+<body>
+  <header class="top-nav">
+    <div class="logo">🏠</div>
+    <input class="search" type="text" placeholder="Find Your Nest" />
+    <div class="icons">
+      <button class="icon">🖥️</button>
+      <button class="icon">🔔</button>
+      <button class="icon">💬</button>
+      <button class="host-mode">+ Host Mode</button>
+      <div class="profile">
+        <span>A</span>
+        <div class="dot"></div>
+      </div>
+    </div>
+  </header>
+
+  <nav class="tabs">
+    <a href="#" class="tab active">User Reports</a>
+    <a href="#" class="tab">User List</a>
+    <a href="#" class="tab">Property List</a>
+  </nav>
+
+  <main class="content">
+    <h1>User Reports</h1>
+
+    <!-- CARD 1 -->
+    <div class="card" style="background-image: url('https://i.imgur.com/UEfNlNx.jpg');">
+      <div class="card-overlay">
+        <div class="card-text">
+          <h2>Violation</h2>
+          <p>This nest violates terms and services!</p>
+        </div>
+        <div class="user">
+          <div class="avatar">A</div>
+          <div>
+            <strong>Arif Iskandar</strong>
+            <small>2 years ago on StayNest</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CARD 2 -->
+    <div class="card" style="background-image: url('https://i.imgur.com/UEfNlNx.jpg');">
+      <div class="card-overlay">
+        <div class="card-text">
+          <h2>Bugs and Fixes</h2>
+          <p>There’s an error at certain page</p>
+        </div>
+        <div class="user">
+          <div class="avatar">A</div>
+          <div>
+            <strong>Arif Iskandar</strong>
+            <small>2 years ago on StayNest</small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FILTER BAR -->
+    <div class="filter-bar">
+      <button class="active">All</button>
+      <button>Pending</button>
+      <button>Violation</button>
+      <button>Bugs</button>
+    </div>
+  </main>
+</body>
+</html>
