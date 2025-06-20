@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['guest_name'] = $guestName;
                     $_SESSION['guest_email'] = $dbEmail;
 
-                    header('Location: ../Guest/Homepage.html');
+                    header('Location: ../Guest/AfterLoginHomepage.html');
                     exit();
                 } else {
                     $error = 'Invalid email or password.';
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div style="color: red; margin-bottom: 15px;"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <form action="login.php" method="POST">
+        <form action="index.php" method="POST">
           <input type="email" name="guest_email" placeholder="Email" required value="<?php echo isset($_POST['guest_email']) ? htmlspecialchars($_POST['guest_email']) : ''; ?>"/>
           <input type="password" name="guest_password" placeholder="Password" required />
           <div class="forgot-password">

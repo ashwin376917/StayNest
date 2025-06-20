@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_POST = array(); // Clear form data
 
                     // Redirect instantly to login page
-                    header("Location: login.php");
+                    header("Location: index.php");
                     exit;
                 } else {
                     $error = 'An error occurred during registration. Please try again later.';
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <span>StayNest</span>
         </div>
         <div class="signin-link">
-          Already have an account? <a href="login.php">Sign In</a>
+          Already have an account? <a href="index.php">Sign In</a>
         </div>
       </div>
 
