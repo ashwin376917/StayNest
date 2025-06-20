@@ -66,7 +66,7 @@ document.querySelectorAll('.icon').forEach((icon, index) => {
   if (event.key === "Enter") {
     const query = document.getElementById("searchInput").value.trim();
     if (query) {
-      window.location.href = `../../HTML/Guest/SearchResults.html?query=${encodeURIComponent(query)}`;
+      window.location.href = `../../HTML/Guest/SearchResult.php?query=${encodeURIComponent(query)}`;
     }
   }
 }
