@@ -68,6 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <title>StayNest - Sign Up</title>
 
   <link rel="stylesheet" href="css/authsheet.css">
+  
 
 </head>
 <body>
