@@ -1,29 +1,29 @@
 <?php
 
-require_once 'connect.php'; // Ensure this path is correct for your setup
+require_once '../../connect.php'; // Ensure this path is correct for your setup
 
 $message = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $fullName = trim($_POST['full_name'] ?? '');
-    $email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $phoneNumber = trim($_POST['phone_number'] ?? '');
-    $password = $_POST['password'] ?? '';
+    $guestName = trim($_POST['guest_name'] ?? '');
+    $guestEmail = filter_input(INPUT_POST, 'guest_email', FILTER_SANITIZE_EMAIL);
+    $guestPhoneNumber = trim($_POST['guest_phone_number'] ?? '');
+    $guestPassword = $_POST['guest_password'] ?? '';
 
-    if ($conn->connect_error) { // Check connection here too in case of late error
+    if ($conn->connect_error) {
         $error = "Database connection failed.";
         error_log("Database connection failed inside signup.php: " . $conn->connect_error);
-    } elseif (empty($fullName) || empty($email) || empty($phoneNumber) || empty($password)) {
+    } elseif (empty($guestName) || empty($guestEmail) || empty($guestPhoneNumber) || empty($guestPassword)) {
         $error = 'Please fill in all required fields.';
-    } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    } elseif (!filter_var($guestEmail, FILTER_VALIDATE_EMAIL)) {
         $error = 'Please enter a valid email address.';
-    } elseif (strlen($password) < 8) {
+    } elseif (strlen($guestPassword) < 8) {
         $error = 'Password must be at least 8 characters long.';
     } else {
         try {
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM guest WHERE email = ?");
-            $stmt->bind_param("s", $email);
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM guest WHERE guest_email = ?");
+            $stmt->bind_param("s", $guestEmail);
             $stmt->execute();
             $stmt->bind_result($count);
             $stmt->fetch();
@@ -33,21 +33,23 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $error = 'An account with this email already exists. Please sign in or use a different email.';
             } else {
                 $guestId = 'G' . uniqid() . bin2hex(random_bytes(4));
-
-                $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+                $hashedPassword = password_hash($guestPassword, PASSWORD_DEFAULT);
 
                 $stmt = $conn->prepare(
-                    "INSERT INTO guest (guest_id, name, email, phone_number, password)
+                    "INSERT INTO guest (guest_id, guest_name, guest_email, guest_phone_number, guest_password)
                      VALUES (?, ?, ?, ?, ?)"
                 );
-                $stmt->bind_param("sssss", $guestId, $fullName, $email, $phoneNumber, $hashedPassword);
+                $stmt->bind_param("sssss", $guestId, $guestName, $guestEmail, $guestPhoneNumber, $hashedPassword);
 
                 if ($stmt->execute()) {
-                    $message = 'Account created successfully!';
-                    $_POST = array(); // Clear input values after successful registration
+                    $_POST = array(); // Clear form data
+
+                    // Redirect instantly to login page
+                    header("Location: login.php");
+                    exit;
                 } else {
                     $error = 'An error occurred during registration. Please try again later.';
-                    echo "User registration execution error: $stmt->error";
+                    echo "User registration execution error: " . $stmt->error;
                 }
                 $stmt->close();
             }
@@ -66,9 +68,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>StayNest - Sign Up</title>
-
   <link rel="stylesheet" href="css/authsheet.css">
-
 </head>
 <body>
 
@@ -97,10 +97,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="signup.php" method="POST">
-          <input type="text" name="full_name" placeholder="Full name" required value="<?php echo isset($_POST['full_name']) ? htmlspecialchars($_POST['full_name']) : ''; ?>"/>
-          <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"/>
-          <input type="text" name="phone_number" placeholder="Phone Number" required value="<?php echo isset($_POST['phone_number']) ? htmlspecialchars($_POST['phone_number']) : ''; ?>"/>
-          <input type="password" name="password" placeholder="Password" required />
+          <input type="text" name="guest_name" placeholder="Full Name" required value="<?php echo isset($_POST['guest_name']) ? htmlspecialchars($_POST['guest_name']) : ''; ?>"/>
+          <input type="email" name="guest_email" placeholder="Email" required value="<?php echo isset($_POST['guest_email']) ? htmlspecialchars($_POST['guest_email']) : ''; ?>"/>
+          <input type="text" name="guest_phone_number" placeholder="Phone Number" required value="<?php echo isset($_POST['guest_phone_number']) ? htmlspecialchars($_POST['guest_phone_number']) : ''; ?>"/>
+          <input type="password" name="guest_password" placeholder="Password" required />
           <button type="submit">Sign up</button>
         </form>
 
@@ -124,7 +124,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
     </div>
-
     <div class="right"></div>
   </div>
 
