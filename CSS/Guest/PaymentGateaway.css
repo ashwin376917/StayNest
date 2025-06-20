@@ -1,125 +1,67 @@
-@font-face {
-   font-family: 'NType';
-   src: url('assets/NType-Regular.ttf') format('opentype');
- }
- 
- * {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-   font-family: 'Segoe UI', sans-serif;
- }
- 
- body {
-   background-color: rgb(235, 235, 235);
- }
- 
- .container {
-   display: flex;
-   height: 100vh;
- }
- 
- .left {
-   flex: 0.65; /* Matches your Sign In page */
-   background-color: white;
-   display: flex;
-   flex-direction: column;
-   justify-content: center;
-   align-items: center;
-   padding: 40px;
-   position: relative;
- }
- 
- .top-bar {
-   width: 100%;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   position: absolute;
-   top: 20px;
-   left: 0;
-   padding: 0 40px;
- }
- 
- .logo {
-   display: flex;
-   align-items: center;
-   gap: 25px;
-   font-weight: bold;
-   font-size: 18px;
-   font-family: 'Segoe UI', sans-serif;
- }
- 
- .logo img {
-   width: 50px;
-   height: auto;
- }
- 
- a {
-   text-decoration: none;
-   font-family: 'NType', sans-serif;
-   color: #000;
-   font-weight: 400;
- }
- 
- .form-box {
-   max-width: 300px;
-   width: 100%;
- }
- 
- .form-box h2 {
-   margin-bottom: 20px;
-   text-align: left;
-   font-family: 'NType', sans-serif;
-   font-weight: normal;
- }
- 
- .form-box input,
- .form-box select {
-   width: 100%;
-   padding: 10px;
-   margin: 10px 0;
-   border: 1px solid #ddd;
-   border-radius: 6px;
-   font-size: 14px;
- }
- 
- .form-box button {
-   width: 100%;
-   padding: 10px;
-   background-color: #000;
-   color: white;
-   border: none;
-   border-radius: 3px;
-   margin-top: 20px;
-   cursor: pointer;
- }
- 
- /* RIGHT PANEL WITH IMAGE */
- .right {
-   flex: 1;
-   background: url('../../assets/Guest/payment_img.jpg') center/cover no-repeat;
- }
- 
- /* RESPONSIVE */
- @media (max-width: 768px) {
-   .container {
-     flex-direction: column;
-   }
- 
-   .right {
-     height: 250px;
-   }
- 
-   .top-bar {
-     flex-direction: column;
-     gap: 10px;
-     position: static;
-     padding: 20px;
-   }
- 
-   .logo {
-     text-align: center;
-   }
- }
- 
+body {
+  background-color: #f0f0f0;
+  font-family: 'Segoe UI', sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  flex: 0.65;
+  background-color: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+}
+
+.top-bar {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.logo img {
+  width: 50px;
+}
+
+.form-box {
+  max-width: 300px;
+  margin-top: 40px;
+}
+
+.form-box h2 {
+  margin-bottom: 20px;
+}
+
+.form-box input,
+.form-box select {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.form-box button {
+  width: 100%;
+  padding: 10px;
+  background-color: black;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.right {
+  flex: 1;
+  background: url('../../assets/Guest/payment_img.jpg') center/cover no-repeat;
+}
