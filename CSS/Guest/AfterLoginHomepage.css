@@ -7,11 +7,9 @@
   src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: 'NType', sans-serif;
+.main-container {
+  width: 90%;
+  margin: 0 auto;
 }
 
 html {
@@ -23,14 +21,15 @@ body {
   color: #111;
 }
 
-.main-header {
-  position: sticky; /* or fixed */
-  top: 0;
-  z-index: 1000;
-}
-
-.main-container {
-  padding-top: 100px; /* Add enough space for fixed header */
+header.main-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  font-size: 17px;
+  border-bottom: 1px solid #ddd;
 }
 
 
