@@ -24,7 +24,7 @@ if (!isset($_SESSION['guest_id'])) {
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <title>Dashboard-Guest</title>
-   <link rel="stylesheet" href="../../CSS/Guest/AfterLoginHomepage.css">
+   <link rel="stylesheet" href="../../CSS/Guest/AfterLoginHomepage.css?v=4">
 </head>
 <body>
 
