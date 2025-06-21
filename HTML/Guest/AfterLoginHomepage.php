@@ -1,13 +1,21 @@
 <?php
 session_start();
 
+// Handle logout if logout button is clicked
+if (isset($_GET['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: ../../HTML/Home/index.php");
+    exit();
+}
+
 // Check if the guest is logged in
 if (!isset($_SESSION['guest_id'])) {
-    // If not logged in, redirect to login page
     header("Location: ../../HTML/Home/index.php");
     exit();
 }
 ?>
+
 
 
 <!DOCTYPE html>
@@ -49,7 +57,8 @@ if (!isset($_SESSION['guest_id'])) {
          <img src="../../assets/Guest/message.png" alt="Messages" class="icon">
          <a href="../../HTML/Host/HostDashboard.html" class="be-a-host">+ Be a Host</a>
          <a href="../../HTML/Home/Profile.html" class="profile-wrapper">
-            <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon">
+         <a href="?logout=true" class="logout-btn">Logout</a>
+          <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon">
           </a>
           
       </div>
