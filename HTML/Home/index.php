@@ -2,7 +2,7 @@
 session_start();
 
 require_once '../../connect.php';
-
+//blank
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
