@@ -6,6 +6,12 @@
   font-family: 'Archivo';
   src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
 }
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'NType', sans-serif;
+}
 
 .main-container {
   width: 90%;
@@ -17,9 +23,11 @@ html {
 }
 
 body {
+  font-family: 'NType', sans-serif;
   background-color: #fff;
   color: #111;
 }
+
 
 header.main-header {
   width: 100%;
