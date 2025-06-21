@@ -1,3 +1,15 @@
+<?php
+session_start();
+
+// Check if the guest is logged in
+if (!isset($_SESSION['guest_id'])) {
+    // If not logged in, redirect to login page
+    header("Location: ../../HTML/Home/index.php");
+    exit();
+}
+?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -52,18 +64,19 @@
    <!-- MAIN CONTENT -->
    <div class="main-container">
 
-      <!-- RECOMMENDED SECTION -->
-      <section class="recommended">
-         <div class="banner-container image-wrapper">
-            <img src="../../assets/Guest/mainbanner2.jpg" alt="The Rumah" class="main-banner">
-            <div class="overlay"></div>
-            <div class="banner-label">
-               <p class="small-title">BEST EXPERIENCE</p>
-               <h2 class="main-title">The Rumah</h2>
-               <p class="subtitle">Modern and affordable nest in Melaka</p>
-            </div>
-         </div>
-      </section>
+     <!-- RECOMMENDED SECTION -->
+    <section class="recommended">
+      <div class="banner-container image-wrapper">
+        <img id="randomBanner" alt="StayNest Welcome" class="main-banner">
+
+        <div class="overlay"></div>
+        <div class="banner-label">
+            <p class="small-title">BEST EXPERIENCE</p>
+            <h2 class="main-title">StayNest</h2>
+            <p class="subtitle">Modern and affordable nest in Melaka</p>
+        </div>
+      </div>
+    </section>
 
       <!-- MOST SEARCHED -->
       <section class="most-searched">
@@ -80,7 +93,7 @@
 
       <!-- CERTIFIED NEST -->
       <section class="certified-nest" id="certified-nest">
-        <h2>Explore Certified Nest in Ayer Keroh</h2>
+        <h2>Explore Certified Nest</h2>
         <div class="certified-grid">
       
           <div class="fixed-photo image-wrapper">
@@ -171,7 +184,8 @@
    </div>
  </div>
  
- <script src="../../JS/Guest/AfterLoginHomepage.js"></script>
+ <script src="../../JS/Guest/AfterLoginHomepage.js?t=<?= time() ?>"></script>
+
  
    <footer>
       <!-- footer html -->
