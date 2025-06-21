@@ -6,7 +6,6 @@ if (!isset($_SESSION['guest_id'])) {
     // If not logged in, redirect to login page
     header("Location: ../../HTML/Home/index.php");
     exit();
-    //blank
 }
 ?>
 

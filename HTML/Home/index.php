@@ -2,7 +2,7 @@
 session_start();
 
 require_once '../../connect.php';
-//blank
+
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -32,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_SESSION['guest_name'] = $guestName;
                     $_SESSION['guest_email'] = $dbEmail;
 
-                    header('Location: ../Guest/AfterLoginHomepage.html');
+                    header('Location: ../Guest/AfterLoginHomepage.php');
                     exit();
                 } else {
                     $error = 'Invalid email or password.';
