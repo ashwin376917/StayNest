@@ -23,7 +23,7 @@ if (!isset($_SESSION['guest_id'])) {
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Dashboard</title>
+   <title>Dashboard-Guest</title>
    <link rel="stylesheet" href="../../CSS/Guest/AfterLoginHomepage.css">
 </head>
 <body>
@@ -31,7 +31,7 @@ if (!isset($_SESSION['guest_id'])) {
    <!-- HEADER -->
    <header class="main-header">
    <div class="left">
-      <a href="../../HTML/Guest/AfterLoginHomepage.html" class="brand-link">
+      <a href="../../HTML/Guest/AfterLoginHomepage.php" class="brand-link">
          <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo" />
          <span class="WebName">StayNest</span>
        </a>       
@@ -52,16 +52,20 @@ if (!isset($_SESSION['guest_id'])) {
     
     
     
-      <div class="right">
-         <img src="../../assets/Guest/notification.png" alt="Notification" class="icon">
-         <img src="../../assets/Guest/message.png" alt="Messages" class="icon">
-         <a href="../../HTML/Host/HostDashboard.html" class="be-a-host">+ Be a Host</a>
-         <a href="../../HTML/Home/Profile.html" class="profile-wrapper">
-         <a href="?logout=true" class="logout-btn">Logout</a>
-          <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon">
-          </a>
-          
-      </div>
+    <div class="right">
+   <img src="../../assets/Guest/notification.png" alt="Notification" class="icon">
+   <img src="../../assets/Guest/message.png" alt="Messages" class="icon">
+   <a href="../../HTML/Host/HostDashboard.html" class="be-a-host">+ Be a Host</a>
+
+   <!-- Profile button -->
+   <a href="../../HTML/Home/Profile.html" class="profile-wrapper">
+      <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon">
+   </a>
+
+   <!-- Logout button -->
+   <a href="?logout=true" class="logout-btn">Logout</a>
+</div>
+
    </header>
 
    <!-- NAVIGATION -->
