@@ -1,21 +1,20 @@
+/* === FONT IMPORT === */
 @font-face {
   font-family: 'NType';
   src: url('../../assets/NType-Regular.ttf') format('opentype');
 }
+
 @font-face {
   font-family: 'Archivo';
   src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
 }
+
+/* === GLOBAL RESET === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: 'NType', sans-serif;
-}
-
-.main-container {
-  width: 90%;
-  margin: 0 auto;
 }
 
 html {
@@ -28,7 +27,12 @@ body {
   color: #111;
 }
 
-/* NAVIGATION */
+.main-container {
+  width: 90%;
+  margin: 0 auto;
+}
+
+/* === NAVIGATION === */
 .sub-nav {
   display: flex;
   justify-content: center;
@@ -57,7 +61,7 @@ body {
   font-weight: bold;
 }
 
-/* IMAGE WRAPPER + DARK OVERLAY */
+/* === IMAGE WRAPPER + OVERLAY === */
 .image-wrapper {
   position: relative;
   overflow: hidden;
@@ -83,7 +87,7 @@ body {
   transition: transform 0.3s ease;
 }
 
-/* RECOMMENDED SECTION */
+/* === RECOMMENDED BANNER === */
 .recommended {
   margin: 30px 0;
 }
@@ -139,7 +143,7 @@ body {
   color: #555;
 }
 
-/* SECTION HEADINGS */
+/* === SECTION HEADINGS === */
 .most-searched h2,
 .certified-nest h2 {
   margin-bottom: 20px;
@@ -162,7 +166,7 @@ body {
   border-radius: 2px;
 }
 
-/* MOST SEARCHED */
+/* === MOST SEARCHED === */
 .most-searched {
   margin: 50px 0;
 }
@@ -204,7 +208,7 @@ body {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
-/* CERTIFIED NEST */
+/* === CERTIFIED NEST SECTION === */
 .certified-nest {
   margin: 30px 0;
 }
@@ -238,28 +242,22 @@ body {
   z-index: 0;
 }
 
-.fixed-photo .top-label,
-.fixed-photo .bottom-label {
-  font-weight: bold;
-  position: absolute;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-}
-
 .fixed-photo .top-label {
+  font-family: 'Archivo', sans-serif !important; /* ✅ apply Archivo font */
+  font-weight: 500;
+  font-size: 14px;
+  letter-spacing: 0.5px;
+
   color: rgb(0, 0, 0);
   background-color: rgba(255, 255, 255, 0.5);
   top: 10px;
   left: 10px;
   padding: 5px 10px;
+  position: absolute;
   border-radius: 100px;
-}
-
-.fixed-photo .top-label img.certified-icon {
-  width: 30px;
-  height: 30px;
-  margin-right: 5px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
 }
 
 .fixed-photo .bottom-label {
@@ -271,6 +269,14 @@ body {
   padding: 5px 45px;
   text-align: center;
   font-size: 30px;
+  position: absolute;
+  z-index: 2;
+}
+
+.fixed-photo .top-label img.certified-icon {
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
 }
 
 .certified-icon {
@@ -278,7 +284,7 @@ body {
   height: 14px;
 }
 
-/* SIDEBAR STYLES */
+/* === SIDEBARS === */
 .sidebar {
   position: fixed;
   top: 70px;
@@ -329,7 +335,7 @@ body {
   font-size: 14px;
 }
 
-/* CHAT WINDOW */
+/* === CHAT WINDOW === */
 .chat-window {
   position: fixed;
   bottom: 0;

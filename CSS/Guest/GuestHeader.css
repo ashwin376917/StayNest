@@ -89,46 +89,47 @@
  }
  
  .search-container {
-   position: relative;
-   width: 100%;
-   max-width: 400px;
-   transition: max-width 0.6s ease;
- }
- 
- .search-icon {
-   position: absolute;
-   left: 18px;
-   top: 50%;
-   transform: translateY(-50%);
-   width: 18px;
-   height: 18px;
-   opacity: 0.6;
-   pointer-events: none;
- }
- 
- .search-bar {
-   width: 100%;
-   padding: 10px 20px 10px 45px;
-   border: 2px solid transparent;
-   background-color: #f8f8f8;
-   font-size: 16px;
-   color: #333;
-   border-radius: 30px;
-   outline: none;
-   transition:
-     max-width 0.6s ease,
-     background-color 0.3s ease,
-     border 0.3s ease,
-     box-shadow 0.3s ease;
- }
- 
- .search-bar:hover,
- .search-bar:focus {
-   max-width: 500px;
-   background-color: #ffffff;
-   border: 2px solid #ccc;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
- }
+  display: flex;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  max-width: 400px;
+  border: 2px solid #726a6a;
+  border-radius: 999px;
+  background-color: white;
+  padding: 5px;
+}
+
+.search-bar {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 999px;
+  background: transparent;
+  color: #111;
+}
+
+.search-btn {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px;
+}
+
+.search-btn img {
+  width: 18px;
+  height: 18px;
+  /* filter: invert(1); makes the white icon visible */
+}
+
  
  .right {
    display: flex;
