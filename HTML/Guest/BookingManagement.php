@@ -5,33 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Booking Management - Guest</title>
   <link rel="stylesheet" href="../../CSS/Guest/BookingManagement.css" />
+  <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
 </head>
 <body>
-  <!-- NAVBAR -->
-  <header class="main-header">
-    <div class="left">
-      <a href="../../HTML/Guest/AfterLoginHomepage.php" class="brand-link">
-        <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo" />
-        <span class="WebName">StayNest</span>
-      </a>      
-      <a href="../../HTML/Guest/GuestDashboard.html" class="nav-link">Dashboard</a>
-      <a href="../../HTML/Guest/BookingManagement.html" class="nav-link">My Booking</a>      
-    </div>
+  
+  
+   <!-- HEADER -->
+   <?php include('../../HTML/Guest/GuestHeader.php'); ?>
 
-    <div class="center">
-      <input type="text" placeholder="Find your stay..." class="search-bar" />
-    </div>
-
-    <div class="right">
-      <img src="../../assets/Guest/notification.png" alt="Notification" class="icon" />
-      <img src="../../assets/Guest/message.png" alt="Messages" class="icon" />
-      <a href="#" class="be-a-host">+ Be a Host</a>
-      <a href="../../HTML/Home/Profile.html" class="profile-wrapper">
-        <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon">
-      </a>
-      
-    </div>
-  </header>
 
   <!-- Booking Management Section -->
   <div class="main-container">
@@ -88,5 +69,7 @@
   <footer>
     <!-- Footer content -->
   </footer>
+  <script src="../../JS/Guest/SearchHandler.js?v=1"></script>
+
 </body>
 </html>
