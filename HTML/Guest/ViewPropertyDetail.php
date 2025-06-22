@@ -1,7 +1,16 @@
 <?php
-include_once '../../connect.php'; // ✅ Adjust path if needed
+include_once '../../connect.php';
 
-$homestay_id = $_GET['id'] ?? '';
+// Debug connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Change from 'id' to 'homestay_id' to match your URL parameter
+$homestay_id = trim($_GET['homestay_id'] ?? '');
+
+// Debug the received ID
+error_log("Searching for homestay_id: " . $homestay_id);
 
 $sql = "SELECT * FROM homestay WHERE homestay_id = ?";
 $stmt = $conn->prepare($sql);
@@ -11,9 +20,11 @@ $result = $stmt->get_result();
 $homestay = $result->fetch_assoc();
 
 if (!$homestay) {
-  die("Homestay not found.");
+    die("Homestay not found (debug): Trying to find ".$homestay_id);
 }
 ?>
+
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -40,20 +51,20 @@ if (!$homestay) {
     <h3 id="propertyCity"><?php echo htmlspecialchars($homestay['address']); ?></h3>
   </div>
 
-  <!-- Image Gallery -->
-  <div class="image-gallery">
-    <div class="main-image" id="mainImage">
-      <img src="../../<?php echo htmlspecialchars($homestay['picture1']); ?>" alt="Main Image" />
+<!-- Image Gallery -->
+<div class="image-gallery">
+  <div class="main-image" id="mainImage">
+     <img src="/StayNest/upload/<?= htmlspecialchars(basename($homestay['picture3'])) ?>" alt="Side Image 1" />
+  </div>
+  <div class="side-images">
+    <div class="image-wrapper">
+      <img src="/StayNest/upload/<?= htmlspecialchars(basename($homestay['picture2'])) ?>" alt="Side Image 1" />
     </div>
-    <div class="side-images">
-      <div class="image-wrapper">
-        <img src="../../<?php echo htmlspecialchars($homestay['picture2']); ?>" alt="Side Image 1" />
-      </div>
-      <div class="image-wrapper">
-        <img src="../../<?php echo htmlspecialchars($homestay['picture3']); ?>" alt="Side Image 2" />
-      </div>
+    <div class="image-wrapper">
+      <img src="/StayNest/upload/<?= htmlspecialchars(basename($homestay['picture3'])) ?>" alt="Side Image 2" />
     </div>
   </div>
+</div>
 
   <!-- Amenities Section -->
   <div class="amenities-box">
