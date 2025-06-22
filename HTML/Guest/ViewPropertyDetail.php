@@ -1,3 +1,19 @@
+<?php
+include_once '../../connect.php'; // ✅ Adjust path if needed
+
+$homestay_id = $_GET['id'] ?? '';
+
+$sql = "SELECT * FROM homestay WHERE homestay_id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("s", $homestay_id);
+$stmt->execute();
+$result = $stmt->get_result();
+$homestay = $result->fetch_assoc();
+
+if (!$homestay) {
+  die("Homestay not found.");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -20,17 +36,22 @@
 
   <!-- Property Name and City -->
   <div class="property-name-section">
-    <h1 id="propertyName"><!-- PROPERTY NAME FROM DATABASE --></h1>
-    <h3 id="propertyCity"><!-- PROPERTY CITY FROM DATABASE --></h3>
+    <h1 id="propertyName"><?php echo htmlspecialchars($homestay['title']); ?></h1>
+    <h3 id="propertyCity"><?php echo htmlspecialchars($homestay['address']); ?></h3>
   </div>
 
   <!-- Image Gallery -->
   <div class="image-gallery">
-    <div class="main-image" id="mainImage"><!-- MAIN IMAGE FROM DATABASE --></div>
+    <div class="main-image" id="mainImage">
+      <img src="../../<?php echo htmlspecialchars($homestay['picture1']); ?>" alt="Main Image" />
+    </div>
     <div class="side-images">
-      <!-- OPTIONAL: SIDE IMAGES FROM DATABASE -->
-      <div class="image-wrapper"><img src="../../assets/sample.jpg" /></div>
-      <div class="image-wrapper"><img src="../../assets/sample.jpg" /></div>
+      <div class="image-wrapper">
+        <img src="../../<?php echo htmlspecialchars($homestay['picture2']); ?>" alt="Side Image 1" />
+      </div>
+      <div class="image-wrapper">
+        <img src="../../<?php echo htmlspecialchars($homestay['picture3']); ?>" alt="Side Image 2" />
+      </div>
     </div>
   </div>
 
@@ -38,17 +59,22 @@
   <div class="amenities-box">
     <p class="section-title">What this place offers</p>
     <div class="amenities-list" id="amenitiesList">
-      <!-- AMENITIES FROM DATABASE (Loop in PHP or JavaScript) -->
+      <?php
+      $amenities = explode(",", $homestay['amenities']);
+      foreach ($amenities as $item) {
+        echo "<div class='amenity-item'>" . htmlspecialchars(trim($item)) . "</div>";
+      }
+      ?>
     </div>
   </div>
 
   <!-- Description Section -->
   <div class="description-box">
-    <img src="../../assets/sample.jpg" class="description-img" />
+    <img src="../../<?php echo htmlspecialchars($homestay['picture1']); ?>" class="description-img" />
     <div class="description-tint"></div>
     <div class="description-overlay">
       <p class="section-title">About this place</p>
-      <p id="propertyDescription"><!-- DESCRIPTION FROM DATABASE --></p>
+      <p id="propertyDescription"><?php echo htmlspecialchars($homestay['description']); ?></p>
     </div>
   </div>
 </div>
@@ -76,11 +102,10 @@
     </div>
   </div>
   <div class="price-book">
-    <div class="price-placeholder" id="propertyPrice"><!-- PRICE FROM DATABASE --></div>
+    <div class="price-placeholder" id="propertyPrice">RM <?php echo htmlspecialchars($homestay['price_per_night']); ?> / night</div>
     <button class="book-btn">BOOK NOW</button>
   </div>
 </div>
 
-<script src="../../JS/Guest/ViewPropertyDetail.js"></script>
 </body>
 </html>

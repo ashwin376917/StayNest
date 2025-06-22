@@ -1,4 +1,3 @@
-
 // Toggle Sidebar
 document.querySelectorAll('.icon').forEach((icon, index) => {
   icon.addEventListener('click', () => {
@@ -58,15 +57,6 @@ function sendMessage() {
   input.value = '';
 }
 
-function handleKeyPress(event) {
-  if (event.key === "Enter") {
-    const query = document.getElementById("searchInput").value.trim();
-    if (query) {
-      window.location.href = `../../HTML/Guest/SearchResult.php?query=${encodeURIComponent(query)}`;
-    }
-  }
-}
-
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Page loaded. Running JS...");
 
@@ -88,7 +78,3 @@ document.addEventListener("DOMContentLoaded", () => {
     console.error("Banner image element not found!");
   }
 });
-
-
-
-

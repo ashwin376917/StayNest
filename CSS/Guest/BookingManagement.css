@@ -1,268 +1,116 @@
 @font-face {
-   font-family: 'NType';
-   src: url('../../assets/NType-Regular.ttf') format('opentype');
- }
- @font-face {
+  font-family: 'NType';
+  src: url('../../assets/NType-Regular.ttf') format('opentype');
+}
+@font-face {
   font-family: 'Archivo';
   src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
 }
 
- * {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-   font-family: 'NType', sans-serif;
- }
- 
- body {
-   background: linear-gradient(to bottom right, #ffffff, #f0f4f8);
-   color: #111;
-   min-height: 100vh;
- }
- 
- header.main-header {
-   width: 100%;
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 10px 20px;
-   background-color: #ffffffcc;
-   font-size: 17px;
-   border-bottom: 1px solid #ddd;
-   backdrop-filter: blur(6px);
-   position: sticky;
-   top: 0;
-   z-index: 100;
- }
- 
- .WebName {
-  font-weight: bold;
-  font-family: 'Archivo', sans-serif;
-  font-size: 24px;         /* change size */
-  color: #111;             /* change color */
-  letter-spacing: 1px;     /* spacing between letters */
-  transition: color 0.3s;  /* smooth hover effect */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'NType', sans-serif;
 }
 
-.WebName:hover {
-  color: #777;
+body {
+  background: linear-gradient(to bottom right, #ffffff, #f0f4f8);
+  color: #111;
+  min-height: 100vh;
 }
 
- .left {
-   display: flex;
-   align-items: center;
-   gap: 20px;
-   flex: 2;
- }
- 
- .left .logo {
-   width: 50px;
-   height: 50px;
-   transition: transform 0.3s ease;
- }
- 
- .left .logo:hover {
-   transform: rotate(-5deg) scale(1.1);
- }
- 
- .nav-link {
-   text-decoration: none;
-   color: #111;
-   font-size: 18px;
-   font-weight: 500;
-   transition: color 0.3s ease, transform 0.2s ease;
- }
- 
- .nav-link:hover {
-   color: #007bff;
-   transform: scale(1.05);
- }
- 
- .center {
-   flex: 3;
-   display: flex;
-   justify-content: center;
-   padding: 0 20px;
- }
- 
- .search-bar {
+.main-container {
+  width: 90%;
+  margin: 30px auto;
+}
+
+/* === Booking Management === */
+.booking-management {
+  background: linear-gradient(to right, #ffffff, #f8f8f8);
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
+  margin-bottom: 50px;
+  transition: box-shadow 0.3s ease;
+}
+
+.booking-management:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.booking-management h2 {
+  margin-bottom: 20px;
+  font-size: 28px;
+  text-align: center;
+  color: #222;
+}
+
+.booking-table {
   width: 100%;
-  max-width: 400px;
-  padding: 10px 20px;
-  border: 2px solid transparent;
-  background-color: #f8f8f8;
+  border-collapse: collapse;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.booking-table th,
+.booking-table td {
+  text-align: left;
+  padding: 14px 18px;
+  border-bottom: 1px solid #ddd;
   font-size: 16px;
-  color: #333;
-  border-radius: 30px;
-  outline: none;
-  transition: 
-    max-width 0.6s ease,
-    background-color 0.3s ease,
-    border 0.3s ease,
-    box-shadow 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
-.search-bar:hover,
-.search-bar:focus {
-  max-width: 500px;
-  background-color: #ffffff;
-  border: 2px solid #ccc;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.booking-table tr:hover {
+  background-color: #f5faff;
 }
 
- 
- .right {
-   flex: 2;
-   display: flex;
-   justify-content: flex-end;
-   align-items: center;
-   gap: 20px;
- }
- 
- .icon {
-   width: 25px;
-   height: 25px;
-   cursor: pointer;
-   transition: transform 0.3s ease;
- }
- 
- .icon:hover {
-   transform: scale(1.2);
- }
- 
- .be-a-host {
-   text-decoration: none;
-   padding: 6px 16px;
-   border: 2px solid black;
-   border-radius: 30px;
-   font-weight: 500;
-   color: black;
-   transition: background-color 0.3s ease, color 0.3s ease;
- }
- 
- .be-a-host:hover {
-   background-color: black;
-   color: white;
- }
- 
- .profile-wrapper {
-   width: 40px;
-   height: 40px;
-   border-radius: 50%;
-   overflow: hidden;
-   border: 2px solid #ddd;
-   cursor: pointer;
- }
- 
- .profile-icon {
-   width: 100%;
-   height: 100%;
-   object-fit: cover;
-   display: block;
- }
- 
- .main-container {
-   width: 90%;
-   margin: 30px auto;
- }
- 
- /* === Booking Management === */
- .booking-management {
-   background: linear-gradient(to right, #ffffff, #f8f8f8);
-   padding: 30px;
-   border-radius: 15px;
-   box-shadow: 0 6px 20px rgba(0, 0, 0, 0.08);
-   margin-bottom: 50px;
-   transition: box-shadow 0.3s ease;
- }
- 
- .booking-management:hover {
-   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
- }
- 
- .booking-management h2 {
-   margin-bottom: 20px;
-   font-size: 28px;
-   text-align: center;
-   color: #222;
- }
- 
- .booking-table {
-   width: 100%;
-   border-collapse: collapse;
-   border-radius: 8px;
-   overflow: hidden;
- }
- 
- .booking-table th,
- .booking-table td {
-   text-align: left;
-   padding: 14px 18px;
-   border-bottom: 1px solid #ddd;
-   font-size: 16px;
-   transition: background-color 0.3s ease;
- }
- 
- .booking-table tr:hover {
-   background-color: #f5faff;
- }
- 
- .booking-table th {
-   background-color: #eaf3ff;
-   font-weight: 600;
-   color: #222;
- }
- 
- .booking-table td .action-btn {
-   display: inline-block;
-   margin: 5px 5px 5px 0;
-   padding: 6px 14px;
-   border: none;
-   border-radius: 6px;
-   cursor: pointer;
-   font-weight: 500;
-   font-size: 14px;
-   transition: transform 0.2s ease, background-color 0.3s ease;
- }
- 
- .booking-table td .action-btn:hover {
-   transform: scale(1.05);
- }
- 
- .btn-print {
-   background-color: #4CAF50;
-   color: white;
- }
- 
- .btn-cancel {
-   background-color: #f44336;
-   color: white;
- }
- 
- .btn-view {
-   background-color: #2196F3;
-   color: white;
- }
- 
- .btn-print:hover {
-   background-color: #45a049;
- }
- 
- .btn-cancel:hover {
-   background-color: #da190b;
- }
- 
- .btn-view:hover {
-   background-color: #0b7dda;
- }
- 
- .brand-link {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  text-decoration: none;
-  color: inherit;
+.booking-table th {
+  background-color: #eaf3ff;
+  font-weight: 600;
+  color: #222;
 }
-.brand-link:hover .WebName {
-  color: #777; /* or any hover effect you want */
+
+.booking-table td .action-btn {
+  display: inline-block;
+  margin: 5px 5px 5px 0;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 500;
+  font-size: 14px;
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.booking-table td .action-btn:hover {
+  transform: scale(1.05);
+}
+
+.btn-print {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.btn-cancel {
+  background-color: #f44336;
+  color: white;
+}
+
+.btn-view {
+  background-color: #2196F3;
+  color: white;
+}
+
+.btn-print:hover {
+  background-color: #45a049;
+}
+
+.btn-cancel:hover {
+  background-color: #da190b;
+}
+
+.btn-view:hover {
+  background-color: #0b7dda;
 }
