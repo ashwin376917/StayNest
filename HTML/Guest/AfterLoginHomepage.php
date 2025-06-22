@@ -23,10 +23,10 @@ if (!isset($_SESSION['guest_id'])) {
 <head>
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Dashboard-Guest</title>
+   <title>Homepage-Guest</title>
    <link rel="stylesheet" href="../../CSS/Guest/AfterLoginHomepage.css?v=4">
    <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
-
+   
 </head>
 <body>
 
@@ -74,7 +74,7 @@ if (!isset($_SESSION['guest_id'])) {
 
       <!-- CERTIFIED NEST -->
       <section class="certified-nest" id="certified-nest">
-        <h2>Explore Certified Nest</h2>
+        <h2>Explore Certified Nest Categories</h2>
         <div class="certified-grid">
       
           <div class="fixed-photo image-wrapper">
@@ -165,13 +165,12 @@ if (!isset($_SESSION['guest_id'])) {
    </div>
  </div>
  
- <script src="../../JS/Guest/AfterLoginHomepage.js?t=<?= time() ?>"></script>
-
  
    <footer>
       <!-- footer html -->
    </footer>
+   <script src="../../JS/Guest/AfterLoginHomepage.js?t=<?= time() ?>"></script>
    <script src="../../JS/Guest/SearchHandler.js?v=1"></script>
-
+  
 </body>
 </html>

@@ -1,12 +1,13 @@
 function handleKeyPress(event) {
-   if (event.key === "Enter") {
-     const queryInput = document.getElementById("searchInput");
-     if (!queryInput) return;
- 
-     const query = queryInput.value.trim();
-     if (query) {
-       window.location.href = `../../HTML/Guest/SearchResult.php?query=${encodeURIComponent(query)}`;
-     }
-   }
- }
- 
+  if (event.key === 'Enter') {
+    triggerSearch();
+  }
+}
+
+function triggerSearch() {
+  const input = document.getElementById('searchInput');
+  const query = input.value.trim();
+  if (query !== "") {
+    window.location.href = "../../HTML/Guest/SearchResult.php?query=" + encodeURIComponent(query);
+  }
+}

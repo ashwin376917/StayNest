@@ -1,4 +1,4 @@
-// Toggle Sidebar
+// === SIDEBAR HANDLING ===
 document.querySelectorAll('.icon').forEach((icon, index) => {
   icon.addEventListener('click', () => {
     if (index === 0) toggleSidebar('notificationSidebar');
@@ -18,7 +18,7 @@ function closeSidebar(id) {
   document.getElementById(id).classList.add('hidden');
 }
 
-// Simulate DB Fetch (replace with AJAX)
+// === CHAT FUNCTIONALITY ===
 function loadNotifications() {
   const list = document.getElementById('notificationList');
   list.innerHTML = `
@@ -57,24 +57,81 @@ function sendMessage() {
   input.value = '';
 }
 
+// === DOM READY ===
 document.addEventListener("DOMContentLoaded", () => {
   console.log("Page loaded. Running JS...");
 
-  const bannerImages = [
-    '../../assets/Guest/mainbanner1.jpg',
-    '../../assets/Guest/mainbanner2.jpg',
-    '../../assets/Guest/mainbanner3.jpg',
-    '../../assets/Guest/mainbanner4.jpg',
-    '../../assets/Guest/mainbanner5.jpg'
-  ];
-
-  const randomImage = bannerImages[Math.floor(Math.random() * bannerImages.length)];
-  console.log("Random image chosen:", randomImage);
-
+  // === RANDOM BANNER IMAGE ===
   const banner = document.getElementById('randomBanner');
   if (banner) {
-    banner.src = `${randomImage}?t=${new Date().getTime()}`;  // prevent caching
+    const bannerImages = [
+      '../../assets/Guest/mainbanner1.jpg',
+      '../../assets/Guest/mainbanner2.jpg',
+      '../../assets/Guest/mainbanner3.jpg',
+      '../../assets/Guest/mainbanner4.jpg',
+      '../../assets/Guest/mainbanner5.jpg'
+    ];
+    const randomImage = bannerImages[Math.floor(Math.random() * bannerImages.length)];
+    banner.src = `${randomImage}?t=${new Date().getTime()}`;
   } else {
-    console.error("Banner image element not found!");
+    console.warn("Banner image element with id 'randomBanner' not found.");
   }
+
+  // === LOAD MOST SEARCHED PROPERTIES ===
+  fetch('../../HTML/Guest/getMostSearched.php')
+    .then(response => response.json())
+    .then(data => {
+      const section = document.querySelector('.most-searched h2');
+      const container = document.querySelector('.photo-searched');
+
+      if (!data || data.length === 0 || !container || !section) {
+        section.textContent = 'Most searched';
+        return;
+      }
+
+      // Change title based on first keyword
+      section.textContent = `Most searched for "${data[0].keyword}"`;
+
+      // Clear any placeholder boxes
+      container.innerHTML = '';
+
+      // Generate each box
+      data.forEach(item => {
+        const { keyword, picture1 } = item;
+
+        const box = document.createElement('div');
+        box.className = 'photo-box image-wrapper';
+
+        const overlay = document.createElement('div');
+        overlay.className = 'overlay';
+
+        const label = document.createElement('div');
+        label.textContent = keyword;
+        label.style.position = 'absolute';
+        label.style.bottom = '10px';
+        label.style.left = '10px';
+        label.style.color = 'white';
+        label.style.fontWeight = 'bold';
+        label.style.fontSize = '18px';
+        label.style.zIndex = '2';
+
+        if (picture1) {
+          box.style.backgroundImage = `url('../../upload/${picture1}')`;
+          box.style.backgroundSize = 'cover';
+          box.style.backgroundPosition = 'center';
+        }
+
+        box.appendChild(overlay);
+        box.appendChild(label);
+
+        box.addEventListener('click', () => {
+          window.location.href = `../../HTML/Guest/SearchResults.php?query=${encodeURIComponent(keyword)}`;
+        });
+
+        container.appendChild(box);
+      });
+    })
+    .catch(error => {
+      console.error('Error loading most searched:', error);
+    });
 });

@@ -25,15 +25,18 @@ if (isset($_GET['logout'])) {
   </div>
 
   <div class="search-container">
-    <img src="../../assets/search_icon.png" alt="Search" class="search-icon" />
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="Find your stay..."
-      class="search-bar"
-      onkeypress="handleKeyPress(event)"
-    />
-  </div>
+  <input
+    type="text"
+    id="searchInput"
+    placeholder="Find your stay..."
+    class="search-bar"
+    onkeypress="handleKeyPress(event)"
+  />
+  <button class="search-btn" onclick="triggerSearch()">
+    <img src="../../assets/search.png" alt="Search" />
+  </button>
+</div>
+
 
   <div class="right">
     <img src="../../assets/Guest/notification.png" alt="Notification" class="icon" onclick="toggleSidebar('notificationSidebar')" />
