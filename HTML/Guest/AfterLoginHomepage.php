@@ -29,11 +29,9 @@ if (!isset($_SESSION['guest_id'])) {
    
 </head>
 <body>
-
+    <header>
    <!-- HEADER -->
    <?php include('../../HTML/Guest/GuestHeader.php'); ?>
-
-
    </header>
 
    <!-- NAVIGATION -->
@@ -167,7 +165,7 @@ if (!isset($_SESSION['guest_id'])) {
  
  
    <footer>
-      <!-- footer html -->
+    <?php include '../../Header_Footer/Footer.html'; ?>
    </footer>
    <script src="../../JS/Guest/AfterLoginHomepage.js?t=<?= time() ?>"></script>
    <script src="../../JS/Guest/SearchHandler.js?v=1"></script>

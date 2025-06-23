@@ -54,7 +54,7 @@ if (!$homestay) {
 <!-- Image Gallery -->
 <div class="image-gallery">
   <div class="main-image" id="mainImage">
-     <img src="/StayNest/upload/<?= htmlspecialchars(basename($homestay['picture3'])) ?>" alt="Side Image 1" />
+     <img src="/StayNest/upload/<?= htmlspecialchars(basename($homestay['picture1'])) ?>" alt="Side Image 1" />
   </div>
   <div class="side-images">
     <div class="image-wrapper">
@@ -95,11 +95,11 @@ if (!$homestay) {
   <div class="booking-inputs">
     <div class="booking-field">
       <label>Check-in</label>
-      <input type="date" />
+      <input type="date" id="checkIn" />
     </div>
     <div class="booking-field">
       <label>Check-out</label>
-      <input type="date" />
+      <input type="date" id="checkOut" />
     </div>
     <div class="booking-field">
       <label>Guests</label>
@@ -109,14 +109,28 @@ if (!$homestay) {
         <option>3 Guests</option>
         <option>4 Guests</option>
         <option>5 Guests</option>
+        <option>>5</option>
       </select>
     </div>
   </div>
   <div class="price-book">
-    <div class="price-placeholder" id="propertyPrice">RM <?php echo htmlspecialchars($homestay['price_per_night']); ?> / night</div>
-    <button class="book-btn">BOOK NOW</button>
+    <div class="price-placeholder" id="propertyPrice" data-price="<?= htmlspecialchars($homestay['price_per_night']) ?>">
+      RM <?= htmlspecialchars($homestay['price_per_night']) ?> / night
+    </div>
+    <form id="bookingForm" action="GuestBookingPreview.php" method="get">
+  <input type="hidden" name="homestay_id" value="<?= htmlspecialchars($homestay['homestay_id']) ?>">
+  <input type="hidden" name="checkin" id="formCheckIn" />
+  <input type="hidden" name="checkout" id="formCheckOut" />
+  <input type="hidden" name="guests" id="formGuests" />
+  <button type="submit" class="book-btn">BOOK NOW</button>
+</form>
+
   </div>
 </div>
+
+<!-- Link to External JS -->
+<script src="../../JS/Guest/ViewPropertyDetail.js" defer></script>
+
 
 </body>
 </html>

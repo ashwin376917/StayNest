@@ -1,52 +1,61 @@
-window.addEventListener("DOMContentLoaded", () => {
-   // Placeholder for future PHP dynamic data (via PHP echo or AJAX)
- 
-   const data = {
-     name: "", // Will be populated from DB
-     city: "",
-     price: "",
-     description: "",
-     mainImage: "", // Path from DB
-     amenities: [] // Array of amenity names from DB
-   };
- 
-   // Example fallback (you may remove when connecting PHP)
-   data.name = "Loading Property Name...";
-   data.city = "Loading City...";
-   data.price = "Loading Price...";
-   data.description = "Loading description...";
-   data.mainImage = "../../assets/sample.jpg";
-   data.amenities = ["Wifi", "Free Parking", "Kitchen"];
- 
-   // Update DOM
-   document.getElementById("propertyName").textContent = data.name;
-   document.getElementById("propertyCity").textContent = data.city;
-   document.getElementById("propertyPrice").textContent = data.price;
-   document.getElementById("propertyDescription").textContent = data.description;
-   document.getElementById("mainImage").style.backgroundImage = `url('${data.mainImage}')`;
- 
-   const amenitiesIcons = {
-     "Wifi": "wifi_icon.png",
-     "Free Parking": "parking.png",
-     "Kitchen": "kitchen.png",
-     "Pool": "pool.png",
-     "Smart TV": "tv.png",
-     "Personal Workspace": "workspace.png",
-     "Washer": "Washer.png",
-     "Hair Dryer": "wifi_icon.png",
-     "Dryer": "wifi_icon.png",
-     "Aircond": "AC.png"
-   };
- 
-   const amenitiesList = document.getElementById("amenitiesList");
-   data.amenities.forEach(item => {
-     const div = document.createElement("div");
-     div.className = "amenity-item";
-     div.innerHTML = `
-       <img src="../../assets/${amenitiesIcons[item] || "default.png"}" class="amenity-icon" />
-       <span>${item}</span>
-     `;
-     amenitiesList.appendChild(div);
-   });
- });
- 
+document.addEventListener("DOMContentLoaded", () => {
+  const today = new Date();
+  const maxDate = new Date();
+  maxDate.setMonth(maxDate.getMonth() + 1);
+
+  const checkIn = document.getElementById("checkIn");
+  const checkOut = document.getElementById("checkOut");
+  const priceBox = document.getElementById("propertyPrice");
+  const pricePerNight = parseFloat(priceBox.dataset.price);
+
+  // Format date to YYYY-MM-DD
+  const formatDate = (date) => date.toISOString().split("T")[0];
+
+  checkIn.min = formatDate(today);
+  checkIn.max = formatDate(maxDate);
+  checkOut.min = formatDate(today);
+  checkOut.max = formatDate(maxDate);
+
+  function updatePrice() {
+    const inDate = new Date(checkIn.value);
+    const outDate = new Date(checkOut.value);
+
+    if (checkIn.value && checkOut.value && outDate > inDate) {
+      const diffTime = outDate - inDate;
+      const diffDays = diffTime / (1000 * 60 * 60 * 24);
+      const total = diffDays * pricePerNight;
+      priceBox.textContent = `RM ${total.toFixed(2)} total (${diffDays} night${diffDays > 1 ? 's' : ''})`;
+    } else {
+      priceBox.textContent = `RM ${pricePerNight.toFixed(2)} / night`;
+    }
+  }
+  
+  const guestsSelect = document.querySelector("select");
+  const bookingForm = document.getElementById("bookingForm");
+  const formCheckIn = document.getElementById("formCheckIn");
+  const formCheckOut = document.getElementById("formCheckOut");
+  const formGuests = document.getElementById("formGuests");
+
+  bookingForm.addEventListener("submit", (e) => {
+    if (!checkIn.value || !checkOut.value || new Date(checkOut.value) <= new Date(checkIn.value)) {
+      e.preventDefault();
+      alert("Please select a valid check-in and check-out date.");
+      return;
+    }
+
+    formCheckIn.value = checkIn.value;
+    formCheckOut.value = checkOut.value;
+    formGuests.value = guestsSelect.value;
+  });
+
+  checkIn.addEventListener("change", () => {
+    if (checkIn.value) {
+      const selectedCheckIn = new Date(checkIn.value);
+      selectedCheckIn.setDate(selectedCheckIn.getDate() + 1);
+      checkOut.min = formatDate(selectedCheckIn);
+    }
+    updatePrice();
+  });
+
+  checkOut.addEventListener("change", updatePrice);
+});
