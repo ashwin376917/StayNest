@@ -1,0 +1,140 @@
+@font-face {
+   font-family: 'NType';
+   src: url('../../assets/NType-Regular.ttf') format('opentype');
+ }
+ 
+ @font-face {
+   font-family: 'Archivo';
+   src: url('../../assets/archivo/Archivo-Regular.ttf') format('truetype');
+ }
+ 
+ * {
+   margin: 0;
+   padding: 0;
+   box-sizing: border-box;
+ }
+ 
+ /* Apply Archivo globally as default */
+ body {
+   font-family: 'Archivo', sans-serif;
+   background: #fff;
+   color: #111;
+   height: 100vh;
+   display: flex;
+   justify-content: center; /* Center container horizontally */
+   align-items: center;     /* Center container vertically */
+   position: relative;
+   font-size: 18px;
+ }
+ 
+ /* Override: force Archivo for all non-title content */
+ .preview-container *:not(h1):not(h2):not(h3):not(.section-title) {
+   font-family: 'Archivo', sans-serif !important;
+ }
+ 
+ /* === Back Button === */
+ .back-button {
+   position: absolute;
+   top: 30px;
+   left: 30px;
+   font-size: 16px;
+   font-weight: bold;
+   display: flex;
+   align-items: center;
+   gap: 8px;
+   cursor: pointer;
+   text-decoration: none;
+   color: #000;
+   transition: color 0.2s ease;
+   font-family: 'Archivo', sans-serif;
+ }
+ 
+ .back-button img {
+   width: 24px;
+   height: 24px;
+ }
+ 
+ .back-button:hover {
+   color: #333;
+ }
+ 
+ /* === Main Container === */
+ .preview-container {
+   width: 100%;
+   max-width: 750px;
+   background: #f9f9f9;
+   border-radius: 20px;
+   padding: 50px;
+   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
+ 
+   display: flex;
+   flex-direction: column;
+   align-items: center; /* center inner block */
+ }
+ 
+ .preview-inner {
+   width: 100%;
+   max-width: 500px; /* limits line length */
+   text-align: left;
+ }
+ 
+ 
+ /* === Heading (NType only here) === */
+ .preview-container h2 {
+   font-family: 'NType', sans-serif;
+   font-size: 40px;
+   margin-bottom: 35px;
+ }
+ 
+ /* === Info Text === */
+ .preview-container p {
+   font-size: 20px;
+   margin-bottom: 20px;
+ }
+ 
+ /* Bold for labels before values */
+ .preview-container p strong {
+   font-weight: bold;
+   margin-right: 5px;
+   display: inline-block;
+   min-width: 140px; /* optional: aligns values nicely */
+
+ }
+ 
+ /* === Button Form === */
+ .preview-container form {
+   margin-top: 70px;
+ }
+ 
+ .preview-container button {
+   background-color: black;
+   color: white;
+   padding: 15px 30px;
+   border-radius: 10px;
+   border: none;
+   cursor: pointer;
+   font-size: 18px;
+   font-family: 'Archivo', sans-serif; /* changed from Archivo to NType */
+   font-weight: bold;
+   transition: background-color 0.3s ease;
+ }
+ 
+ .preview-container button:hover {
+   background-color: #575757;
+ }
+ 
+ 
+ /* === Extra Back Link (if added at bottom) === */
+ .preview-container a {
+   display: inline-block;
+   margin-top: 20px;
+   font-size: 16px;
+   text-decoration: none;
+   color: #333;
+   transition: color 0.2s ease;
+ }
+ 
+ .preview-container a:hover {
+   color: #000;
+ }
+ 
