@@ -74,8 +74,10 @@ body {
 .form-box {
   max-width: 300px;
   width: 100%;
-  margin-top: 60px;
+  margin-top: 20px; /* reduced from 60px */
+  transform: translateY(-30px); /* moves the form up visually */
 }
+
 
 .form-box h2 {
   margin-bottom: 20px;
@@ -99,9 +101,9 @@ body {
 .form-box button {
   width: 100%;
   padding: 10px;
-  background-color: #000;
-  color: white;
-  border: none;
+  /* background-color: #000000; */
+  /* color: white; */
+  /* border: none; */
   border-radius: 6px;
   cursor: pointer;
   margin-top: 10px;
@@ -109,9 +111,23 @@ body {
   transition: background-color 0.3s ease;
 }
 
-.form-box button:hover {
-  background-color: #222;
+.form-box .pay:hover {
+  background-color: #636363;
 }
+.form-box .cancel:hover {
+  background-color: #bdbbbb;
+}
+
+.pay{
+  color: white;
+  background-color: #000000;
+}
+
+.cancel{
+  
+  color: rgb(0, 0, 0);
+  background-color: #ffffff;
+  }
 
 .right {
   flex: 1;

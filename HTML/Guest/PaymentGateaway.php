@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['card_number']) && iss
 <head>
   <meta charset="UTF-8" />
   <title>StayNest | Payment Gateway</title>
-  <link rel="stylesheet" href="../../CSS/Guest/PaymentGateaway.css?v4" />
+  <link rel="stylesheet" href="../../CSS/Guest/PaymentGateaway.css?v7" />
 </head>
 <body>
   <div class="container">
@@ -84,11 +84,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['card_number']) && iss
         <input type="hidden" name="total_price" value="<?= isset($_POST['total_price']) ? htmlspecialchars($_POST['total_price']) : '' ?>">
 
 
-        <button type="submit">Pay</button>
+        <button type="button" class="pay" id="pay-button" class="pay">Pay</button>
+        <button type="button" class="cancel" onclick="window.history.back();">Cancel</button>
+
       </form>
     </div>
 
     <div class="right"></div>
   </div>
+  <script src="../../JS/Guest/PaymentGateaway.js?v=1"></script>
+
 </body>
 </html>

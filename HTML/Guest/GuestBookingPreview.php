@@ -1,4 +1,5 @@
 <?php
+session_start(); // Make sure session is started
 include_once '../../connect.php';
 
 $homestay_id = $_GET['homestay_id'] ?? '';
@@ -10,6 +11,7 @@ if (!$homestay_id || !$checkin || !$checkout || !$guests) {
     die("Missing required booking data.");
 }
 
+// Fetch homestay data
 $sql = "SELECT * FROM homestay WHERE homestay_id = ?";
 $stmt = $conn->prepare($sql);
 $stmt->bind_param("s", $homestay_id);
@@ -21,13 +23,17 @@ if (!$homestay) {
     die("Homestay not found.");
 }
 
-// Calculate duration
+// Calculate duration and total
 $in = new DateTime($checkin);
 $out = new DateTime($checkout);
 $interval = $in->diff($out);
 $nights = $interval->days;
 $total = $nights * $homestay['price_per_night'];
+
+// Set session flag to allow payment gateway access
+$_SESSION['can_access_payment'] = true;
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">

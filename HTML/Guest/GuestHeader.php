@@ -42,7 +42,7 @@ if (isset($_GET['logout'])) {
     <img src="../../assets/Guest/notification.png" alt="Notification" class="icon" onclick="toggleSidebar('notificationSidebar')" />
     <img src="../../assets/Guest/message.png" alt="Messages" class="icon" onclick="toggleSidebar('messagesSidebar')" />
     <a href="../../HTML/Host/HostDashboard.html" class="be-a-host">+ Be a Host</a>
-    <a href="../../HTML/Home/Profile.html" class="profile-wrapper">
+    <a href="../../HTML/Home/Profile.php" class="profile-wrapper">
       <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon" />
     </a>
     <a href="?logout=true" class="logout-btn">Logout</a>
