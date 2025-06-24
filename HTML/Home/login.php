@@ -6,8 +6,8 @@ require_once '../../connect.php';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $guestEmail = filter_input(INPUT_POST, 'guest_email', FILTER_SANITIZE_EMAIL);
-    $guestPassword = $_POST['guest_password'] ?? '';
+    $guestEmail = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $guestPassword = $_POST['password'] ?? '';
 
     if ($conn->connect_error) {
         $error = "Database connection failed.";
@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Please enter a valid email address.';
     } else {
         try {
-            $stmt = $conn->prepare("SELECT guest_id, guest_name, guest_email, guest_password FROM guest WHERE guest_email = ?");
+            $stmt = $conn->prepare("SELECT guest_id, name, email, password FROM guest WHERE email = ?");
             $stmt->bind_param("s", $guestEmail);
             $stmt->execute();
             $stmt->store_result();
@@ -29,10 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if (password_verify($guestPassword, $hashedPassword)) {
                     $_SESSION['loggedin'] = true;
                     $_SESSION['guest_id'] = $guestId;
-                    $_SESSION['guest_name'] = $guestName;
-                    $_SESSION['guest_email'] = $dbEmail;
+                    $_SESSION['name'] = $guestName;
+                    $_SESSION['email'] = $dbEmail;
 
-                    header('Location: ../Guest/AfterLoginHomepage.php');
+                    header('Location: profile.php');
                     exit();
                 } else {
                     $error = 'Invalid email or password.';
@@ -80,9 +80,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             <div style="color: red; margin-bottom: 15px;"><?php echo $error; ?></div>
         <?php endif; ?>
 
-        <form action="index.php" method="POST">
-          <input type="email" name="guest_email" placeholder="Email" required value="<?php echo isset($_POST['guest_email']) ? htmlspecialchars($_POST['guest_email']) : ''; ?>"/>
-          <input type="password" name="guest_password" placeholder="Password" required />
+        <form action="login.php" method="POST">
+          <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"/>
+          <input type="password" name="password" placeholder="Password" required />
           <div class="forgot-password">
             <a href="forgotpass.php">Forgot password?</a>
           </div>

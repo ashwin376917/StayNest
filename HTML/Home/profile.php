@@ -1,206 +1,159 @@
 <?php
 session_start();
-
 if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
-    header('Location: index.php');
+    header('Location: login.php');
     exit();
 }
 
-require_once 'connect.php'; // Your database connection
+require_once '../../connect.php';
 
-$guestId = $_SESSION['guest_id']; // Get guest_id from session
+$guestId = $_SESSION['guest_id'];
 $name = '';
 $email = '';
 $phoneNumber = '';
-$profilePicture = ''; // Default or path from DB
+$picture = '';
+$message = '';
+$error = '';
 
-$message = ''; // For success messages
-$error = '';   // For error messages
-
-// Fetch user data
-if ($conn->connect_error) {
-    $error = "Database connection failed.";
-} else {
-    try {
-        $stmt = $conn->prepare("SELECT name, email, phone_number, profile_picture FROM guest WHERE guest_id = ?");
-        $stmt->bind_param("s", $guestId);
-        $stmt->execute();
-        $stmt->bind_result($name, $email, $phoneNumber, $profilePicture);
-        $stmt->fetch();
-        $stmt->close();
-
-        // Set a default profile picture if none is found
-        $profilePictureDisplay = !empty($profilePicture) ? $profilePicture : 'HomeAsset/default_profile.jpg';
-
-    } catch (Exception $e) {
-        $error = 'Could not load profile data. Please try again later.';
-    }
+// Fetch user info
+try {
+    $stmt = $conn->prepare("SELECT name, email, phone_number, picture FROM guest WHERE guest_id = ?");
+    $stmt->bind_param("s", $guestId);
+    $stmt->execute();
+    $stmt->bind_result($name, $email, $phoneNumber, $picture);
+    $stmt->fetch();
+    $stmt->close();
+} catch (Exception $e) {
+    $error = 'Could not load your data.';
 }
 
-// Handle form submission for profile update
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update_profile'])) {
+$pictureDisplay = $picture ? $picture : 'https://placehold.co/100x100/aabbcc/ffffff?text=No+Pic';
+
+// Update info
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $newName = trim($_POST['name'] ?? '');
     $newEmail = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
-    $newPhoneNumber = trim($_POST['phone_number'] ?? '');
+    $newPhone = trim($_POST['phone_number'] ?? '');
 
-    // Validate inputs
-    if (empty($newName) || empty($newEmail) || empty($newPhoneNumber)) {
-        $error = 'All fields are required.';
+    if (!$newName || !$newEmail || !$newPhone) {
+        $error = 'Please fill out all fields.';
     } elseif (!filter_var($newEmail, FILTER_VALIDATE_EMAIL)) {
-        $error = 'Please enter a valid email address.';
+        $error = 'Email is not valid.';
     } else {
-        // Handle profile picture upload
-        $uploadPath = $profilePicture; // Keep existing path by default
-        $uploadDir = '../uploads/profile_pictures/'; // Directory to save profile pictures
-        if (!is_dir($uploadDir)) {
-            mkdir($uploadDir, 0755, true); // Create directory if it doesn't exist
-        }
+        $uploadDir = '../uploads/profile_pictures/';
+        if (!is_dir($uploadDir)) mkdir($uploadDir, 0755, true);
 
-        if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-            $fileTmpPath = $_FILES['profile_picture']['tmp_name'];
-            $fileName = basename($_FILES['profile_picture']['name']);
-            $fileExtension = strtolower(pathinfo($fileName, PATHINFO_EXTENSION));
-            $allowedExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        if (isset($_FILES['picture']) && $_FILES['picture']['error'] === UPLOAD_ERR_OK) {
+            $tmp = $_FILES['picture']['tmp_name'];
+            $nameFile = basename($_FILES['picture']['name']);
+            $ext = strtolower(pathinfo($nameFile, PATHINFO_EXTENSION));
+            $allowed = ['jpg', 'jpeg', 'png', 'gif'];
 
-            if (in_array($fileExtension, $allowedExtensions)) {
-                $newFileName = uniqid('profile_') . '.' . $fileExtension;
-                $newFilePath = $uploadDir . $newFileName;
+            if (in_array($ext, $allowed)) {
+                $newNameFile = uniqid('img_') . ".$ext";
+                $newPath = $uploadDir . $newNameFile;
 
-                if (move_uploaded_file($fileTmpPath, $newFilePath)) {
-                    // Delete old picture if it exists and is not the default
-                    if (!empty($profilePicture) && file_exists($profilePicture) && strpos($profilePicture, 'placehold.co') === false) {
-                        unlink($profilePicture);
+                if (move_uploaded_file($tmp, $newPath)) {
+                    if ($picture && file_exists($picture) && strpos($picture, 'placehold.co') === false) {
+                        unlink($picture);
                     }
-                    $uploadPath = $newFilePath; // Update path for DB
-                    $profilePictureDisplay = $newFilePath; // Update for display
+                    $picture = $newPath;
+                    $pictureDisplay = $newPath;
                 } else {
-                    $error = 'Failed to upload new profile picture.';
+                    $error = 'Image upload failed.';
                 }
             } else {
-                $error = 'Invalid file type. Only JPG, JPEG, PNG, GIF are allowed.';
+                $error = 'Image must be jpg, png, gif.';
             }
         }
 
-        // Update database
-        if (empty($error)) { // Only proceed if no file upload errors
+        if (!$error) {
             try {
-                $updateStmt = $conn->prepare("UPDATE guest SET name = ?, email = ?, phone_number = ?, profile_picture = ? WHERE guest_id = ?");
-                $updateStmt->bind_param("sssss", $newName, $newEmail, $newPhoneNumber, $uploadPath, $guestId);
-
-                if ($updateStmt->execute()) {
-                    $message = 'Profile updated successfully!';
-                    // Update session variables if name or email changed
+                $update = $conn->prepare("UPDATE guest SET name = ?, email = ?, phone_number = ?, picture = ? WHERE guest_id = ?");
+                $update->bind_param("sssss", $newName, $newEmail, $newPhone, $picture, $guestId);
+                if ($update->execute()) {
                     $_SESSION['name'] = $newName;
                     $_SESSION['email'] = $newEmail;
-                    // Re-fetch current data to display the latest updates
-                    header('Location: profile.php?message=' . urlencode($message)); // Redirect to clear POST data
+                    header("Location: profile.php?message=" . urlencode("Updated successfully"));
                     exit();
                 } else {
-                    $error = 'Error updating profile.';
+                    $error = 'Update failed.';
                 }
-                $updateStmt->close();
+                $update->close();
             } catch (Exception $e) {
-                $error = 'An error occurred during profile update. Please try again.';
+                $error = 'Something went wrong.';
             }
         }
     }
 }
 
-// Handle sign out
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['sign_out'])) {
-    session_unset(); // Unset all session variables
-    session_destroy(); // Destroy the session
-    header('Location: login.php'); // Redirect to login page
+// Sign out
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['logout'])) {
+    session_unset();
+    session_destroy();
+    header("Location: login.php");
     exit();
 }
 
-// Check for messages passed via GET after redirect
-if (isset($_GET['message'])) {
-    $message = htmlspecialchars($_GET['message']);
-}
-if (isset($_GET['error'])) {
-    $error = htmlspecialchars($_GET['error']);
-}
-
-// Re-fetch data if page was redirected after update
-if (empty($message) && empty($error) && !isset($_POST['update_profile'])) {
-    if ($conn->connect_error) {
-        $error = "Database connection failed.";
-    } else {
-        try {
-            $stmt = $conn->prepare("SELECT name, email, phone_number, profile_picture FROM guest WHERE guest_id = ?");
-            $stmt->bind_param("s", $guestId);
-            $stmt->execute();
-            $stmt->bind_result($name, $email, $phoneNumber, $profilePicture);
-            $stmt->fetch();
-            $stmt->close();
-            $profilePictureDisplay = !empty($profilePicture) ? $profilePicture : 'https://placehold.co/100x100/aabbcc/ffffff?text=No+Pic';
-        } catch (Exception $e) {
-            $error = 'Could not reload profile data.';
-        }
-    }
-}
-
+// Get message from URL
+if (isset($_GET['message'])) $message = htmlspecialchars($_GET['message']);
+if (isset($_GET['error'])) $error = htmlspecialchars($_GET['error']);
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StayNest - Profile</title>
-    <link rel="stylesheet" href="css/profilesheet.css"> 
+    <title>StayNest - My Account</title>
+    <link rel="stylesheet" href="css/profilesheet.css">
     <link rel="stylesheet" href="../css/footer.css">
 </head>
 <body>
+        <div>
+    <?php include "../../Header_Footer/Header.html"; ?>
+    </div>
     <div class="profile-container">
         <div class="profile-card">
             <div class="profile-header">
                 <div class="profile-picture-container">
-                    <img src="<?php echo htmlspecialchars($profilePictureDisplay); ?>" alt="Profile Picture" class="profile-picture-preview">
+                    <img src="<?php echo htmlspecialchars($pictureDisplay); ?>" alt="User Picture" class="profile-picture-preview">
                 </div>
                 <h2><?php echo htmlspecialchars($name); ?></h2>
                 <p><?php echo htmlspecialchars($email); ?></p>
             </div>
 
-            <?php if (!empty($message)): ?>
+            <?php if ($message): ?>
                 <div class="profile-message success"><?php echo $message; ?></div>
-            <?php endif; ?>
-            <?php if (!empty($error)): ?>
+            <?php elseif ($error): ?>
                 <div class="profile-message error"><?php echo $error; ?></div>
             <?php endif; ?>
 
             <form action="profile.php" method="POST" enctype="multipart/form-data" class="profile-form">
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
+                    <label>Name</label>
+                    <input type="text" name="name" value="<?php echo htmlspecialchars($name); ?>" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
+                    <label>Email</label>
+                    <input type="email" name="email" value="<?php echo htmlspecialchars($email); ?>" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="phone_number">Phone Number</label>
-                    <input type="text" id="phone_number" name="phone_number" value="<?php echo htmlspecialchars($phoneNumber); ?>" required>
+                    <label>Phone Number</label>
+                    <input type="text" name="phone_number" value="<?php echo htmlspecialchars($phoneNumber); ?>" required>
                 </div>
-
                 <div class="form-group">
-                    <label for="profile_picture">Change Profile Picture</label>
-                    <input type="file" id="profile_picture" name="profile_picture" accept="image/*">
+                    <label>Change Picture</label>
+                    <input type="file" name="picture" accept="image/*">
                 </div>
-
-                <button type="submit" name="update_profile" class="save-changes-button">Save Changes</button>
+                <button type="submit" name="update" class="save-changes-button">Save</button>
             </form>
 
             <form action="profile.php" method="POST" class="sign-out-form">
-                <button type="submit" name="sign_out" class="sign-out-button">Sign Out</button>
+                <button type="submit" name="logout" class="sign-out-button">Log Out</button>
             </form>
         </div>
     </div>
+    <div>
+    <?php include "../../Header_Footer/Footer.html"; ?>
+    </div>
 </body>
-
-<?php
-    include "../Footer.html";
-?>
 </html>

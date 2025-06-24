@@ -1,33 +1,39 @@
-/* profile.css */
-
+/* Global layout */
 body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
     background-color: #f0f2f5;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Main container */
+.profile-container {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    color: #333;
-}
-
-.profile-container {
-    width: 100%;
-    max-width: 500px;
-    padding: 20px;
+    padding: 40px 15px;
     box-sizing: border-box;
 }
 
+/* Card styling */
 .profile-card {
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: #fff;
     padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 500px;
     text-align: center;
 }
 
+/* Header with name & email */
 .profile-header {
-    margin-bottom: 25px;
+    margin-bottom: 20px;
 }
 
 .profile-picture-container {
@@ -35,33 +41,22 @@ body {
     height: 100px;
     border-radius: 50%;
     overflow: hidden;
-    margin: 0 auto 15px auto;
-    border: 3px solid #007bff; /* Accent color for the border */
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.3); /* Subtle outer glow */
+    margin: 0 auto 10px;
+    border: 3px solid #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
 }
 
 .profile-picture-preview {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    display: block;
 }
 
-.profile-header h2 {
-    font-size: 24px;
-    margin-bottom: 5px;
-    color: #333;
-}
-
-.profile-header p {
-    font-size: 15px;
-    color: #666;
-}
-
+/* Info message */
 .profile-message {
-    padding: 10px 15px;
     margin-bottom: 20px;
-    border-radius: 8px;
+    padding: 10px 15px;
+    border-radius: 6px;
     font-size: 14px;
     text-align: left;
 }
@@ -78,102 +73,87 @@ body {
     border: 1px solid #f5c6cb;
 }
 
+/* Form layout */
 .profile-form .form-group {
     text-align: left;
-    margin-bottom: 18px;
+    margin-bottom: 15px;
 }
 
 .profile-form label {
     display: block;
     font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
     color: #555;
-    margin-bottom: 8px;
-    font-weight: bold;
 }
 
 .profile-form input[type="text"],
 .profile-form input[type="email"],
 .profile-form input[type="file"] {
-    width: calc(100% - 22px); /* Account for padding and border */
+    width: 100%;
     padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    font-size: 15px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
     transition: border-color 0.3s ease;
 }
 
-.profile-form input[type="file"] {
-    padding: 7px; /* Adjust padding for file input */
-}
-
-.profile-form input[type="text"]:focus,
-.profile-form input[type="email"]:focus,
-.profile-form input[type="file"]:focus {
+.profile-form input:focus {
     border-color: #007bff;
     outline: none;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+/* Buttons */
+.save-changes-button,
+.sign-out-button {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
 }
 
 .save-changes-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #000; /* Dark button for save */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
+    background-color: #000;
+    color: #fff;
     margin-top: 10px;
-    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .save-changes-button:hover {
     background-color: #333;
-    transform: translateY(-2px);
 }
 
 .sign-out-form {
-    margin-top: 25px; /* Space above sign out button */
+    margin-top: 20px;
 }
 
 .sign-out-button {
-    width: 100%;
-    padding: 12px;
-    background-color: #dc3545; /* Red for sign out */
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
+    background-color: #dc3545;
+    color: #fff;
 }
 
 .sign-out-button:hover {
     background-color: #c82333;
-    transform: translateY(-2px);
 }
 
-/* Responsive Adjustments */
+/* Responsive */
 @media (max-width: 600px) {
     .profile-card {
         padding: 20px;
     }
 
-    .profile-header h2 {
-        font-size: 20px;
-    }
-
-    .profile-header p {
-        font-size: 14px;
-    }
-
-    .profile-form input[type="text"],
-    .profile-form input[type="email"],
-    .profile-form input[type="file"],
     .save-changes-button,
     .sign-out-button {
         font-size: 15px;
         padding: 10px;
     }
+}
+
+/* Sticky footer handling (optional, if your footer uses fixed height) */
+footer {
+    margin-top: auto;
 }

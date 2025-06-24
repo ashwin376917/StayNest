@@ -6,10 +6,10 @@ $message = '';
 $error = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $guestName = trim($_POST['guest_name'] ?? '');
-    $guestEmail = filter_input(INPUT_POST, 'guest_email', FILTER_SANITIZE_EMAIL);
-    $guestPhoneNumber = trim($_POST['guest_phone_number'] ?? '');
-    $guestPassword = $_POST['guest_password'] ?? '';
+    $guestName = trim($_POST['name'] ?? '');
+    $guestEmail = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+    $guestPhoneNumber = trim($_POST['phone_number'] ?? '');
+    $guestPassword = $_POST['password'] ?? '';
 
     if ($conn->connect_error) {
         $error = "Database connection failed.";
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Password must be at least 8 characters long.';
     } else {
         try {
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM guest WHERE guest_email = ?");
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM guest WHERE email = ?");
             $stmt->bind_param("s", $guestEmail);
             $stmt->execute();
             $stmt->bind_result($count);
@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $hashedPassword = password_hash($guestPassword, PASSWORD_DEFAULT);
 
                 $stmt = $conn->prepare(
-                    "INSERT INTO guest (guest_id, guest_name, guest_email, guest_phone_number, guest_password)
+                    "INSERT INTO guest (guest_id, name, email, phone_number, password)
                      VALUES (?, ?, ?, ?, ?)"
                 );
                 $stmt->bind_param("sssss", $guestId, $guestName, $guestEmail, $guestPhoneNumber, $hashedPassword);
@@ -45,7 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $_POST = array(); // Clear form data
 
                     // Redirect instantly to login page
-                    header("Location: index.php");
+                    header("Location: login.php");
                     exit;
                 } else {
                     $error = 'An error occurred during registration. Please try again later.';
@@ -82,7 +82,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <span>StayNest</span>
         </div>
         <div class="signin-link">
-          Already have an account? <a href="index.php">Sign In</a>
+          Already have an account? <a href="login.php">Sign In</a>
         </div>
       </div>
 
@@ -98,10 +98,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="signup.php" method="POST">
-          <input type="text" name="guest_name" placeholder="Full Name" required value="<?php echo isset($_POST['guest_name']) ? htmlspecialchars($_POST['guest_name']) : ''; ?>"/>
-          <input type="email" name="guest_email" placeholder="Email" required value="<?php echo isset($_POST['guest_email']) ? htmlspecialchars($_POST['guest_email']) : ''; ?>"/>
-          <input type="text" name="guest_phone_number" placeholder="Phone Number" required value="<?php echo isset($_POST['guest_phone_number']) ? htmlspecialchars($_POST['guest_phone_number']) : ''; ?>"/>
-          <input type="password" name="guest_password" placeholder="Password" required />
+          <input type="text" name="name" placeholder="Full Name" required value="<?php echo isset($_POST['guest_name']) ? htmlspecialchars($_POST['guest_name']) : ''; ?>"/>
+          <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_POST['guest_email']) ? htmlspecialchars($_POST['guest_email']) : ''; ?>"/>
+          <input type="text" name="phone_number" placeholder="Phone Number" required value="<?php echo isset($_POST['guest_phone_number']) ? htmlspecialchars($_POST['guest_phone_number']) : ''; ?>"/>
+          <input type="password" name="password" placeholder="Password" required />
           <button type="submit">Sign up</button>
         </form>
         <div class="terms">
