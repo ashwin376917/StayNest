@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Take Action</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Segoe+UI&display=swap" />
+  <style>
+    body {
+      background: #f8fafc;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    .action-container {
+      max-width: 500px;
+      margin: 60px auto 0 auto;
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.07);
+      padding: 36px 32px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .action-avatar {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: #6c63ff;
+      color: #fff;
+      font-size: 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 18px;
+      box-shadow: 0 2px 8px rgba(108,99,255,0.12);
+    }
+    .action-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+      color: #22223b;
+      text-align: center;
+    }
+    .action-meta {
+      color: #6c757d;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      text-align: center;
+    }
+    .action-reason {
+      background: #f3f0ff;
+      color: #5f3dc4;
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 18px;
+      font-size: 1rem;
+      text-align: center;
+    }
+    .action-status {
+      margin-bottom: 24px;
+      font-size: 1.1rem;
+      text-align: center;
+    }
+    .action-note {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+      padding: 10px;
+      margin-bottom: 6px;
+      font-size: 1rem;
+      resize: vertical;
+      transition: opacity 0.2s;
+    }
+    .note-warning {
+      color: #d90429;
+      font-size: 0.98rem;
+      margin-bottom: 12px;
+      text-align: left;
+      width: 100%;
+      display: none;
+    }
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .action-btn {
+      padding: 10px 22px;
+      border-radius: 20px;
+      border: none;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s, opacity 0.2s;
+    }
+    .action-btn.approve { background: #38b000; color: #fff; }
+    .action-btn.ban { background: #d90429; color: #fff; }
+    .action-btn.warn { background: #ffd60a; color: #22223b; }
+    .action-btn:hover { opacity: 0.85; }
+    .hidden { display: none; }
+    .reset-btn {
+      margin-top: 18px;
+      background: #e0e0e0;
+      color: #333;
+      border: none;
+      border-radius: 18px;
+      padding: 8px 20px;
+      font-size: 1rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .reset-btn:hover {
+      background: #bdbdbd;
+    }
+    .success-status {
+      color: #38b000 !important;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <div class="action-container">
+    <div class="action-avatar">A</div>
+    <div class="action-title">Take Action on User</div>
+    <div class="action-meta">Arif Iskandar &middot; Joined 2022</div>
+    <div class="action-reason">
+      <strong>Reason:</strong>
+      <select id="reason-select" style="margin-left:8px; border-radius:6px; border:1px solid #ddd; padding:4px 8px;">
+        <option value="Inappropriate Content">Inappropriate Content</option>
+        <option value="Spam or Scam">Spam or Scam</option>
+        <option value="Harassment">Harassment</option>
+        <option value="Fake Information">Fake Information</option>
+        <option value="Other">Other</option>
+      </select>
+    </div>
+    <div class="action-status" id="status-bar">
+      <strong>Status:</strong> <span id="status-text" style="color: #ff8800; font-weight: bold;">Under Review</span>
+    </div>
+    <textarea class="action-note" id="action-note" rows="3" placeholder="Add a note for this action..."></textarea>
+    <div id="note-warning" class="note-warning">This is required before taking an action.</div>
+    <div class="action-buttons" id="action-buttons">
+      <button class="action-btn approve" onclick="takeAction('Approved')">Approve</button>
+      <button class="action-btn ban" onclick="takeAction('Banned')">Ban</button>
+      <button class="action-btn warn" onclick="takeAction('Warning Sent')">Send Warning</button>
+    </div>
+    <div id="action-message" class="action-status hidden"></div>
+    <button id="reset-btn" class="reset-btn hidden" onclick="resetAction()">Do Another Action</button>
+  </div>
+  <script>
+    function takeAction(action) {
+      var note = document.getElementById('action-note').value;
+      var warning = document.getElementById('note-warning');
+      if (note.trim() === "") {
+        warning.style.display = "block";
+        document.getElementById('action-note').focus();
+        return;
+      } else {
+        warning.style.display = "none";
+      }
+      // Hide the note and buttons
+      document.getElementById('action-note').classList.add('hidden');
+      document.getElementById('action-buttons').classList.add('hidden');
+      // Show confirmation message
+      var reason = document.getElementById('reason-select').value;
+      var msg = "Action: " + action + "<br>Reason: " + reason;
+      msg += "<br>Note: " + note;
+      document.getElementById('action-message').innerHTML = msg;
+      document.getElementById('action-message').classList.remove('hidden');
+      document.getElementById('reset-btn').classList.remove('hidden');
+      // Change status to successful
+      var statusText = document.getElementById('status-text');
+      statusText.textContent = "Successful";
+      statusText.className = "success-status";
+    }
+    function resetAction() {
+      // Reset note
+      document.getElementById('action-note').value = "";
+      document.getElementById('action-note').classList.remove('hidden');
+      // Reset message and buttons
+      document.getElementById('action-message').classList.add('hidden');
+      document.getElementById('reset-btn').classList.add('hidden');
+      document.getElementById('action-buttons').classList.remove('hidden');
+      document.getElementById('note-warning').style.display = "none";
+      // Reset reason to first option
+      document.getElementById('reason-select').selectedIndex = 0;
+      // Reset status bar
+      var statusText = document.getElementById('status-text');
+      statusText.textContent = "Under Review";
+      statusText.className = "";
+      statusText.style.color = "#ff8800";
+      statusText.style.fontWeight = "bold";
+    }
+  </script>
+</body>
+</html>
