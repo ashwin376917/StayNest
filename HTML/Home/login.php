@@ -89,18 +89,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
           <button type="submit">Sign In</button>
         </form>
 
-        <div class="social-login">Or sign in with</div>
-        <div class="social-icons">
-          <button class="social-btn google-btn">
-            <img src="HomeAsset/iconGoogle.png" alt="Google" />
-          </button>
-          <button class="social-btn facebook-btn">
-            <img src="HomeAsset/iconFacebook.png" alt="Facebook" />
-          </button>
-          <button class="social-btn apple-btn">
-            <img src="HomeAsset/iconApple.png" alt="Apple" />
-          </button>
-        </div>
+        
         <div class="terms">
           By signing in, you agree with the<br />
           <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>
