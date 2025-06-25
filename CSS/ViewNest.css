@@ -224,3 +224,10 @@ input[type="checkbox"]:checked::before {
   align-items: center;
   gap: 8px;
 }
+
+.delete-selected-btn {
+
+  font-size: 16px;
+  font-family: 'Archivo', sans-serif;
+
+}
