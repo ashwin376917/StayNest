@@ -1,8 +1,18 @@
+@font-face {
+    font-family: 'NType';
+    src: url('../../assets/NType-Regular.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Archivo';
+    src: url('../../assets/archivo/Archivo-Regular.ttf') format('truetype');
+}
+
 /* Global layout */
 body {
     margin: 0;
     padding: 0;
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'NType', sans-serif;
     background-color: #f0f2f5;
     color: #333;
     display: flex;
@@ -10,7 +20,11 @@ body {
     min-height: 100vh;
 }
 
-/* Main container */
+/* Main container - Archivo enforced only inside this block */
+.profile-container * {
+    font-family: 'Archivo', sans-serif !important;
+}
+
 .profile-container {
     flex: 1;
     display: flex;

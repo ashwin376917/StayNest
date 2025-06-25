@@ -1,6 +1,5 @@
 <?php
-
-require_once '../../connect.php'; // Ensure this path is correct for your setup
+require_once '../../connect.php';
 
 $message = '';
 $error = '';
@@ -13,7 +12,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($conn->connect_error) {
         $error = "Database connection failed.";
-        error_log("Database connection failed inside signup.php: " . $conn->connect_error);
     } elseif (empty($guestName) || empty($guestEmail) || empty($guestPhoneNumber) || empty($guestPassword)) {
         $error = 'Please fill in all required fields.';
     } elseif (!filter_var($guestEmail, FILTER_VALIDATE_EMAIL)) {
@@ -22,7 +20,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Password must be at least 8 characters long.';
     } else {
         try {
-            $stmt = $conn->prepare("SELECT COUNT(*) FROM guest WHERE email = ?");
+            // Check if email already exists in guest table
+            $stmt = $conn->prepare("SELECT COUNT(*) FROM guest WHERE guest_email = ?");
             $stmt->bind_param("s", $guestEmail);
             $stmt->execute();
             $stmt->bind_result($count);
@@ -32,30 +31,39 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             if ($count > 0) {
                 $error = 'An account with this email already exists. Please sign in or use a different email.';
             } else {
-                $guestId = 'G' . uniqid() . bin2hex(random_bytes(4));
+                $guestId = 'G' . uniqid();
+                $hostId = 'H' . uniqid();
                 $hashedPassword = password_hash($guestPassword, PASSWORD_DEFAULT);
 
+                // Insert into guest table
                 $stmt = $conn->prepare(
-                    "INSERT INTO guest (guest_id, name, email, phone_number, password)
-                     VALUES (?, ?, ?, ?, ?)"
+                    "INSERT INTO guest (guest_id, guest_name, guest_email, guest_phone_number, guest_password) 
+                    VALUES (?, ?, ?, ?, ?)"
                 );
                 $stmt->bind_param("sssss", $guestId, $guestName, $guestEmail, $guestPhoneNumber, $hashedPassword);
-
+                
                 if ($stmt->execute()) {
-                    $_POST = array(); // Clear form data
+                    $stmt->close();
 
-                    // Redirect instantly to login page
-                    header("Location: login.php");
-                    exit;
+                    // Insert into host table
+                    $stmt2 = $conn->prepare(
+                        "INSERT INTO host (host_id, host_name, host_email, host_phone_number, host_password) 
+                        VALUES (?, ?, ?, ?, ?)"
+                    );
+                    $stmt2->bind_param("sssss", $hostId, $guestName, $guestEmail, $guestPhoneNumber, $hashedPassword);
+
+                    if ($stmt2->execute()) {
+                        $stmt2->close();
+                        header("Location: login.php");
+                        exit;
+                    } else {
+                        $error = 'Guest created but failed to create host record.';
+                    }
                 } else {
                     $error = 'An error occurred during registration. Please try again later.';
-                    echo "User registration execution error: " . $stmt->error;
                 }
-                $stmt->close();
             }
-
         } catch (Exception $e) {
-            error_log("User registration error: " . $e->getMessage());
             $error = 'An error occurred during registration. Please try again later.';
         }
     }
@@ -69,11 +77,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>StayNest - Sign Up</title>
   <link rel="stylesheet" href="css/authsheet.css">
-
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
     <div class="left">
 
       <div class="top-bar">
@@ -98,12 +105,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <?php endif; ?>
 
         <form action="signup.php" method="POST">
-          <input type="text" name="name" placeholder="Full Name" required value="<?php echo isset($_POST['guest_name']) ? htmlspecialchars($_POST['guest_name']) : ''; ?>"/>
-          <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_POST['guest_email']) ? htmlspecialchars($_POST['guest_email']) : ''; ?>"/>
-          <input type="text" name="phone_number" placeholder="Phone Number" required value="<?php echo isset($_POST['guest_phone_number']) ? htmlspecialchars($_POST['guest_phone_number']) : ''; ?>"/>
+          <input type="text" name="name" placeholder="Full Name" required value="<?php echo isset($_POST['name']) ? htmlspecialchars($_POST['name']) : ''; ?>"/>
+          <input type="email" name="email" placeholder="Email" required value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>"/>
+          <input type="text" name="phone_number" placeholder="Phone Number" required value="<?php echo isset($_POST['phone_number']) ? htmlspecialchars($_POST['phone_number']) : ''; ?>"/>
           <input type="password" name="password" placeholder="Password" required />
           <button type="submit">Sign up</button>
         </form>
+
         <div class="terms">
           By signing up, you agree with the<br />
           <a href="#">Terms of Use</a> & <a href="#">Privacy Policy</a>
@@ -112,7 +120,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     </div>
     <div class="right"></div>
-  </div>
+</div>
 
 </body>
 </html>
