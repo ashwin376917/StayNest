@@ -1,0 +1,129 @@
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f9f9f9;
+  margin: 0;
+  padding: 0;
+}
+
+.content {
+  max-width: 900px;
+  margin: 30px auto;
+  padding: 0 20px 140px;
+}
+
+h1 {
+  margin-bottom: 25px;
+  font-size: 28px;
+}
+
+.report-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* --- CARD --- */
+.card {
+  display: flex;
+  align-items: center;
+  background-color: white;
+  border-radius: 16px;
+  height: 140px;
+  padding: 0 30px;
+  color: #333;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.card-overlay {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  gap: 250px; /* Increased from 20px to 40px */
+}
+
+
+/* --- USER INFO ON LEFT --- */
+.user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 200px;
+}
+
+.avatar {
+  width: 40px;
+  height: 40px;
+  background-color: #888;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: bold;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* --- REPORT TEXT ON RIGHT --- */
+.card-text {
+  flex-grow: 1;
+  max-width: 600px;
+  overflow: hidden;
+}
+
+.card h2 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.card p {
+  margin: 0;
+  font-size: 14px;
+  color: #666;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* --- FILTER BAR --- */
+.filter-bar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  padding: 14px 30px;
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  z-index: 999;
+  font-family: 'Archivo', 'Segoe UI', sans-serif;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #e0e0e0;
+}
+
+.filter-bar button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  background: #eee;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-family: 'Archivo', sans-serif;
+  font-size: 14px;
+}
+
+.filter-bar button.active {
+  background: black;
+  color: white;
+}
+
+/* Hide cards when filtered out */
+.card.hidden {
+  display: none;
+}

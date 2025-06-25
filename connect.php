@@ -1,7 +1,7 @@
 <?php
-$servername = "localhost";
+$servername = "localhost:3303";
 $username = "root";
-$password = "";
+$password = "Luqxampp";
 $dbname = "staynest";
 
 // Create connection
