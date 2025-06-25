@@ -1,0 +1,29 @@
+/* HeaderAdmin.css */
+
+.tabs {
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid #eee;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.tab {
+  padding: 15px 25px;
+  text-decoration: none;
+  color: #555;
+  font-weight: bold;
+  font-family: 'Segoe UI', sans-serif;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.tab:hover {
+  color: #000;
+}
+
+.tab.active {
+  color: black;
+  border-bottom: 3px solid black;
+}
