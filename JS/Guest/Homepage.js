@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     image.addEventListener('click', () => {
       const confirmResult = confirm("Please sign in or sign up to view this property.\nClick OK to proceed to Sign Up.");
       if (confirmResult) {
-        window.location.href = "../../HTML/Home/SignUp.html";
+        window.location.href = "HTML/Home/signup.php";
       }
     });
   });
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
       e.preventDefault();
       const confirmResult = confirm("Please sign in or sign up to use the search feature.\nClick OK to proceed to Sign Up.");
       if (confirmResult) {
-        window.location.href = "../../HTML/Home/SignUp.html";
+        window.location.href = "HTML/Home/signup.php";
       }
     });
   }
