@@ -68,7 +68,7 @@ if (isset($_GET['query'])) {
           echo '<a href="ViewPropertyDetail.php?homestay_id=' . $homestayId . '" class="result-link">';
           echo '  <div class="result-card">';
           echo '    <div class="result-left">';
-          echo '      <img src="/' . ltrim($row['picture1'], '/') . '" alt="Main Image">';
+          echo '      <img src="/StayNest/upload/' . htmlspecialchars($row['picture1']) . '" alt="Main Image">';
           echo '    </div>';
           echo '    <div class="result-middle">';
           echo '      <div class="text-top">';
@@ -80,11 +80,12 @@ if (isset($_GET['query'])) {
           echo '      </div>';
           echo '    </div>';
           echo '    <div class="result-right">';
-          echo '      <div class="preview-img"><img src="/' . ltrim($row['picture2'], '/') . '" alt="Preview 1"></div>';
-          echo '      <div class="preview-img"><img src="/' . ltrim($row['picture3'], '/') . '" alt="Preview 2"></div>';
+          echo '      <div class="preview-img"><img src="/StayNest/upload/' . htmlspecialchars($row['picture2']) . '" alt="Preview 1"></div>';
+          echo '      <div class="preview-img"><img src="/StayNest/upload/' . htmlspecialchars($row['picture3']) . '" alt="Preview 2"></div>';
           echo '    </div>';
           echo '  </div>';
           echo '</a>';
+          
         }
       } else {
         echo "<p style='padding: 20px; font-size: 18px;'>No matching homestays found.</p>";

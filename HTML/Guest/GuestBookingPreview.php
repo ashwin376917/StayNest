@@ -40,40 +40,42 @@ $_SESSION['can_access_payment'] = true;
 <head>
   <meta charset="UTF-8">
   <title>Booking Summary</title>
-  <link rel="stylesheet" href="../../CSS/Guest/GuestBookingPreview.css">
+  <link rel="stylesheet" href="../../CSS/Guest/GuestBookingPreview.css?v=4">
   <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
 </head>
 
 <body>
-   <a href="javascript:history.back()" class="back-button">
-   <img src="../../assets/back_button.png" alt="Back" />
-   Back
-   </a>
+  <div class="container">
+    <div class="left">
+      <div class="top-bar">
+        <img src="../../assets/staynest_logo.png" alt="StayNest Logo" />
+        <span class="WebName">StayNest</span>
+      </div>
 
-  <div class="preview-container">
-  <div class="preview-inner">
-    <h2>Booking Summary</h2>
-    <p><strong>Homestay :</strong> <?= htmlspecialchars($homestay['title']) ?></p>
-    <p><strong>Address :</strong> <?= htmlspecialchars($homestay['address']) ?></p>
-    <p><strong>Guests :</strong> <?= htmlspecialchars($guests) ?></p>
-    <p><strong>Check-in :</strong> <?= htmlspecialchars($checkin) ?></p>
-    <p><strong>Check-out :</strong> <?= htmlspecialchars($checkout) ?></p>
-    <p><strong>Nights :</strong> <?= $nights ?></p>
-    <p><strong>Total Price :</strong> RM <?= number_format($total, 2) ?></p>
+      <div class="form-box">
+        <h2>Booking Summary</h2>
+        <p><strong>Homestay :</strong> <?= htmlspecialchars($homestay['title']) ?></p>
+        <p><strong>Address :</strong> <?= htmlspecialchars($homestay['address']) ?></p>
+        <p><strong>Guests :</strong> <?= htmlspecialchars($guests) ?></p>
+        <p><strong>Check-in :</strong> <?= htmlspecialchars($checkin) ?></p>
+        <p><strong>Check-out :</strong> <?= htmlspecialchars($checkout) ?></p>
+        <p><strong>Nights :</strong> <?= $nights ?></p>
+        <p><strong>Total Price :</strong> RM <?= number_format($total, 2) ?></p>
 
+        <form action="PaymentGateaway.php" method="post">
+          <input type="hidden" name="homestay_id" value="<?= $homestay_id ?>">
+          <input type="hidden" name="checkin" value="<?= $checkin ?>">
+          <input type="hidden" name="checkout" value="<?= $checkout ?>">
+          <input type="hidden" name="guests" value="<?= $guests ?>">
+          <input type="hidden" name="total_price" value="<?= $total ?>">
+          <button type="submit" class="pay">Confirm & Pay</button>
+        </form>
+        <button class="cancel" onclick="window.history.back();">Cancel</button>
+      </div>
+    </div>
 
-    <!-- Confirm button -->
-   <form action="PaymentGateaway.php" method="post">
-  <input type="hidden" name="homestay_id" value="<?= $homestay_id ?>">
-  <input type="hidden" name="checkin" value="<?= $checkin ?>">
-  <input type="hidden" name="checkout" value="<?= $checkout ?>">
-  <input type="hidden" name="guests" value="<?= $guests ?>">
-  <input type="hidden" name="total_price" value="<?= $total ?>">
-  <button type="submit">Confirm & Pay</button>
-</form>
-
-    <!-- <a href="javascript:history.back()">← Modify Booking</a> -->
+    <div class="right"></div>
   </div>
-</div>
 </body>
+
 </html>

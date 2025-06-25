@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", () => {
     console.warn("Banner image element with id 'randomBanner' not found.");
   }
 
-  // === LOAD MOST SEARCHED PROPERTIES ===
+  // === LOAD MOST CLICKED PROPERTIES (Replaces previous 'Most Searched') ===
   fetch('../../HTML/Guest/getMostSearched.php')
     .then(response => response.json())
     .then(data => {
@@ -89,15 +89,12 @@ document.addEventListener("DOMContentLoaded", () => {
         return;
       }
 
-      // Change title based on first keyword
-      section.textContent = `Most searched for "${data[0].keyword}"`;
+      section.textContent = 'Most clicked properties';
 
-      // Clear any placeholder boxes
       container.innerHTML = '';
 
-      // Generate each box
       data.forEach(item => {
-        const { keyword, picture1 } = item;
+        const { homestay_id, title, picture1 } = item;
 
         const box = document.createElement('div');
         box.className = 'photo-box image-wrapper';
@@ -106,7 +103,7 @@ document.addEventListener("DOMContentLoaded", () => {
         overlay.className = 'overlay';
 
         const label = document.createElement('div');
-        label.textContent = keyword;
+        label.textContent = title;
         label.style.position = 'absolute';
         label.style.bottom = '10px';
         label.style.left = '10px';
@@ -116,7 +113,7 @@ document.addEventListener("DOMContentLoaded", () => {
         label.style.zIndex = '2';
 
         if (picture1) {
-          box.style.backgroundImage = `url('../../upload/${picture1}')`;
+          box.style.backgroundImage = `url('/StayNest/upload/${picture1}')`;
           box.style.backgroundSize = 'cover';
           box.style.backgroundPosition = 'center';
         }
@@ -125,13 +122,13 @@ document.addEventListener("DOMContentLoaded", () => {
         box.appendChild(label);
 
         box.addEventListener('click', () => {
-          window.location.href = `../../HTML/Guest/SearchResults.php?query=${encodeURIComponent(keyword)}`;
+          window.location.href = `../../HTML/Guest/ViewPropertyDetail.php?homestay_id=${encodeURIComponent(homestay_id)}`;
         });
 
         container.appendChild(box);
       });
     })
     .catch(error => {
-      console.error('Error loading most searched:', error);
+      console.error('Error loading most clicked properties:', error);
     });
 });

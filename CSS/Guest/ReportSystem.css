@@ -1,145 +1,105 @@
 @font-face {
-   font-family: 'NType';
-   src: url('../../assets/NType-Regular.ttf') format('opentype');
- }
- 
- * {
-   margin: 0;
-   padding: 0;
-   box-sizing: border-box;
-   font-family: 'NType', sans-serif;
- }
- 
- html {
-   scroll-behavior: smooth;
- }
- 
- body {
-   background-color: #fff;
-   color: #111;
- }
- 
- /* WIDTH CONTAINER */
- .main-container {
-   width: 90%;
-   margin: 0 auto;
- }
- 
- /* HEADER */
- .main-header {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   padding: 10px 20px;
-   background-color: white;
-   font-size: 17px;
-   border-bottom: 1px solid #ddd;
- }
- 
- .left .logo {
-   width: 50px;
-   height: 50px;
- }
- 
- .center {
-   flex-grow: 1;
-   display: flex;
-   justify-content: center;
-   padding: 0 20px;
- }
- 
- .search-bar {
-   width: 100%;
-   max-width: 400px;
-   padding: 8px 20px;
-   border: none;
-   background-color: rgb(248, 248, 248);
-   font-size: 16px;
-   color: #333;
-   border-radius: 30px;
-   outline: none;
-   transition: width 1s ease;
- }
- 
- .search-bar:hover {
-   width: 120%;
-   max-width: 500px;
- }
- 
- .right {
-   display: flex;
-   align-items: center;
-   gap: 20px;
- }
- 
- .icon {
-   width: 25px;
-   height: 25px;
-   cursor: pointer;
- }
- 
- /* Profile image style */
- .profile-image {
-   width: 35px; /* Adjust size as necessary */
-   height: 35px;
-   border-radius: 50%;
-   object-fit: cover; /* Ensures the image doesn't stretch */
- }
- 
- /* REPORT PAGE FONT ADJUSTMENT */
- .main-container h1 {
-   margin-top: 40px;  /* Added margin-top for spacing */
-   font-size: 32px;
-   font-weight: bold;
-   color: #333;
- }
- 
- /* REPORT FORM */
- .report-form {
-   margin-top: 40px;
-   display: flex;
-   flex-direction: column;
-   gap: 20px;
- }
- 
- .report-form label {
-   font-weight: bold;
- }
- 
- .report-form input, .report-form select, .report-form textarea {
-   padding: 10px;
-   font-size: 16px;
-   border-radius: 5px;
-   border: 1px solid #ddd;
- }
- 
- .report-form textarea {
-   resize: vertical;
-   height: 150px;
- }
- 
- .upload-container {
-   display: flex;
-   gap: 10px;
-   align-items: center;
- }
- 
- .upload-container input[type="file"] {
-   padding: 5px;
- }
- 
- .report-form button {
-   padding: 10px 20px;
-   font-size: 16px;
-   background-color: #111;
-   color: #fff;
-   border: none;
-   border-radius: 5px;
-   cursor: pointer;
-   transition: background 0.3s ease;
- }
- 
- .report-form button:hover {
-   background-color: #444;
- }
- 
+    font-family: 'NType';
+    src: url('../../assets/NType-Regular.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Archivo';
+    src: url('../../assets/archivo/Archivo-Regular.ttf') format('truetype');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #fff;
+    color: #111;
+    font-family: 'Archivo', sans-serif;
+}
+
+/* WIDTH CONTAINER */
+.main-container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* REPORT PAGE TITLE - ONLY TITLE USES NTYPE */
+.main-container h1 {
+    margin-top: 40px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    font-family: 'NType', sans-serif;
+}
+
+/* REPORT FORM - USE ARCHIVO */
+.report-form {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    font-family: 'Archivo', sans-serif;
+}
+
+.report-form label {
+    font-weight: bold;
+    font-family: 'Archivo', sans-serif;
+}
+
+.report-form input,
+.report-form select,
+.report-form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-family: 'Archivo', sans-serif;
+}
+
+.report-form textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+.upload-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-family: 'Archivo', sans-serif;
+}
+
+.upload-container input[type="file"] {
+    padding: 5px;
+    font-family: 'Archivo', sans-serif;
+}
+
+.report-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #111;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    font-family: 'Archivo', sans-serif;
+}
+
+.report-form button:hover {
+    background-color: #444;
+}
+
+/* ERROR MESSAGE */
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+    font-weight: bold;
+    font-family: 'Archivo', sans-serif;
+}
