@@ -5,8 +5,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const checkIn = document.getElementById("checkIn");
   const checkOut = document.getElementById("checkOut");
+  const guestsSelect = document.getElementById("guests");
   const priceBox = document.getElementById("propertyPrice");
   const pricePerNight = parseFloat(priceBox.dataset.price);
+  const bookingForm = document.getElementById("bookingForm");
+  const formCheckIn = document.getElementById("formCheckIn");
+  const formCheckOut = document.getElementById("formCheckOut");
+  const formGuests = document.getElementById("formGuests");
 
   // Format date to YYYY-MM-DD
   const formatDate = (date) => date.toISOString().split("T")[0];
@@ -29,24 +34,6 @@ document.addEventListener("DOMContentLoaded", () => {
       priceBox.textContent = `RM ${pricePerNight.toFixed(2)} / night`;
     }
   }
-  
-  const guestsSelect = document.querySelector("select");
-  const bookingForm = document.getElementById("bookingForm");
-  const formCheckIn = document.getElementById("formCheckIn");
-  const formCheckOut = document.getElementById("formCheckOut");
-  const formGuests = document.getElementById("formGuests");
-
-  bookingForm.addEventListener("submit", (e) => {
-    if (!checkIn.value || !checkOut.value || new Date(checkOut.value) <= new Date(checkIn.value)) {
-      e.preventDefault();
-      alert("Please select a valid check-in and check-out date.");
-      return;
-    }
-
-    formCheckIn.value = checkIn.value;
-    formCheckOut.value = checkOut.value;
-    formGuests.value = guestsSelect.value;
-  });
 
   checkIn.addEventListener("change", () => {
     if (checkIn.value) {
@@ -58,4 +45,22 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   checkOut.addEventListener("change", updatePrice);
+
+  bookingForm.addEventListener("submit", (e) => {
+    if (!checkIn.value || !checkOut.value || new Date(checkOut.value) <= new Date(checkIn.value)) {
+      e.preventDefault();
+      alert("⚠️ Please select a valid check-in and check-out date.\nCheck-out must be after check-in.");
+      return;
+    }
+
+    if (!guestsSelect.value || guestsSelect.value === "Select Guests") {
+      e.preventDefault();
+      alert("⚠️ Please select the number of guests.");
+      return;
+    }
+
+    formCheckIn.value = checkIn.value;
+    formCheckOut.value = checkOut.value;
+    formGuests.value = guestsSelect.value;
+  });
 });

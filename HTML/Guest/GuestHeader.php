@@ -1,15 +1,34 @@
 <?php
-// Start session if not already started
 if (session_status() == PHP_SESSION_NONE) {
     session_start();
 }
+
+require_once '../../connect.php';
 
 // Handle logout
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: ../../HTML/Home/index.php");
+    header("Location: ../../HTML/Home/login.php");
     exit();
+}
+
+// Default profile picture
+$profileImage = '../../assets/default_profile.png';
+
+if (isset($_SESSION['guest_id'])) {
+    $guestId = $_SESSION['guest_id'];
+
+    $stmt = $conn->prepare("SELECT guest_profile_picture FROM guest WHERE guest_id = ?");
+    $stmt->bind_param("s", $guestId);
+    $stmt->execute();
+    $stmt->bind_result($dbPicture);
+    $stmt->fetch();
+    $stmt->close();
+
+    if ($dbPicture) {
+        $profileImage = '../../' . $dbPicture;
+    }
 }
 ?>
 
@@ -18,6 +37,7 @@ if (isset($_GET['logout'])) {
   <div class="left">
     <a href="../../HTML/Guest/AfterLoginHomepage.php" class="brand-link">
       <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo" />
+      
       <span class="WebName">StayNest</span>
     </a>
     <a href="../../HTML/Guest/GuestDashboard.php" class="nav-link">Dashboard</a>
@@ -25,25 +45,24 @@ if (isset($_GET['logout'])) {
   </div>
 
   <div class="search-container">
-  <input
-    type="text"
-    id="searchInput"
-    placeholder="Find your stay..."
-    class="search-bar"
-    onkeypress="handleKeyPress(event)"
-  />
-  <button class="search-btn" onclick="triggerSearch()">
-    <img src="../../assets/search.png" alt="Search" />
-  </button>
-</div>
-
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Find your stay..."
+      class="search-bar"
+      onkeypress="handleKeyPress(event)"
+    />
+    <button class="search-btn" onclick="triggerSearch()">
+      <img src="../../assets/search.png" alt="Search" />
+    </button>
+  </div>
 
   <div class="right">
     <img src="../../assets/Guest/notification.png" alt="Notification" class="icon" onclick="toggleSidebar('notificationSidebar')" />
     <img src="../../assets/Guest/message.png" alt="Messages" class="icon" onclick="toggleSidebar('messagesSidebar')" />
     <a href="../../HTML/Host/HostDashboard.html" class="be-a-host">+ Be a Host</a>
     <a href="../../HTML/Home/Profile.php" class="profile-wrapper">
-      <img src="path/to/profile-image.jpg" alt="Profile" class="profile-icon" />
+      <img src="<?php echo htmlspecialchars($profileImage); ?>" alt="Profile" class="profile-icon" />
     </a>
     <a href="?logout=true" class="logout-btn">Logout</a>
   </div>

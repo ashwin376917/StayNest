@@ -5,18 +5,16 @@ session_start();
 if (isset($_GET['logout'])) {
     session_unset();
     session_destroy();
-    header("Location: ../../HTML/Home/index.php");
+    header("Location: ../../HTML/Home/login.php");
     exit();
 }
 
 // Check if the guest is logged in
 if (!isset($_SESSION['guest_id'])) {
-    header("Location: ../../HTML/Home/index.php");
+    header("Location: ../../HTML/Home/login.php");
     exit();
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -165,8 +163,7 @@ if (!isset($_SESSION['guest_id'])) {
  
  
    <footer>
-    <?php include '../../Header_Footer/Footer.html'; ?>
-   </footer>
+     </footer>
    <script src="../../JS/Guest/AfterLoginHomepage.js?t=<?= time() ?>"></script>
    <script src="../../JS/Guest/SearchHandler.js?v=1"></script>
   
