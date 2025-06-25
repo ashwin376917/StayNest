@@ -326,6 +326,8 @@
   flex-direction: column;
 }
 
+
+
 .booking-field label {
   font-size: 12px;
   margin-bottom: 4px;
@@ -361,5 +363,16 @@
   border: none;
   cursor: pointer;
   font-weight: bold;
+  font-family: 'Archivo', sans-serif;
+}
+
+
+.price-input {
+  font-weight: bold;
+  font-size: 14px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  width: 100px;
   font-family: 'Archivo', sans-serif;
 }
