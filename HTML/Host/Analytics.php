@@ -1,3 +1,5 @@
+<?php include '../../Header_Footer/Header.php'; ?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,24 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Analytics - StayNest Host</title>
   <link rel="stylesheet" href="../../CSS/Analytics.css" />
+   <link rel="stylesheet" href="/StayNest/Header_Footer/css/Header.css" />
 </head>
 <body>
-
-  <!-- Load Header -->
-  <script>
-    fetch('../../Header_Footer/Header.html')
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('header-placeholder').innerHTML = data;
-      });
-  </script>
-  <div id="header-placeholder"></div>
 
   <!-- Navigation Tabs -->
   <div class="host-nav-wrapper">
     <div class="host-nav">
-      <a href="HostDashboard.html" class="host-nav-link">Manage Nest</a>
-      <a href="Analytics.html" class="host-nav-link active">Analytics</a>
+       <a href="Analytics.php" class="host-nav-link active">Analytics</a>
+      <a href="ViewNest.php" class="host-nav-link">View Nest</a>
     </div>
   </div>
 
@@ -30,7 +23,6 @@
   <div class="container">
     <div class="left">
       <div class="host-content">
-        <h2 class="dashboard-title">Analytics</h2>
 
         <div class="top-box-wrapper">
           <div class="top-box">

@@ -12,12 +12,12 @@ body {
   font-family: 'NType', sans-serif;
 }
 
-h2{
+h2 {
   font-weight: normal;
-  font-size:large;
+  font-size: large;
 }
 
-/* Make all checkboxes rounded with center fill when checked */
+/* Rounded checkbox */
 input[type="checkbox"] {
   appearance: none;
   -webkit-appearance: none;
@@ -48,7 +48,7 @@ input[type="checkbox"]:checked::before {
   transform: translate(-50%, -50%) scale(1);
 }
 
-/* Navigation Tabs */
+/* Tabs */
 .host-nav-wrapper {
   width: 100%;
   margin-top: 30px;
@@ -86,20 +86,18 @@ input[type="checkbox"]:checked::before {
   background-color: black;
 }
 
-/* Layout Wrapper */
+/* Wrapper */
 .host-content {
   width: 80%;
   margin: 0 auto;
 }
 
-/* Title */
 .dashboard-title {
   margin: 20px 0;
-  font-family: 'NType', sans-serif;
   font-size: 35px;
 }
 
-/* Select + Add Property */
+/* Add Property */
 .select-add {
   display: flex;
   flex-direction: column;
@@ -113,6 +111,7 @@ input[type="checkbox"]:checked::before {
 }
 
 .add-property-btn {
+  display: block;
   background-color: #000;
   color: white;
   padding: 15px 0;
@@ -121,6 +120,8 @@ input[type="checkbox"]:checked::before {
   font-size: 16px;
   font-family: 'NType', sans-serif;
   cursor: pointer;
+  text-align: center;
+  text-decoration: none;
   transition: background-color 0.3s ease;
 }
 
@@ -147,6 +148,12 @@ input[type="checkbox"]:checked::before {
   padding: 15px;
   border-radius: 10px;
   gap: 50px;
+}
+
+/* Enable silent click */
+.clickable-card {
+  cursor: default;
+  user-select: none;
 }
 
 .property-thumb {
@@ -212,11 +219,8 @@ input[type="checkbox"]:checked::before {
   font-family: 'NType', sans-serif;
 }
 
-/* Align checkbox and text */
 .checkbox-container {
   display: flex;
   align-items: center;
   gap: 8px;
 }
-
-
