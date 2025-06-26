@@ -14,9 +14,29 @@ $bannedHosts = $conn->query("SELECT COUNT(*) AS count FROM host WHERE banned = 1
 $totalBanned = $bannedGuests + $bannedHosts;
 
 // Fetch activities
-$bookings = $conn->query("SELECT g.guest_email AS email, 'Guest' AS role, 'Booked Homestay' AS action, b.booking_date AS date FROM booking b JOIN guest g ON b.guest_id = g.guest_id ORDER BY b.booking_date DESC LIMIT 3");
-$hosts = $conn->query("SELECT h.host_email AS email, 'Host' AS role, 'Added Property' AS action, hs.date_created AS date FROM homestay hs JOIN host h ON hs.host_id = h.host_id ORDER BY hs.date_created DESC LIMIT 3");
-$reviews = $conn->query("SELECT g.guest_email AS email, 'Guest' AS role, 'Submitted Review' AS action, r.review_date AS date FROM review r JOIN guest g ON r.guest_id = g.guest_id ORDER BY r.review_date DESC LIMIT 3");
+$bookings = $conn->query("
+    SELECT g.guest_email AS email, 'Guest' AS role, 'Booked Homestay' AS action, b.booking_date AS date 
+    FROM booking b 
+    JOIN guest g ON b.guest_id = g.guest_id 
+    ORDER BY b.booking_date DESC 
+    LIMIT 3
+");
+
+$hosts = $conn->query("
+    SELECT h.host_email AS email, 'Host' AS role, 'Added Property' AS action, '' AS date 
+    FROM homestay hs 
+    JOIN host h ON hs.host_id = h.host_id 
+    ORDER BY hs.homestay_id DESC 
+    LIMIT 3
+");
+
+$reviews = $conn->query("
+    SELECT g.guest_email AS email, 'Guest' AS role, 'Submitted Review' AS action, r.review_date AS date 
+    FROM review r 
+    JOIN guest g ON r.guest_id = g.guest_id 
+    ORDER BY r.review_date DESC 
+    LIMIT 3
+");
 
 // Merge & sort activities
 $activities = [];
@@ -24,7 +44,12 @@ while ($row = $bookings->fetch_assoc()) $activities[] = $row;
 while ($row = $hosts->fetch_assoc()) $activities[] = $row;
 while ($row = $reviews->fetch_assoc()) $activities[] = $row;
 
-usort($activities, fn($a, $b) => strtotime($b['date']) - strtotime($a['date']));
+// Sort activities: those with real dates first, fallback empty dates go to the bottom
+usort($activities, function ($a, $b) {
+    $dateA = strtotime($a['date']) ?: 0;
+    $dateB = strtotime($b['date']) ?: 0;
+    return $dateB - $dateA;
+});
 ?>
 
 <!DOCTYPE html>
@@ -45,6 +70,7 @@ usort($activities, fn($a, $b) => strtotime($b['date']) - strtotime($a['date']));
       <h1 class="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
       <div class="w-9 h-9 bg-black text-white flex items-center justify-center rounded-full font-semibold">A</div>
     </div>
+    
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
       <div class="bg-white shadow-sm rounded-2xl p-6 border border-gray-200 hover:shadow-lg transition">
         <h2 class="text-gray-600 font-semibold text-lg mb-1">Total Guests</h2>
@@ -81,7 +107,7 @@ usort($activities, fn($a, $b) => strtotime($b['date']) - strtotime($a['date']));
                 <td class="px-4 py-2"><?= htmlspecialchars($activity['email']) ?></td>
                 <td class="px-4 py-2"><?= $activity['role'] ?></td>
                 <td class="px-4 py-2"><?= $activity['action'] ?></td>
-                <td class="px-4 py-2"><?= $activity['date'] ?></td>
+                <td class="px-4 py-2"><?= $activity['date'] ? $activity['date'] : 'N/A' ?></td>
               </tr>
             <?php endforeach; ?>
           </tbody>
