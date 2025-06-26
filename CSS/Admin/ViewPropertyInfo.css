@@ -1,132 +1,121 @@
 body {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f9f9f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background: #f9fafb;
   margin: 0;
-  padding: 0;
+  padding: 20px;
 }
 
 .content {
-  max-width: 900px;
-  margin: 30px auto;
-  padding: 0 20px 140px; /* extra bottom padding for fixed filter bar */
+  max-width: 1200px;
+  margin: auto;
 }
 
 h1 {
-  margin-bottom: 25px;
-  font-size: 28px;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 .property-container {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
   gap: 20px;
 }
 
-/* Card Style */
+/* Card style */
 .card {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
   background-size: cover;
   background-position: center;
   border-radius: 16px;
-  height: 120px;
-  padding: 0 30px;
-  color: white;
+  height: 250px;
   position: relative;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   overflow: hidden;
-  transition: border 0.3s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease;
 }
 
-/* Dark overlay for readability */
-.card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  border-radius: 16px;
+.card:hover {
+  transform: scale(1.02);
 }
 
-.card h2 {
-  position: relative;
-  z-index: 2;
-  font-size: 24px;
-  font-weight: bold;
+.card-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.6), rgba(0,0,0,0.1));
+  color: white;
+  padding: 16px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 
-/* Action buttons */
+.card-title h2 {
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
 .actions {
   display: flex;
-  gap: 12px;
-  z-index: 2;
-  position: relative;
+  justify-content: flex-end;
+  gap: 10px;
 }
 
 .actions button {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-weight: bold;
+  padding: 6px 12px;
   border: none;
-  border-radius: 999px;
-  padding: 10px 18px;
-  font-size: 14px;
+  border-radius: 8px;
+  font-size: 0.9rem;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: background-color 0.2s ease;
 }
 
 .approve-btn {
-  background-color: #007bff;
+  background-color: #10b981; /* green */
   color: white;
+}
+
+.approve-btn:hover {
+  background-color: #059669;
 }
 
 .ban-btn {
-  background-color: #f36;
+  background-color: #ef4444; /* red */
   color: white;
+}
+
+.ban-btn:hover {
+  background-color: #dc2626;
 }
 
 .view-btn {
-  background-color: #222;
+  background-color: #3b82f6; /* blue */
   color: white;
 }
 
-/* Filter bar styled like floating booking box */
+.view-btn:hover {
+  background-color: #2563eb;
+}
+
+/* Filter Bar */
 .filter-bar {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: white;
-  border-radius: 12px;
-  padding: 14px 30px;
+  margin: 20px 0;
   display: flex;
-  gap: 15px;
-  align-items: center;
-  z-index: 999;
-  font-family: 'Archivo', 'Segoe UI', sans-serif;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
-  border: 1px solid #e0e0e0;
+  gap: 10px;
 }
 
 .filter-bar button {
   padding: 8px 16px;
-  border: none;
-  border-radius: 20px;
-  font-weight: bold;
-  background: #eee;
+  border: 1px solid #ccc;
+  background: white;
+  color: #333;
+  border-radius: 9999px;
   cursor: pointer;
   transition: all 0.2s ease;
-  font-family: 'Archivo', sans-serif;
-  font-size: 14px;
 }
 
-.filter-bar button.active {
-  background: black;
+.filter-bar button.active,
+.filter-bar button:hover {
+  background-color: #3b82f6;
   color: white;
-}
-
-/* Hide cards when filtered out */
-.card.hidden {
-  display: none;
+  border-color: #3b82f6;
 }
