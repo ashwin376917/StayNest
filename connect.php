@@ -1,7 +1,7 @@
 <?php
-$servername = "localhost:3301";
+$servername = "localhost";
 $username = "root";
-$password = "abc12345";
+$password = "";
 $dbname = "staynest";
 
 // Create connection

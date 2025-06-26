@@ -1,0 +1,31 @@
+<header class="main-header">
+  <div class="left">
+    <a href="../Guest/AfterLoginHomepage.php" class="brand-link">
+      <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo" />
+      
+      <span class="WebName">StayNest</span>
+    </a>
+    <nav class="home-nav">
+      <a href="../../HTML/Guest/GuestDashboard.php" class="nav-link">Dashboard</a>
+      <a href="../../HTML/Guest/BookingManagement.php" class="nav-link">My Booking</a>
+    </nav>
+    
+  </div>
+
+  <div class="search-container">
+    <input
+      type="text"
+      id="searchInput"
+      placeholder="Find your stay..."
+      class="search-bar"
+      onkeypress="handleKeyPress(event)"
+    />
+    <button class="search-btn" onclick="triggerSearch()">
+      <img src="../../assets/search.png" alt="Search" />
+    </button>
+  </div>
+
+  <div class="right">
+    <a href="../../HTML/Host/ViewNest.php" class="be-a-host">+ Be a Host</a>
+  </div>
+</header>

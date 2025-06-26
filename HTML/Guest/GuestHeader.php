@@ -26,7 +26,7 @@ if (isset($_SESSION['guest_id'])) {
     $stmt->fetch();
     $stmt->close();
 
-    if ($dbPicture) {
+    if ($dbPicture && file_exists('../../' . $dbPicture)) {
         $profileImage = '../../' . $dbPicture;
     }
 }
@@ -58,12 +58,9 @@ if (isset($_SESSION['guest_id'])) {
   </div>
 
   <div class="right">
-    <img src="../../assets/Guest/notification.png" alt="Notification" class="icon" onclick="toggleSidebar('notificationSidebar')" />
-    <img src="../../assets/Guest/message.png" alt="Messages" class="icon" onclick="toggleSidebar('messagesSidebar')" />
-    <a href="../../HTML/Host/HostDashboard.html" class="be-a-host">+ Be a Host</a>
+    <a href="../../HTML/Host/ViewNest.php" class="be-a-host">+ Be a Host</a>
     <a href="../../HTML/Home/Profile.php" class="profile-wrapper">
       <img src="<?php echo htmlspecialchars($profileImage); ?>" alt="Profile" class="profile-icon" />
     </a>
-    <a href="?logout=true" class="logout-btn">Logout</a>
   </div>
 </header>

@@ -161,9 +161,9 @@ function getStatusText($status) {
   </div>
 </div>
 
-<footer>
-</footer>
-<script src="../../JS/Guest/SearchHandler.js?v=1"></script>
+
+
+<script src="js/SearchHandler.js?v=1"></script>
 
 </body>
 </html>
