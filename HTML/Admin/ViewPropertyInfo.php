@@ -62,11 +62,11 @@ if (!empty($search_id)) {
 $stmt->execute();
 $result = $stmt->get_result();
 
-// Function to map homestay_status to text and color (still useful for displaying status)
+// Function to map homestay_status to text and color
 function mapStatus($status) {
-    if ($status == 0) return ["Pending", "orange"];
-    if ($status == 1) return ["Approved", "green"];
-    if ($status == 2) return ["Banned", "red"];
+    if ($status == 0) return ["Not Occupied", "green"]; // Changed from Pending, orange
+    if ($status == 1) return ["Occupied", "red"]; // Changed from Approved, green
+    if ($status == 2) return ["Banned", "gray"]; // Changed from red to gray
     return ["Unknown", "gray"];
 }
 ?>
@@ -382,7 +382,7 @@ function mapStatus($status) {
                     [$statusText, $statusColor] = mapStatus($row['homestay_status']); // Still useful for displaying status if it exists
                     $picture1 = htmlspecialchars($row['picture1']);
                     // Adjust the image path to be relative to the CSS/PHP file for the browser
-                    $imageUrl = !empty($picture1) ? "../../upload/{$picture1}" : "https://via.placeholder.com/100x80?text=No+Image";
+                    $imageUrl = !empty($picture1) ? "../Host/{$picture1}" : "https://via.placeholder.com/100x80?text=No+Image";
                 ?>
                     <div class="property-list-item">
                         <div class="property-image-wrapper">
