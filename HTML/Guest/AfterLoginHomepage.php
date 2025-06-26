@@ -126,8 +126,8 @@ if (!isset($_SESSION['guest_id'])) {
 
    <footer>
      </footer>
-   <script src="../../JS/Guest/AfterLoginHomepage.js?t=<?= time() ?>"></script>
-   <script src="../../JS/Guest/SearchHandler.js?v=1"></script>
+   <script src="js/AfterLoginHomepage.js?= time() ?>"></script>
+   <script src="js/SearchHandler.js"></script>
   
 </body>
 </html>

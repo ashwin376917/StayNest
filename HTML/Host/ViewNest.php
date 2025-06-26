@@ -11,7 +11,7 @@ if (!isset($_SESSION['guest_id'])) {
 
 $loggedInGuestId = $_SESSION['guest_id']; // Get the logged-in guest ID
 
-$hostApprovalStatus = 0;
+$hostApprovalStatus = 0; // Default to 0 (not a host or deactivated)
 $hostId = null; // Initialize hostId
 
 // Fetch the host's approval status and host_id using the guest_id
@@ -33,6 +33,16 @@ if (is_null($hostId)) {
     // Guest is logged in, but not yet a host.
     // They will be prompted to become a host via the "Request to be a Host" button.
     error_log("No host record found for guest_id: " . $loggedInGuestId . ". User is a guest.");
+    // Insert a new host record with isApprove = 0 if it doesn't exist
+    $insertStmt = $conn->prepare("INSERT INTO host (guest_id, isApprove) VALUES (?, 0)");
+    if ($insertStmt === false) {
+        error_log("Prepare statement failed (insert new host): " . $conn->error);
+    } else {
+        $insertStmt->bind_param("s", $loggedInGuestId);
+        $insertStmt->execute();
+        $insertStmt->close();
+        // After insertion, hostId is still null here, but next page load will pick it up
+    }
 } else {
     // Host ID found, set it in session for consistency in property creation/management
     $_SESSION['host_id'] = $hostId;
@@ -40,12 +50,12 @@ if (is_null($hostId)) {
     error_log("Host ID found: " . $hostId . ", Approval Status: " . $hostApprovalStatus);
 }
 
-// Handle actions (Request Host, Delete Homestay)
+// Handle actions (Request Host, Cancel Request, Delete Homestay)
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         if ($_POST['action'] === 'request_host') {
-            // Directly approve the host (set isApprove to 2)
-            $stmt = $conn->prepare("UPDATE host SET isApprove = 2 WHERE guest_id = ?");
+            // Update isApprove to 1 (pending) when requesting to be a host
+            $stmt = $conn->prepare("UPDATE host SET isApprove = 1 WHERE guest_id = ?");
             if ($stmt === false) {
                 error_log("Prepare statement failed (request host): " . $conn->error);
                 echo "<script>alert('Database error during host request.');</script>";
@@ -54,10 +64,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $stmt->execute();
                 $stmt->close();
                 // Re-fetch status to update display immediately
-                $hostApprovalStatus = 2; // Directly set to approved
+                $hostApprovalStatus = 1; // Set to pending
             }
-        } 
-        
+        } elseif ($_POST['action'] === 'cancel_request') {
+            // Update isApprove to 0 (deactivated) when canceling request
+            $stmt = $conn->prepare("UPDATE host SET isApprove = 0 WHERE guest_id = ?");
+            if ($stmt === false) {
+                error_log("Prepare statement failed (cancel request): " . $conn->error);
+                echo "<script>alert('Database error during cancel request.');</script>";
+            } else {
+                $stmt->bind_param("s", $loggedInGuestId);
+                $stmt->execute();
+                $stmt->close();
+                // Re-fetch status to update display immediately
+                $hostApprovalStatus = 0; // Set to deactivated
+            }
+        }
         elseif ($_POST['action'] === 'delete' && isset($_POST['delete_ids'])) {
             // Ensure host is approved (status 2) before allowing delete
             if ($hostId && $hostApprovalStatus == 2) {
@@ -71,10 +93,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 // Add condition to only delete if homestay_status is 'not occupied' (0) and not banned
                 // and belongs to the current host
+                // Removed 'isBan = 0' condition from DELETE query
                 $sql = "DELETE FROM homestay WHERE homestay_id IN ($idList) 
                                 AND host_id = ? 
-                                AND homestay_status = 0 
-                                AND isBan = 0";
+                                AND homestay_status = 0"; // Removed `AND isBan = 0`
                 $stmt = $conn->prepare($sql);
                 if ($stmt === false) {
                     error_log("Prepare statement failed (delete homestay): " . $conn->error);
@@ -85,7 +107,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         if ($stmt->affected_rows > 0) {
                             echo "<script>alert('Selected homestays deleted successfully!');</script>";
                         } else {
-                            echo "<script>alert('No eligible homestays were deleted (might be occupied or banned, or you don\\'t own them).');</script>";
+                            echo "<script>alert('No eligible homestays were deleted (might be occupied, or you don\\'t own them).');</script>";
                         }
                     } else {
                         echo "<script>alert('Error deleting homestays: " . $stmt->error . "');</script>";
@@ -108,8 +130,9 @@ $homestays = []; // Initialize an empty array for results
 
 if ($hostId && $hostApprovalStatus == 2) {
     // Base SQL query
+    // Removed `isBan` from the SELECT clause
     $sql = "SELECT homestay_id, title, description, district, state, price_per_night, 
-                    amenities, categories, homestay_status, picture1, total_click, isBan, max_guests 
+                    amenities, categories, homestay_status, picture1, total_click, max_guests 
             FROM homestay 
             WHERE host_id = ?";
     $params = [$hostId];
@@ -132,7 +155,7 @@ if ($hostId && $hostApprovalStatus == 2) {
         $types .= "i"; // 'i' for integer binding
     }
     
-    // Removed filter by isBan
+    // Removed filter by isBan (as the column is removed)
 
     $sql .= " ORDER BY homestay_id DESC";
 
@@ -435,8 +458,7 @@ $conn->close();
         } /* Red for booked/occupied */
         .status.pending { background-color: #ffc107; color: #343a40;
         } /* Yellow for pending */
-        .status.banned { background-color: #6c757d;
-        } /* Grey for banned */
+        /* Removed .status.banned as isBan is no longer used */
 
 
         .checkbox-container {
@@ -481,7 +503,14 @@ $conn->close();
             margin-top: 20px;
             /* Space above */
         }
-        /* The .host-action-btn.cancel style is no longer needed as the button is completely removed for approved hosts */
+        /* New style for "Cancel Request" button */
+        .host-action-btn.cancel-request {
+            background-color: #ffc107; /* Yellow */
+            color: #343a40; /* Dark text for contrast */
+        }
+        .host-action-btn.cancel-request:hover {
+            background-color: #e0a800; /* Darker yellow on hover */
+        }
         .host-action-btn:hover {
             opacity: 0.9;
             background-color: #0056b3; /* Darker blue on hover */
@@ -685,8 +714,10 @@ $conn->close();
                         <button type="submit" id="deleteBtn" name="action" value="delete" class="delete-selected-btn">Delete Selected</button>
                     </div>
 
-                    <?php if (!$hostId || $hostApprovalStatus == 0): // Not a host or deactivated ?>
+                    <?php if ($hostApprovalStatus == 0): // Guest not a host or deactivated ?>
                         <button type="submit" name="action" value="request_host" class="host-action-btn full-width">Become a Host Now!</button>
+                    <?php elseif ($hostApprovalStatus == 1): // Pending approval ?>
+                        <button type="submit" name="action" value="cancel_request" class="host-action-btn full-width cancel-request">Cancel Request</button>
                     <?php elseif ($hostApprovalStatus == 2): // Approved host ?>
                         <a href="AddProperty.php" class="host-action-btn full-width" style="text-decoration: none;">+ Add Property</a>
                     <?php endif; ?>
@@ -709,19 +740,18 @@ $conn->close();
                                 $amenities_str = htmlspecialchars($row['amenities']);
                                 $homestay_status = (int)$row['homestay_status']; // Cast to int
 
-                                $is_banned = $row['isBan'];
+                                // Removed $is_banned = $row['isBan'];
+                                
                                 // Determine status label and class based on integer homestay_status
                                 $statusLabel = 'Unknown';
                                 $statusClass = 'status';
                                 $canEditDelete = false; // Flag to control edit/delete buttons and checkbox
 
-                                if ($is_banned == 1) {
-                                    $statusLabel = 'Banned';
-                                    $statusClass .= ' banned';
-                                } elseif ($homestay_status === 0) { // Check for int 0
+                                // Removed condition if ($is_banned == 1)
+                                if ($homestay_status === 0) { // Check for int 0
                                     $statusLabel = 'Not Occupied';
                                     $statusClass .= ' available';
-                                    $canEditDelete = true; // Can edit/delete if not occupied and not banned
+                                    $canEditDelete = true; // Can edit/delete if not occupied
                                 } elseif ($homestay_status === 1) { // Check for int 1
                                     $statusLabel = 'Occupied';
                                     $statusClass .= ' booked';
@@ -752,8 +782,8 @@ $conn->close();
                                     "Parking" => "Parking.png",
                                     "Kitchen" => "Kitchen.png",
                                     "Pool" => "Pool.png",
-                                    "Smart TV" => "TV.png",
-                                    "Personal Workspace" => "Workspace.png",
+                                    "Smart TV" => "SmartTV.png",
+                                    "Personal Workspace" => "PersonalWorkspace.png",
                                     "Washer" => "Washer.png",
                                     "Hair Dryer" => "HairDryer.png",
                                     "Dryer" => "Dryer.png",
@@ -762,6 +792,7 @@ $conn->close();
                                 $amenities_array = array_map('trim', explode(',', $amenities_str));
                                 foreach ($amenities_array as $amenity) {
                                     $amenity_key = str_replace(' ', '', $amenity);
+                                    // Ensure the key exists in the map
                                     if (array_key_exists($amenity_key, $amenity_icons_map)) {
                                         $icon_file = $amenity_icons_map[$amenity_key];
                                         echo '<img src="../../assets/Property/' . htmlspecialchars(strtolower($icon_file)) . '" alt="' . htmlspecialchars($amenity) . '" title="' . htmlspecialchars($amenity) . '" class="amenity-icon" />';
@@ -780,9 +811,11 @@ $conn->close();
                         }
                     } else {
                         // Display message based on approval status
-                        $message = "You are not registered as a host. Please use the 'Become a Host Now!' button to start listing your properties.";
-                        if ($hostId && $hostApprovalStatus == 0) {
-                            $message = "Your host account is currently deactivated. Please use the 'Become a Host Now!' button to reactivate it and list properties.";
+                        $message = "";
+                        if ($hostApprovalStatus == 0) {
+                            $message = "You are not yet a host. Please use the 'Become a Host Now!' button to send your request.";
+                        } elseif ($hostApprovalStatus == 1) {
+                            $message = "Your host request is pending approval. You will be able to add properties once approved.";
                         }
                         echo '<p style="text-align: center; margin-top: 50px; color: #555;">' . $message . '</p>';
                     }
@@ -799,51 +832,56 @@ $conn->close();
     const selectAll = document.getElementById('select-all');
     const checkboxes = document.querySelectorAll('.card-checkbox');
     const deleteBtn = document.getElementById('deleteBtn');
-    // Removed propertyCards variable as it's no longer used for click redirection
     const singleDeleteButtons = document.querySelectorAll('.single-delete-btn');
-    const isHostApproved = <?php echo json_encode($hostApprovalStatus == 2); ?>;
+    const hostApprovalStatus = <?php echo json_encode($hostApprovalStatus); ?>; // Pass PHP variable to JS
 
-    // Initial state check for controls
-    if (!isHostApproved) {
-        selectAll.disabled = true;
-        deleteBtn.style.display = 'none'; // Hide mass delete button
+    // Initial state check for controls based on hostApprovalStatus
+    if (hostApprovalStatus !== 2) { // If not approved, disable/hide controls
+        if (selectAll) selectAll.disabled = true;
+        if (deleteBtn) deleteBtn.style.display = 'none'; // Hide mass delete button
         checkboxes.forEach(cb => cb.disabled = true); // Disable all checkboxes
     }
 
     // Event listener for "Select All" checkbox
-    selectAll.addEventListener('change', function () {
-        checkboxes.forEach(cb => {
-            // Only toggle checkboxes that are not disabled (i.e., deletable)
-            if (!cb.disabled) {
-                cb.checked = this.checked;
-            }
+    if (selectAll) {
+        selectAll.addEventListener('change', function () {
+            checkboxes.forEach(cb => {
+                // Only toggle checkboxes that are not disabled (i.e., deletable)
+                if (!cb.disabled) {
+                    cb.checked = this.checked;
+                }
+            });
+            toggleDeleteButton();
         });
-        toggleDeleteButton();
-    });
+    }
+    
     // Event listener for individual checkboxes
     checkboxes.forEach(cb => {
         cb.addEventListener('change', toggleDeleteButton);
     });
+
     // Function to show/hide the mass delete button
     function toggleDeleteButton() {
-        if (!isHostApproved) {
-            deleteBtn.style.display = 'none';
+        if (hostApprovalStatus !== 2) {
+            if (deleteBtn) deleteBtn.style.display = 'none';
             return;
         }
         const anyChecked = Array.from(checkboxes).some(cb => cb.checked && !cb.disabled);
-        deleteBtn.style.display = anyChecked ? 'inline-block' : 'none';
+        if (deleteBtn) deleteBtn.style.display = anyChecked ? 'inline-block' : 'none';
     }
 
     // Handle single delete button clicks
     singleDeleteButtons.forEach(btn => {
         btn.addEventListener('click', function(e) {
             e.preventDefault(); // Prevent default form submission or link action
+            // The logic for disabling delete button is now only tied to homestay_status, not isBan
             if (this.disabled) {
-                alert('This property cannot be deleted at this time (it might be occupied or banned).');
+                showCustomAlert('This property cannot be deleted at this time (it might be occupied).'); // Updated message
                 return;
             }
 
-            if (confirm('Are you sure you want to delete this property? This action cannot be undone.')) {
+            // Using custom modal instead of confirm()
+            showConfirmModal('Are you sure you want to delete this property? This action cannot be undone.', () => {
                 const homestayIdToDelete = this.dataset.homestayId;
                 const form = this.closest('form'); // Get the parent form
 
@@ -860,12 +898,65 @@ $conn->close();
                 actionInput.value = 'delete'; // Use the same action as mass delete
                 form.appendChild(actionInput);
                 form.submit(); // Submit the form
-            }
+            });
         });
     });
 
     // Call toggleDeleteButton on page load to set initial state
     toggleDeleteButton();
+
+    // Custom Modal for Alerts and Confirms (replaces alert() and confirm())
+    function showCustomAlert(message) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); display: flex; justify-content: center;
+            align-items: center; z-index: 1000;
+        `;
+        modal.innerHTML = `
+            <div style="background-color: white; padding: 20px; border-radius: 8px;
+                        max-width: 400px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                <p>${message}</p>
+                <button id="custom-alert-ok" style="background-color: #007bff; color: white;
+                                                 padding: 10px 20px; border: none; border-radius: 5px;
+                                                 cursor: pointer; margin-top: 15px;">OK</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+        document.getElementById('custom-alert-ok').onclick = () => modal.remove();
+    }
+
+    function showConfirmModal(message, onConfirm) {
+        const modal = document.createElement('div');
+        modal.style.cssText = `
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0,0,0,0.5); display: flex; justify-content: center;
+            align-items: center; z-index: 1000;
+        `;
+        modal.innerHTML = `
+            <div style="background-color: white; padding: 20px; border-radius: 8px;
+                        max-width: 400px; text-align: center; box-shadow: 0 4px 10px rgba(0,0,0,0.2);">
+                <p>${message}</p>
+                <button id="custom-confirm-yes" style="background-color: #28a745; color: white;
+                                                  padding: 10px 20px; border: none; border-radius: 5px;
+                                                  cursor: pointer; margin-top: 15px; margin-right: 10px;">Yes</button>
+                <button id="custom-confirm-no" style="background-color: #dc3545; color: white;
+                                                 padding: 10px 20px; border: none; border-radius: 5px;
+                                                 cursor: pointer; margin-top: 15px;">No</button>
+            </div>
+        `;
+        document.body.appendChild(modal);
+
+        document.getElementById('custom-confirm-yes').onclick = () => {
+            modal.remove();
+            onConfirm();
+        };
+        document.getElementById('custom-confirm-no').onclick = () => modal.remove();
+    }
+
+    // Override default alert and confirm for this page
+    window.alert = showCustomAlert;
+    window.confirm = showConfirmModal; // This won't directly replace `confirm` but the usage in the code is adjusted
 </script>
 
 <?php include "../../include/Footer.html"; ?>
