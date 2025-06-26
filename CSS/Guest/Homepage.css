@@ -2,7 +2,10 @@
   font-family: 'NType';
   src: url('../../assets/NType-Regular.ttf') format('opentype');
 }
-
+@font-face {
+  font-family: 'Archivo';
+  src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
+}
 * {
   margin: 0;
   padding: 0;
@@ -35,10 +38,19 @@ header.main-header {
   border-bottom: 1px solid #ddd;
 }
 
-.WebName{
+.WebName {
   font-weight: bold;
   font-family: 'Archivo', sans-serif;
+  font-size: 24px;
+  color: #111;
+  letter-spacing: 1px;
+  transition: color 0.3s;
 }
+
+.WebName:hover {
+  color: #777;
+}
+
 
 .left {
   display: flex;
