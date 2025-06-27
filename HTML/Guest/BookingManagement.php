@@ -67,8 +67,8 @@ function getStatusText($status) {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Booking Management - Guest</title>
-  <link rel="stylesheet" href="../../CSS/Guest/BookingManagement.css?v4" />
-  <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
+  <link rel="stylesheet" href="css/BookingManagement.css" />
+  <link rel="stylesheet" href="..//Home/css/homeheadersheet.css">
 </head>
 <body>
 
@@ -161,9 +161,9 @@ function getStatusText($status) {
   </div>
 </div>
 
-<footer>
-</footer>
-<script src="../../JS/Guest/SearchHandler.js?v=1"></script>
+
+
+<script src="js/SearchHandler.js?v=1"></script>
 
 </body>
 </html>

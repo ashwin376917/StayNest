@@ -40,8 +40,8 @@ $_SESSION['can_access_payment'] = true;
 <head>
   <meta charset="UTF-8">
   <title>Booking Summary</title>
-  <link rel="stylesheet" href="../../CSS/Guest/GuestBookingPreview.css?v=4">
-  <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
+  <link rel="stylesheet" href="css/GuestBookingPreview.css">
+  <link rel="stylesheet" href="../Home/css/homeheadersheet.css">
 </head>
 
 <body>

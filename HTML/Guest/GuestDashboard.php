@@ -23,8 +23,8 @@ $update_stmt->execute();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - Guest</title>
-    <link rel="stylesheet" href="../../CSS/Guest/GuestDashboard.css?v=5">
-    <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
+    <link rel="stylesheet" href="css/GuestDashboard.css?v=5">
+    <link rel="stylesheet" href="..//Home/css/homeheadersheet.css">
 </head>
 <body>
 

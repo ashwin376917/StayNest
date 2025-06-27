@@ -10,6 +10,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $guestPhoneNumber = trim($_POST['phone_number'] ?? '');
     $guestPassword = $_POST['password'] ?? '';
 
+    // --- Phone Number Validation Function ---
+    function isValidMalaysianPhoneNumber($phoneNumber) {
+        $cleanedPhoneNumber = preg_replace('/[\s-]+/', '', $phoneNumber);
+
+    
+        $pattern = '/^(01[0-46-9]\d{7,8}|0[2-9]\d{7,9})$/';
+        $pattern = '/^0\d{8,10}$/';
+
+        return preg_match($pattern, $cleanedPhoneNumber);
+    }
+
+
     if ($conn->connect_error) {
         $error = "Database connection failed.";
     } elseif (empty($guestName) || empty($guestEmail) || empty($guestPhoneNumber) || empty($guestPassword)) {
@@ -18,7 +30,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Please enter a valid email address.';
     } elseif (strlen($guestPassword) < 8) {
         $error = 'Password must be at least 8 characters long.';
-    } else {
+    } elseif (!isValidMalaysianPhoneNumber($guestPhoneNumber)) { // Added phone number validation
+        $error = 'Please enter a valid Malaysian phone number (e.g., 0123456789 or 031234567).';
+    }
+    else {
         try {
             // Check if email already exists in guest table
             $stmt = $conn->prepare("SELECT COUNT(*) FROM guest WHERE guest_email = ?");
@@ -28,43 +43,66 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stmt->fetch();
             $stmt->close();
 
+            // Check if phone number already exists in guest table to prevent duplicate accounts
+            $stmt_phone = $conn->prepare("SELECT COUNT(*) FROM guest WHERE guest_phone_number = ?");
+            $stmt_phone->bind_param("s", $guestPhoneNumber);
+            $stmt_phone->execute();
+            $stmt_phone->bind_result($phoneCount);
+            $stmt_phone->fetch();
+            $stmt_phone->close();
+
+
             if ($count > 0) {
                 $error = 'An account with this email already exists. Please sign in or use a different email.';
-            } else {
-                $guestId = 'G' . uniqid();
-                $hostId = 'H' . uniqid();
+            } elseif ($phoneCount > 0) { // Check for duplicate phone number
+                $error = 'An account with this phone number already exists. Please sign in or use a different phone number.';
+            }
+            else {
+                $guestId = 'G' . uniqid(); // Generate guest ID
+                $hostId = 'H' . uniqid();   // Generate host ID
                 $hashedPassword = password_hash($guestPassword, PASSWORD_DEFAULT);
 
-                // Insert into guest table
-                $stmt = $conn->prepare(
-                    "INSERT INTO guest (guest_id, guest_name, guest_email, guest_phone_number, guest_password) 
+                // Start a transaction for atomicity
+                $conn->begin_transaction();
+
+                // 1. Insert into guest table
+                $stmt_guest = $conn->prepare(
+                    "INSERT INTO guest (guest_id, guest_name, guest_email, guest_phone_number, guest_password)
                     VALUES (?, ?, ?, ?, ?)"
                 );
-                $stmt->bind_param("sssss", $guestId, $guestName, $guestEmail, $guestPhoneNumber, $hashedPassword);
-                
-                if ($stmt->execute()) {
-                    $stmt->close();
+                $stmt_guest->bind_param("sssss", $guestId, $guestName, $guestEmail, $guestPhoneNumber, $hashedPassword);
 
-                    // Insert into host table
-                    $stmt2 = $conn->prepare(
-                        "INSERT INTO host (host_id, host_name, host_email, host_phone_number, host_password) 
-                        VALUES (?, ?, ?, ?, ?)"
+                if ($stmt_guest->execute()) {
+                    $stmt_guest->close();
+
+                    // 2. Insert into host table with isApprove = 0 (default pending status)
+                    $isApproveDefault = 0; // Default: Not approved
+                    $bannedDefault = 0; // Default: Not banned
+
+                    $stmt_host = $conn->prepare(
+                        "INSERT INTO host (host_id, guest_id, isApprove, banned)
+                        VALUES (?, ?, ?, ?)"
                     );
-                    $stmt2->bind_param("sssss", $hostId, $guestName, $guestEmail, $guestPhoneNumber, $hashedPassword);
+                    $stmt_host->bind_param("ssii", $hostId, $guestId, $isApproveDefault, $bannedDefault);
 
-                    if ($stmt2->execute()) {
-                        $stmt2->close();
-                        header("Location: login.php");
+                    if ($stmt_host->execute()) {
+                        $stmt_host->close();
+                        $conn->commit(); // Commit the transaction
+                        header("Location: login.php"); // Redirect to login after successful registration
                         exit;
                     } else {
+                        $conn->rollback(); // Rollback if host insertion fails
                         $error = 'Guest created but failed to create host record.';
                     }
                 } else {
+                    $conn->rollback(); // Rollback if guest insertion fails
                     $error = 'An error occurred during registration. Please try again later.';
                 }
             }
         } catch (Exception $e) {
-            $error = 'An error occurred during registration. Please try again later.';
+            $conn->rollback(); // Ensure rollback on any exception
+            // For debugging: error_log("Signup error: " . $e->getMessage());
+            $error = 'An unexpected error occurred during registration. Please try again later.';
         }
     }
 }
@@ -73,10 +111,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>StayNest - Sign Up</title>
-  <link rel="stylesheet" href="css/authsheet.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>StayNest - Sign Up</title>
+    <link rel="stylesheet" href="css/authsheet.css">
 </head>
 <body>
 
