@@ -1,4 +1,4 @@
-@font-face {
+/* @font-face {
     font-family: 'NType';
     src: url('../../assets/NType-Regular.ttf') format('opentype');
 }
@@ -6,7 +6,7 @@
 @font-face {
     font-family: 'Archivo';
     src: url('../../assets/archivo/Archivo-Regular.ttf') format('truetype');
-}
+} */
 
 * {
     margin: 0;
@@ -21,7 +21,7 @@ html {
 body {
     background-color: #fff;
     color: #111;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }
 
 /* WIDTH CONTAINER */
@@ -36,7 +36,7 @@ body {
     font-size: 32px;
     font-weight: bold;
     color: #333;
-    font-family: 'NType', sans-serif;
+    /* font-family: 'NType', sans-serif; */
 }
 
 /* REPORT FORM - USE ARCHIVO */
@@ -45,12 +45,12 @@ body {
     display: flex;
     flex-direction: column;
     gap: 20px;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }
 
 .report-form label {
     font-weight: bold;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }
 
 .report-form input,
@@ -60,7 +60,7 @@ body {
     font-size: 16px;
     border-radius: 5px;
     border: 1px solid #ddd;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }
 
 .report-form textarea {
@@ -72,12 +72,12 @@ body {
     display: flex;
     gap: 10px;
     align-items: center;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }
 
 .upload-container input[type="file"] {
     padding: 5px;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }
 
 .report-form button {
@@ -89,7 +89,7 @@ body {
     border-radius: 5px;
     cursor: pointer;
     transition: background 0.3s ease;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }
 
 .report-form button:hover {
@@ -101,5 +101,5 @@ body {
     color: red;
     margin-bottom: 20px;
     font-weight: bold;
-    font-family: 'Archivo', sans-serif;
+    /* font-family: 'Archivo', sans-serif; */
 }

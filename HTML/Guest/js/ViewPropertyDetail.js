@@ -1,66 +1,91 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const today = new Date();
-  const maxDate = new Date();
-  maxDate.setMonth(maxDate.getMonth() + 1);
+// $(document).ready(function () {
+//     const bookedDates = JSON.parse($("#bookedDatesJson").text() || "[]");
+//     const pricePerNight = parseFloat($("#propertyPrice").data("price"));
 
-  const checkIn = document.getElementById("checkIn");
-  const checkOut = document.getElementById("checkOut");
-  const guestsSelect = document.getElementById("guests");
-  const priceBox = document.getElementById("propertyPrice");
-  const pricePerNight = parseFloat(priceBox.dataset.price);
-  const bookingForm = document.getElementById("bookingForm");
-  const formCheckIn = document.getElementById("formCheckIn");
-  const formCheckOut = document.getElementById("formCheckOut");
-  const formGuests = document.getElementById("formGuests");
+//     function disableBooked(date) {
+//         const formatted = $.datepicker.formatDate('yy-mm-dd', date);
+//         if (bookedDates.includes(formatted)) {
+//             return [false, "booked-date", "Booked"];
+//         }
+//         return [true, ""];
+//     }
 
-  // Format date to YYYY-MM-DD
-  const formatDate = (date) => date.toISOString().split("T")[0];
+//     $("#checkIn").datepicker({
+//         minDate: +2,
+//         dateFormat: "yy-mm-dd",
+//         beforeShowDay: disableBooked,
+//         showOn: "both",
+//         buttonImage: "../../assets/calendar.png", // Replace with your icon path
+//         buttonImageOnly: true,
+//         buttonText: "Select date",
+//         onSelect: function (selectedDate) {
+//             const checkInDate = new Date(selectedDate);
+//             const minCheckOut = new Date(checkInDate);
+//             minCheckOut.setDate(checkInDate.getDate() + 1);
+//             const maxCheckOut = new Date(checkInDate);
+//             maxCheckOut.setDate(checkInDate.getDate() + 15);
+    
+//             $("#checkOut").datepicker("option", "minDate", minCheckOut);
+//             $("#checkOut").datepicker("option", "maxDate", maxCheckOut);
+    
+//             updatePrice();
+//         }
+//     });
+    
+//     $("#checkOut").datepicker({
+//         dateFormat: "yy-mm-dd",
+//         beforeShowDay: disableBooked,
+//         showOn: "both",
+//         buttonImage: "../../assets/calendar.png", // Replace with your icon path
+//         buttonImageOnly: true,
+//         buttonText: "Select date",
+//         onSelect: updatePrice
+//     });
+    
 
-  checkIn.min = formatDate(today);
-  checkIn.max = formatDate(maxDate);
-  checkOut.min = formatDate(today);
-  checkOut.max = formatDate(maxDate);
+//     function updatePrice() {
+//         const checkInVal = $("#checkIn").val();
+//         const checkOutVal = $("#checkOut").val();
 
-  function updatePrice() {
-    const inDate = new Date(checkIn.value);
-    const outDate = new Date(checkOut.value);
+//         if (checkInVal && checkOutVal) {
+//             const inDate = new Date(checkInVal);
+//             const outDate = new Date(checkOutVal);
+//             if (outDate > inDate) {
+//                 const diffTime = outDate - inDate;
+//                 const diffDays = diffTime / (1000 * 60 * 60 * 24);
+//                 const total = diffDays * pricePerNight;
+//                 $("#propertyPrice").text(`RM ${total.toFixed(2)} total (${diffDays} night${diffDays > 1 ? 's' : ''})`);
+//                 return;
+//             }
+//         }
+//         $("#propertyPrice").text(`RM ${pricePerNight.toFixed(2)} / night`);
+//     }
 
-    if (checkIn.value && checkOut.value && outDate > inDate) {
-      const diffTime = outDate - inDate;
-      const diffDays = diffTime / (1000 * 60 * 60 * 24);
-      const total = diffDays * pricePerNight;
-      priceBox.textContent = `RM ${total.toFixed(2)} total (${diffDays} night${diffDays > 1 ? 's' : ''})`;
-    } else {
-      priceBox.textContent = `RM ${pricePerNight.toFixed(2)} / night`;
-    }
-  }
+//     $("#bookingForm").on("submit", function (e) {
+//         const checkIn = $("#checkIn").val();
+//         const checkOut = $("#checkOut").val();
+//         const guests = $("#guests").val();
 
-  checkIn.addEventListener("change", () => {
-    if (checkIn.value) {
-      const selectedCheckIn = new Date(checkIn.value);
-      selectedCheckIn.setDate(selectedCheckIn.getDate() + 1);
-      checkOut.min = formatDate(selectedCheckIn);
-    }
-    updatePrice();
-  });
+//         if (!checkIn || !checkOut || new Date(checkOut) <= new Date(checkIn)) {
+//             e.preventDefault();
+//             alert("Please select valid check-in and check-out dates.");
+//             return;
+//         }
 
-  checkOut.addEventListener("change", updatePrice);
+//         if (bookedDates.includes(checkIn) || bookedDates.includes(checkOut)) {
+//             e.preventDefault();
+//             alert("You cannot select dates that are already booked. Please choose different dates.");
+//             return;
+//         }
 
-  bookingForm.addEventListener("submit", (e) => {
-    if (!checkIn.value || !checkOut.value || new Date(checkOut.value) <= new Date(checkIn.value)) {
-      e.preventDefault();
-      alert("⚠️ Please select a valid check-in and check-out date.\nCheck-out must be after check-in.");
-      return;
-    }
+//         if (!guests) {
+//             e.preventDefault();
+//             alert("Please select the number of guests.");
+//             return;
+//         }
 
-    if (!guestsSelect.value || guestsSelect.value === "Select Guests") {
-      e.preventDefault();
-      alert("⚠️ Please select the number of guests.");
-      return;
-    }
-
-    formCheckIn.value = checkIn.value;
-    formCheckOut.value = checkOut.value;
-    formGuests.value = guestsSelect.value;
-  });
-});
+//         $("#formCheckIn").val(checkIn);
+//         $("#formCheckOut").val(checkOut);
+//         $("#formGuests").val(guests);
+//     });
+// });

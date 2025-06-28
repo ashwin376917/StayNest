@@ -1,5 +1,5 @@
 /* === FONT IMPORT === */
-@font-face {
+/* @font-face {
   font-family: 'NType';
   src: url('../../assets/NType-Regular.ttf') format('opentype');
 }
@@ -7,14 +7,14 @@
 @font-face {
   font-family: 'Archivo';
   src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
-}
+} */
 
 /* === GLOBAL RESET === */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'NType', sans-serif;
+  /* font-family: 'NType', sans-serif; */
 }
 
 html {
@@ -22,7 +22,7 @@ html {
 }
 
 body {
-  font-family: 'NType', sans-serif;
+  /* font-family: 'NType', sans-serif; */
   background-color: #fff;
   color: #111;
 }
@@ -82,10 +82,12 @@ body {
   background-color: rgba(0, 0, 0, 0.45);
 }
 
-.image-wrapper:hover img {
-  transform: scale(1.03);
+/* IMPORTANT: For background-image, hover effect should be on the element itself, not on an inner img */
+.image-wrapper:hover {
+  transform: scale(1.03); /* Apply transform to the container */
   transition: transform 0.3s ease;
 }
+
 
 /* === RECOMMENDED BANNER === */
 .recommended {
@@ -195,13 +197,42 @@ body {
 
 .photo-box {
   min-width: 275px;
-  height: 40vh;
-  background-color: #ccc;
+  height: 40vh; /* Fixed height for the boxes */
+  background-color: #ccc; /* Fallback background */
   border-radius: 10px;
   position: relative;
   flex-shrink: 0;
   transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  /* Background image properties for proper display */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
 }
+
+/* REMOVED: .photo-box img { ... } as we are using background-image */
+
+.photo-box .bottom-label {
+    position: absolute;
+    bottom: 10px;
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust for horizontal centering */
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 2;
+    /* Optional: Add a background or text-shadow for better readability on busy images */
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.7);
+    padding: 5px 15px; /* Add some padding to the label */
+    background-color: rgba(0,0,0,0.5); /* Semi-transparent background for readability */
+    border-radius: 5px; /* Slightly rounded corners for the label */
+    white-space: nowrap; /* Prevent text wrapping for short titles */
+    overflow: hidden; /* Hide overflow if title is too long */
+    text-overflow: ellipsis; /* Add ellipsis for overflowed titles */
+    max-width: 90%; /* Ensure label doesn't go beyond box width */
+    text-align: center; /* Center text within the label */
+}
+
 
 .photo-box:hover {
   transform: scale(1.03);
@@ -243,7 +274,7 @@ body {
 }
 
 .fixed-photo .top-label {
-  font-family: 'Archivo', sans-serif !important; 
+  /* font-family: 'Archivo', sans-serif !important;  */
   font-weight: 500;
   font-size: 14px;
   letter-spacing: 0.5px;
@@ -254,7 +285,7 @@ body {
   left: 10px;
   padding: 5px 10px;
   position: absolute;
-  border-radius: 100px; 
+  border-radius: 100px;
   z-index: 2;
   display: flex;
   align-items: center;
@@ -283,127 +314,4 @@ body {
 .certified-icon {
   width: 14px;
   height: 14px;
-}
-
-/* === SIDEBARS === */
-.sidebar {
-  position: fixed;
-  top: 70px;
-  right: 0;
-  width: 300px;
-  height: calc(100% - 70px);
-  background-color: #fff;
-  border-left: 2px solid #ddd;
-  padding: 20px;
-  overflow-y: auto;
-  box-shadow: -4px 0 10px rgba(0,0,0,0.1);
-  z-index: 999;
-}
-
-.sidebar.hidden {
-  display: none;
-}
-
-.sidebar h3 {
-  font-family: 'Archivo', sans-serif;
-  margin-bottom: 15px;
-}
-
-.sidebar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 15px;
-}
-
-.sidebar-header button {
-  background: transparent;
-  border: none;
-  font-size: 20px;
-  cursor: pointer;
-  color: #333;
-}
-
-.sidebar-header button:hover {
-  color: red;
-}
-
-#notificationList li {
-  background: #f3f3f3;
-  margin-bottom: 10px;
-  padding: 10px;
-  border-radius: 8px;
-  font-size: 14px;
-}
-
-/* === CHAT WINDOW === */
-.chat-window {
-  position: fixed;
-  bottom: 0;
-  right: 320px;
-  width: 350px;
-  height: 450px;
-  background-color: #fff;
-  border: 2px solid #ddd;
-  box-shadow: -4px -4px 10px rgba(0, 0, 0, 0.1);
-  z-index: 1000;
-  display: flex;
-  flex-direction: column;
-}
-
-.chat-window.hidden {
-  display: none;
-}
-
-.chat-header {
-  background-color: #f0f0f0;
-  padding: 10px;
-  font-weight: bold;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.chat-body {
-  flex-grow: 1;
-  padding: 10px;
-  overflow-y: auto;
-  border-top: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-}
-
-.chat-body .message {
-  margin-bottom: 10px;
-}
-
-.chat-body .message.sent {
-  text-align: right;
-  color: blue;
-}
-
-.chat-body .message.received {
-  text-align: left;
-  color: green;
-}
-
-.chat-input {
-  display: flex;
-  padding: 10px;
-}
-
-.chat-input input {
-  flex-grow: 1;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-}
-
-.chat-input button {
-  margin-left: 8px;
-  padding: 8px 12px;
-  background-color: black;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
 }

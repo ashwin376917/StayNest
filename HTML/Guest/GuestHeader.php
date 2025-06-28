@@ -37,7 +37,6 @@ if (isset($_SESSION['guest_id'])) {
   <div class="left">
     <a href="../../HTML/Guest/AfterLoginHomepage.php" class="brand-link">
       <img src="../../assets/staynest_logo.png" alt="StayNest Logo" class="logo" />
-      
       <span class="WebName">StayNest</span>
     </a>
     <a href="../../HTML/Guest/GuestDashboard.php" class="nav-link">Dashboard</a>

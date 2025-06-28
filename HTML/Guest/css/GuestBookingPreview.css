@@ -1,13 +1,13 @@
-@font-face {
+/* @font-face {
   font-family: 'Archivo';
   src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
-}
+} */
 
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Archivo', sans-serif !important;
+  /* font-family: 'Archivo', sans-serif !important; */
 }
 
 body {
@@ -115,23 +115,23 @@ button.cancel:hover {
 
 .right {
   flex: 1;
-  background: url('../../assets/Guest/payment_img.jpg') center/cover no-repeat;
+  background: url('../../../assets/payment_img.jpg') center/cover no-repeat;
 }
 
 @media (max-width: 768px) {
   .container {
-    flex-direction: column;
+      flex-direction: column;
   }
 
   .right {
-    height: 250px;
+      height: 250px;
   }
 
   .left {
-    padding: 20px;
+      padding: 20px;
   }
 
   .form-box {
-    max-width: 100%;
+      max-width: 100%;
   }
 }
