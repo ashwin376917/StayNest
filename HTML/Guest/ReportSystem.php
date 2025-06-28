@@ -19,8 +19,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $report_date = date('Y-m-d');
     $report_id = uniqid('R');
 
-    $upload_dir = '../../uploads/report_images/';
+    $upload_dir = '../../uploads/report_pictures/';
     $image_path = NULL;
+
+    // Create folder if not exists
+    if (!file_exists($upload_dir)) {
+        mkdir($upload_dir, 0777, true);
+    }
 
     if (isset($_FILES['upload_image']) && $_FILES['upload_image']['error'] === UPLOAD_ERR_OK) {
         $allowed_types = ['image/jpeg', 'image/png', 'image/jpg'];
@@ -51,11 +56,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("sssssss", $report_id, $guest_id, $title, $description, $report_date, $image_path, $category);
 
         if ($stmt->execute()) {
-            echo "<script>alert('Report submitted successfully.'); window.location.href='ReportSystem.php';</script>";
+            echo "<script>alert('Report submitted successfully.'); window.location.href='GuestDashboard.php';</script>";
             exit();
         } else {
             $error = "Failed to submit report. Please try again.";
         }
+        
     }
 }
 ?>
@@ -66,9 +72,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Guest Report System</title>
-    <link rel="stylesheet" href="../../Header_Footer/css/footer.css?v=4">
-    <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
-    <link rel="stylesheet" href="../../CSS/Guest/ReportSystem.css?v7">
+    <link rel="stylesheet" href="../../include/css/footer.css">
+    <link rel="stylesheet" href="../Home/css/homeheadersheet.css">
+    <link rel="stylesheet" href="css/ReportSystem.css?v7">
 </head>
 <body>
 <header>
@@ -106,7 +112,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </div>
 
 <footer>
-    <!-- Optional footer include -->
+<?php include "../../include/footer.html"; ?>
 </footer>
 </body>
 </html>

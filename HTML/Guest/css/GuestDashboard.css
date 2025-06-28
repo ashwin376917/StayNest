@@ -1,18 +1,7 @@
-@font-face {
-  font-family: 'NType';
-  src: url('../../assets/NType-Regular.ttf') format('opentype');
-}
-
-@font-face {
-  font-family: 'Archivo';
-  src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
-}
-
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Archivo', sans-serif;
 }
 
 body {
@@ -92,7 +81,6 @@ body {
 .recent-orders h2 {
   margin-bottom: 20px;
   font-size: 24px;
-  font-family: 'NType', sans-serif;
 }
 
 .recent-orders table {
@@ -105,7 +93,6 @@ body {
   text-align: left;
   padding: 12px;
   border-bottom: 1px solid #ccc;
-  font-family: 'Archivo', sans-serif;
 }
 
 /* Recent Reviews */
@@ -120,7 +107,6 @@ body {
 .recent-reviews h2 {
   margin-bottom: 20px;
   font-size: 24px;
-  font-family: 'NType', sans-serif;
 }
 
 .review-box {
@@ -128,46 +114,50 @@ body {
   padding: 15px;
   border-radius: 10px;
   border: 1px solid #ddd;
-  margin-bottom: 15px; /* Spacing between reviews */
-  line-height: 1.6; /* Better line spacing */
+  margin-bottom: 15px;
+  line-height: 1.6;
 }
 
 .review-box p {
   margin-bottom: 8px;
-  font-family: 'Archivo', sans-serif;
 }
 
 .review-box p strong {
-  font-size: 18px; /* Bigger property name */
-  font-family: 'Archivo', sans-serif;
+  font-size: 18px;
 }
 
-/* === Reports Section === */
-.reports-section {
+/* === User Reports Section (Styled like Reviews) === */
+.reports-wrapper {
+  background-color: #fafafa;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   margin-bottom: 40px;
 }
 
-.reports-section h2 {
+.reports-wrapper h2 {
   font-size: 24px;
   margin-bottom: 20px;
-  font-family: 'NType', sans-serif;
+}
+
+.reports-boxes {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
 }
 
 .report-box {
   background-color: #fff;
   border: 1px solid #ddd;
-  padding: 20px;
-  border-radius: 15px;
-  margin-bottom: 15px; /* Spacing between reports */
-  line-height: 1.6; /* Better line spacing */
+  padding: 15px 20px;
+  border-radius: 10px;
+  line-height: 1.6;
 }
 
 .report-box p {
   margin-bottom: 8px;
-  font-family: 'Archivo', sans-serif;
 }
 
 .report-box p strong {
-  font-size: 18px; /* Bigger report title */
-  font-family: 'Archivo', sans-serif;
+  font-size: 18px;
 }
