@@ -12,7 +12,7 @@ if (!$homestay_id) {
     die("Missing homestay ID.");
 }
 
-// --- NEW LOGIC START ---
+// --- MODIFIED LOGIC START ---
 // Determine Back Button behavior based on the 'from' parameter or session data
 $back_link = 'GuestDashboard.php'; // Default link
 $back_text = 'Back to Listings';   // Default text
@@ -21,12 +21,18 @@ if (isset($_GET['from']) && $_GET['from'] === 'bookings') {
     // If coming from the booking management page
     $back_link = 'BookingManagement.php';
     $back_text = 'Back to My Bookings';
+} elseif (isset($_GET['from']) && $_GET['from'] === 'homepage') {
+    // If coming from the AfterLoginHomepage (Most Popular section)
+    $back_link = 'AfterLoginHomepage.php';
+    $back_text = 'Back to Homepage';
 } elseif (isset($_SESSION['last_query'])) {
-    // If coming from a search results page
+    // If coming from a search results page (and no specific 'from' parameter was set)
+    // The SearchResult.php page or its handler should set $_SESSION['last_query']
+    // with the appropriate query string (e.g., 'query=melaka' or 'category=Family+Friendly')
     $back_link = 'SearchResult.php?query=' . urlencode($_SESSION['last_query']);
-    // The default text 'Back to Listings' is appropriate here
+    $back_text = 'Back to Search Results'; // More specific text for search
 }
-// --- NEW LOGIC END ---
+// --- MODIFIED LOGIC END ---
 
 $sql = "SELECT * FROM homestay WHERE homestay_id = ?";
 $stmt = $conn->prepare($sql);
@@ -40,6 +46,7 @@ if (!$homestay) {
     die("Homestay not found.");
 }
 
+// Update total_click for the homestay
 $updateClickSql = "UPDATE homestay SET total_click = total_click + 1 WHERE homestay_id = ?";
 $updateClickStmt = $conn->prepare($updateClickSql);
 if ($updateClickStmt) {
@@ -48,6 +55,7 @@ if ($updateClickStmt) {
     $updateClickStmt->close();
 }
 
+// Fetch booked dates for the homestay
 $booked_dates = [];
 $sql_dates = "SELECT check_in_date, check_out_date FROM booking WHERE homestay_id = ? AND booking_status = 1";
 $stmt = $conn->prepare($sql_dates);
@@ -59,11 +67,13 @@ while ($row = $result->fetch_assoc()) {
     $end = new DateTime($row['check_out_date']);
     $interval = new DateInterval('P1D');
     
-    $period = new DatePeriod($start, $interval, $end);
+    // Include all days within the booking range, including check-in but excluding check-out if it's the next day
+    // The DatePeriod for $end is exclusive, so we add 1 day to include the end date itself if it's booked
+    $period = new DatePeriod($start, $interval, $end->modify('+1 day')); // Corrected for inclusive end date
+
     foreach ($period as $date) {
         $booked_dates[] = $date->format('Y-m-d');
     }
-    $booked_dates[] = $end->format('Y-m-d');
 }
 $stmt->close();
 
@@ -214,6 +224,12 @@ $(document).ready(function () {
             $("#checkOut").datepicker("option", "minDate", minCheckout);
             $("#checkOut").datepicker("option", "maxDate", maxCheckout);
 
+            // Clear check-out if it becomes invalid after new check-in
+            const currentCheckOut = $("#checkOut").val();
+            if (currentCheckOut && new Date(currentCheckOut) <= new Date(selectedDate)) {
+                $("#checkOut").val("");
+            }
+
             updatePrice();
         }
     });
@@ -275,7 +291,8 @@ $(document).ready(function () {
         let isRangeBooked = false;
         const startDate = new Date(checkIn);
         const endDate = new Date(checkOut);
-        for (let d = startDate; d < endDate; d.setDate(d.getDate() + 1)) {
+        // Loop from check-in up to (but not including) check-out
+        for (let d = new Date(startDate); d < endDate; d.setDate(d.getDate() + 1)) {
             const formattedDate = $.datepicker.formatDate('yy-mm-dd', d);
             if (bookedDates.includes(formattedDate)) {
                 isRangeBooked = true;

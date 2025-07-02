@@ -33,7 +33,7 @@ if ($result && $result->num_rows > 0) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Homepage - Guest</title>
-    <link rel="stylesheet" href="../Home/css/homeheadersheet.css">
+    <link rel="stylesheet" href="css/GuestHeader.css">
     <link rel="stylesheet" href="../../include/css/footer.css">
     <link rel="stylesheet" href="css/AfterLoginHomepage.css">
 </head>
@@ -74,9 +74,10 @@ if ($result && $result->num_rows > 0) {
                     // Corrected path for background-image
                     $imageUrl = '/StayNest/HTML/Host/' . $image; // Assumes /StayNest/uploads/ is the correct web path
 
-                    echo '<a href="ViewPropertyDetail.php?homestay_id=' . $homestayId . '" ';
+                    // MODIFIED: Added &from=homepage to the URL for back button logic
+                    echo '<a href="ViewPropertyDetail.php?homestay_id=' . $homestayId . '&from=homepage" ';
                     echo 'class="photo-box image-wrapper clickable-image" ';
-                    echo 'style="background-image: url(\'' . $imageUrl . '\');">'; // Use single quotes for URL
+                    echo 'style="background-image: url(\'' . $imageUrl . '\');">';
                     echo '    <div class="overlay"></div>';
                     echo '    <div class="bottom-label">' . $title . '</div>';
                     echo '</a>';
@@ -91,49 +92,49 @@ if ($result && $result->num_rows > 0) {
     <section class="certified-nest" id="certified-nest">
         <h2>Explore Certified Nest Categories</h2>
         <div class="certified-grid">
-            <div class="fixed-photo image-wrapper clickable-image">
+            <a href="SearchResult.php?category=Family Friendly" class="fixed-photo image-wrapper clickable-image">
                 <img src="../../assets/FrontPage/family.jpg" alt="Family Friendly">
                 <div class="top-label">
                     <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
                 </div>
                 <div class="bottom-label">Family Friendly</div>
-            </div>
-            <div class="fixed-photo image-wrapper clickable-image">
+            </a>
+            <a href="SearchResult.php?category=Pet Friendly" class="fixed-photo image-wrapper clickable-image">
                 <img src="../../assets/FrontPage/pet.jpg" alt="Pet Friendly">
                 <div class="top-label">
                     <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
                 </div>
                 <div class="bottom-label">Pet Friendly</div>
-            </div>
-            <div class="fixed-photo image-wrapper clickable-image">
+            </a>
+            <a href="SearchResult.php?category=Antique" class="fixed-photo image-wrapper clickable-image">
                 <img src="../../assets/FrontPage/antique.jpg" alt="Antique">
                 <div class="top-label">
                     <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
                 </div>
                 <div class="bottom-label">Antique</div>
-            </div>
-            <div class="fixed-photo image-wrapper clickable-image">
+            </a>
+            <a href="SearchResult.php?category=Shared" class="fixed-photo image-wrapper clickable-image">
                 <img src="../../assets/FrontPage/shared.jpg" alt="Shared">
                 <div class="top-label">
                     <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
                 </div>
                 <div class="bottom-label">Shared</div>
-            </div>
-            <div class="fixed-photo image-wrapper clickable-image">
+            </a>
+            <a href="SearchResult.php?category=Luxury" class="fixed-photo image-wrapper clickable-image">
                 <img src="../../assets/FrontPage/luxury.jpg" alt="Luxury">
                 <div class="top-label">
                     <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
                 </div>
                 <div class="bottom-label">Luxury</div>
-            </div>
-            <div class="fixed-photo image-wrapper clickable-image">
+            </a>
+            <a href="SearchResult.php?category=Minimalist" class="fixed-photo image-wrapper clickable-image">
                 <img src="../../assets/FrontPage/minimal.jpg" alt="Minimalist">
                 <div class="top-label">
                     <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
                 </div>
                 <div class="bottom-label">Minimalist</div>
+            </a>
             </div>
-        </div>
     </section>
 
 </div>
