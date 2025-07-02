@@ -60,7 +60,7 @@ function getStatusText($status) {
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Booking Management - Guest</title>
   <link rel="stylesheet" href="css/BookingManagement.css" />
-  <link rel="stylesheet" href="../Home/css/homeheadersheet.css">
+  <link rel="stylesheet" href="css/GuestHeader.css">
   <link rel="stylesheet" href="../../include/css/footer.css">
   <style>
     html, body {
