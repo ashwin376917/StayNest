@@ -1,9 +1,9 @@
 <?php
 // connect.php
 $servername = "localhost";
-$username = "root"; // Your database username
-$password = "";     // Your database password
-$dbname = "staynest"; // CHANGE THIS TO YOUR ACTUAL DATABASE NAME
+$username = "root"; 
+$password = "";    
+$dbname = "staynest";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);

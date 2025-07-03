@@ -4,24 +4,40 @@ session_start();
 
 include '../../connect.php'; // Your database connection file (adjust path if necessary)
 
+// Initialize message variables
+$success_message = '';
+$error_message = '';
+
 // Handle property deletion
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['homestay_id'], $_POST['action'])) {
     $homestay_id = $_POST['homestay_id'];
     $action = $_POST['action']; // 'delete'
 
     if ($action === 'delete') {
-        // Use prepared statements to prevent SQL injection
-        $stmt = $conn->prepare("DELETE FROM homestay WHERE homestay_id = ?");
-        $stmt->bind_param("s", $homestay_id); // 's' for string (homestay_id, assuming it's VARCHAR or INT that can be treated as string for binding)
+        // --- STEP 1: Check if the homestay has active or future bookings ---
+        $check_booking_stmt = $conn->prepare("SELECT COUNT(*) FROM booking WHERE homestay_id = ? AND check_out_date >= CURDATE()");
+        $check_booking_stmt->bind_param("s", $homestay_id);
+        $check_booking_stmt->execute();
+        $check_booking_result = $check_booking_stmt->get_result();
+        $booking_count = $check_booking_result->fetch_row()[0];
+        $check_booking_stmt->close();
 
-        if ($stmt->execute()) {
-            // Successfully deleted.
-            // Optional: add a success message or log this action.
+        if ($booking_count > 0) {
+            // Homestay is occupied or has future bookings, prevent deletion
+            $_SESSION['error_message'] = "Cannot delete homestay with ID: {$homestay_id}. It has active or future bookings.";
         } else {
-            // Error handling for database deletion
-            error_log("Error deleting homestay with ID $homestay_id: " . $stmt->error);
+            // No active or future bookings, proceed with deletion
+            $stmt = $conn->prepare("DELETE FROM homestay WHERE homestay_id = ?");
+            $stmt->bind_param("s", $homestay_id);
+
+            if ($stmt->execute()) {
+                $_SESSION['success_message'] = "Homestay with ID: {$homestay_id} successfully deleted.";
+            } else {
+                $_SESSION['error_message'] = "Error deleting homestay with ID: {$homestay_id}. " . $stmt->error;
+                error_log("Error deleting homestay with ID $homestay_id: " . $stmt->error);
+            }
+            $stmt->close();
         }
-        $stmt->close();
     }
 
     // Redirect to prevent form resubmission on refresh, preserving current search
@@ -63,11 +79,45 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 // Function to map homestay_status to text and color
-function mapStatus($status) {
-    if ($status == 0) return ["Not Occupied", "green"]; // Changed from Pending, orange
-    if ($status == 1) return ["Occupied", "red"]; // Changed from Approved, green
-    if ($status == 2) return ["Banned", "gray"]; // Changed from red to gray
+// This function will now also fetch booking dates if status is 'Occupied'
+function mapStatus($conn, $homestay_id, $status) {
+    if ($status == 0) return ["Not Occupied", "green"];
+    if ($status == 1) {
+        // If occupied, fetch current or next booking dates
+        $booking_dates = ["", ""]; // Default empty
+        $booking_query = $conn->prepare(
+            "SELECT check_in_date, check_out_date FROM booking
+             WHERE homestay_id = ? AND check_out_date >= CURDATE()
+             ORDER BY check_in_date ASC LIMIT 1"
+        );
+        $booking_query->bind_param("s", $homestay_id);
+        $booking_query->execute();
+        $booking_result = $booking_query->get_result();
+        if ($booking_row = $booking_result->fetch_assoc()) {
+            $booking_dates[0] = htmlspecialchars($booking_row['check_in_date']);
+            $booking_dates[1] = htmlspecialchars($booking_row['check_out_date']);
+        }
+        $booking_query->close();
+
+        if (!empty($booking_dates[0]) && !empty($booking_dates[1])) {
+            return ["Occupied: {$booking_dates[0]} to {$booking_dates[1]}", "red"];
+        } else {
+            // Fallback if status is 1 but no active booking dates found
+            return ["Occupied (No Dates)", "red"];
+        }
+    }
+    if ($status == 2) return ["Banned", "gray"];
     return ["Unknown", "gray"];
+}
+
+// Retrieve and clear session messages
+if (isset($_SESSION['success_message'])) {
+    $success_message = $_SESSION['success_message'];
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    $error_message = $_SESSION['error_message'];
+    unset($_SESSION['error_message']);
 }
 ?>
 <!DOCTYPE html>
@@ -299,6 +349,30 @@ function mapStatus($status) {
             box-shadow: 0 3px 10px rgba(0, 0, 0, 0.07);
         }
 
+        /* Message Box Styling */
+        .message-box {
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-size: 16px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .message-box.success {
+            background-color: #d4edda;
+            border-color: #28a745;
+            color: #155724;
+        }
+
+        .message-box.error {
+            background-color: #f8d7da;
+            border-color: #dc3545;
+            color: #721c24;
+        }
+
         /* --- RESPONSIVE ADJUSTMENTS (adapted for properties) --- */
         @media (max-width: 768px) {
             .content {
@@ -364,6 +438,18 @@ function mapStatus($status) {
     <main class="content">
         <h1>Property List</h1>
 
+        <?php if ($success_message): ?>
+            <div class="message-box success">
+                <?= $success_message ?>
+            </div>
+        <?php endif; ?>
+
+        <?php if ($error_message): ?>
+            <div class="message-box error">
+                <?= $error_message ?>
+            </div>
+        <?php endif; ?>
+
         <div class="action-bar">
             <div class="search-bar">
                 <input
@@ -379,10 +465,14 @@ function mapStatus($status) {
         <div class="property-list-container">
             <?php if ($result->num_rows > 0): ?>
                 <?php while($row = $result->fetch_assoc()):
-                    [$statusText, $statusColor] = mapStatus($row['homestay_status']); // Still useful for displaying status if it exists
+                    // Pass $conn to mapStatus to allow it to query the database
+                    [$statusText, $statusColor] = mapStatus($conn, $row['homestay_id'], $row['homestay_status']);
                     $picture1 = htmlspecialchars($row['picture1']);
                     // Adjust the image path to be relative to the CSS/PHP file for the browser
                     $imageUrl = !empty($picture1) ? "../Host/{$picture1}" : "https://via.placeholder.com/100x80?text=No+Image";
+
+                    // Determine if delete button should be disabled
+                    $is_occupied = ($row['homestay_status'] == 1); // Check if status is "Occupied"
                 ?>
                     <div class="property-list-item">
                         <div class="property-image-wrapper">
@@ -397,10 +487,10 @@ function mapStatus($status) {
                             <span class="status-badge <?= $statusColor ?>"><?= $statusText ?></span>
                         </div>
                         <div class="property-actions">
-                            <form method="POST" onsubmit="return confirmDelete(this);">
+                            <form method="POST" onsubmit="return confirmDelete(this, <?= json_encode($is_occupied) ?>);">
                                 <input type="hidden" name="homestay_id" value="<?= htmlspecialchars($row['homestay_id']) ?>">
                                 <input type="hidden" name="action" value="delete">
-                                <button type="submit" class="delete-btn">🗑️ Delete</button>
+                                <button type="submit" class="delete-btn" <?= $is_occupied ? 'disabled' : '' ?>>🗑️ Delete</button>
                             </form>
                         </div>
                     </div>
@@ -426,9 +516,29 @@ function mapStatus($status) {
         }
 
         // JavaScript function for delete confirmation
-        function confirmDelete(form) {
+        function confirmDelete(form, isOccupied) {
             const homestayId = form.querySelector('input[name="homestay_id"]').value;
+            if (isOccupied) {
+                // Using a custom message box instead of alert/confirm for better UX
+                showMessageBox(`Cannot delete homestay with ID: ${homestayId}. It has active or future bookings.`, 'error');
+                return false; // Prevent form submission
+            }
             return confirm(`Are you sure you want to delete homestay with ID: ${homestayId}? This action cannot be undone.`);
+        }
+
+        // Function to show a custom message box
+        function showMessageBox(message, type) {
+            let messageBox = document.createElement('div');
+            messageBox.className = `message-box ${type}`;
+            messageBox.textContent = message;
+
+            let mainContent = document.querySelector('.content');
+            mainContent.insertBefore(messageBox, mainContent.firstChild);
+
+            // Automatically hide the message after a few seconds
+            setTimeout(() => {
+                messageBox.remove();
+            }, 5000); // Message disappears after 5 seconds
         }
     </script>
 </body>

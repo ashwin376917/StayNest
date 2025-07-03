@@ -1,0 +1,118 @@
+/* hostanalytics.css */
+
+/* General container and content styles (reused from ViewNest.php) */
+.container {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.left {
+    flex-grow: 1;
+    max-width: 1200px;
+}
+
+.host-content {
+    width: 90%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 20px 0;
+}
+
+.dashboard-title {
+    margin: 20px 0 40px; /* More space below title */
+    font-size: 35px;
+    text-align: center;
+    color: #333;
+}
+
+/* Analytics Grid */
+.analytics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin-bottom: 40px;
+}
+
+/* Analytics Card */
+.analytics-card {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.analytics-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+}
+
+.analytics-card h2 {
+    font-size: 1.4em;
+    color: #555;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+
+.analytics-card .metric {
+    font-size: 2.5em; /* Larger metric numbers */
+    font-weight: bold;
+    color: #007bff; /* Primary color for metrics */
+    margin: 0;
+}
+
+.analytics-card .note {
+    font-size: 0.85em;
+    color: #888;
+    margin-top: 10px;
+}
+
+/* Info Section */
+.info-section {
+    background-color: #e9f7ef; /* Light green background */
+    border: 1px solid #c3e6cb;
+    border-radius: 8px;
+    padding: 20px;
+    margin-top: 30px;
+    color: #155724;
+}
+
+.info-section h3 {
+    margin-top: 0;
+    color: #155724;
+}
+
+.info-section ul {
+    list-style-type: disc;
+    padding-left: 20px;
+}
+
+.info-section li {
+    margin-bottom: 8px;
+    line-height: 1.5;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+    .analytics-grid {
+        grid-template-columns: 1fr; /* Stack cards vertically on small screens */
+    }
+
+    .dashboard-title {
+        font-size: 28px;
+    }
+
+    .analytics-card .metric {
+        font-size: 2em;
+    }
+}
+
+@media (max-width: 480px) {
+    .host-content {
+        width: 95%;
+        padding: 15px 0;
+    }
+}
