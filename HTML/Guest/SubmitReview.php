@@ -1,10 +1,10 @@
 <?php
 session_start();
-include_once '../../connect.php';
+include_once '../../connect.php'; // Ensure this path is correct for your setup
 
-date_default_timezone_set('Asia/Kuala_Lumpur'); // Set timezone
+date_default_timezone_set('Asia/Kuala_Lumpur'); // Set timezone to Malaysia
 
-// Check login
+// Check if guest is logged in, redirect if not
 if (!isset($_SESSION['guest_id'])) {
     header("Location: ../../HTML/Home/login.php");
     exit();
@@ -12,6 +12,7 @@ if (!isset($_SESSION['guest_id'])) {
 
 $guest_id = $_SESSION['guest_id'];
 
+// Check if booking_id is provided in the URL
 if (!isset($_GET['booking_id'])) {
     echo "<script>alert('Missing booking ID.'); window.location.href='BookingManagement.php';</script>";
     exit();
@@ -19,11 +20,16 @@ if (!isset($_GET['booking_id'])) {
 
 $booking_id = $_GET['booking_id'];
 
-// Check if booking exists for this guest
-$sql = "SELECT b.booking_id, h.title FROM booking b 
-        JOIN homestay h ON b.homestay_id = h.homestay_id 
+// Validate that the booking belongs to the logged-in guest
+$sql = "SELECT b.booking_id, h.title FROM booking b
+        JOIN homestay h ON b.homestay_id = h.homestay_id
         WHERE b.booking_id = ? AND b.guest_id = ?";
 $stmt = $conn->prepare($sql);
+
+if ($stmt === false) {
+    die("Prepare failed: " . $conn->error);
+}
+
 $stmt->bind_param("ss", $booking_id, $guest_id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -34,9 +40,14 @@ if (!$booking) {
     exit();
 }
 
-// Prevent multiple reviews
+// Prevent multiple reviews: Check if a review already exists for this booking by this guest
 $check_sql = "SELECT * FROM review WHERE guest_id = ? AND booking_id = ?";
 $check_stmt = $conn->prepare($check_sql);
+
+if ($check_stmt === false) {
+    die("Prepare failed: " . $conn->error);
+}
+
 $check_stmt->bind_param("ss", $guest_id, $booking_id);
 $check_stmt->execute();
 $check_result = $check_stmt->get_result();
@@ -46,27 +57,40 @@ if ($check_result->num_rows > 0) {
     exit();
 }
 
-// Handle form submission
+// Handle form submission when the user submits the review
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $rating = $_POST['rating'] ?? '';
-    $comment = trim($_POST['comment'] ?? '');
+    // Trim whitespace and truncate comment to 100 characters to match DB schema
+    $comment = substr(trim($_POST['comment'] ?? ''), 0, 100);
 
+    // Validate inputs
     if ($rating === '' || $comment === '') {
-        $error = "Please provide both rating and comment.";
+        $error = "Please provide both rating and comment (max 100 characters)."; // Updated error message
     } else {
+        // Generate a unique review ID
         $review_id = uniqid('R');
-        $review_date = date('Y-m-d');
+        $review_date = date('Y-m-d'); // Current date for review_date
 
-        $insert_sql = "INSERT INTO review (review_id, guest_id, booking_id, rating, comment, review_date) 
+        // SQL to insert the new review
+        $insert_sql = "INSERT INTO review (review_id, guest_id, booking_id, rating, comment, review_date)
                        VALUES (?, ?, ?, ?, ?, ?)";
         $insert_stmt = $conn->prepare($insert_sql);
-        $insert_stmt->bind_param("sssiss", $review_id, $guest_id, $booking_id, $rating, $comment, $review_date);
+
+        if ($insert_stmt === false) {
+            die("Prepare failed: " . $conn->error);
+        }
+
+        // Bind parameters: s=string, d=double/float, s=string
+        // review_id (string), guest_id (string), booking_id (string), rating (float), comment (string), review_date (string)
+        $insert_stmt->bind_param("sssdss", $review_id, $guest_id, $booking_id, $rating, $comment, $review_date);
 
         if ($insert_stmt->execute()) {
             echo "<script>alert('Review submitted successfully.'); window.location.href='BookingManagement.php';</script>";
             exit();
         } else {
-            $error = "Failed to submit review. Please try again.";
+            // Log the error for debugging purposes
+            error_log("Failed to submit review: " . $insert_stmt->error);
+            $error = "Failed to submit review. Please try again. (Database Error)";
         }
     }
 }
@@ -77,7 +101,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <title>Submit Review</title>
-    <link rel="stylesheet" href="../../CSS/Guest/Review.css">
     <style>
     @font-face {
         font-family: 'NType';

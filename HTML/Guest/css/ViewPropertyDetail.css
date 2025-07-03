@@ -1,0 +1,444 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #fff;
+  color: #111;
+  font-family: Arial, sans-serif;
+}
+
+.property-container {
+  padding: 40px 80px;
+  position: relative;
+  width: 90%;
+  margin: 0 auto;
+}
+
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 50px;
+}
+
+.back-button {
+  font-size: 16px;
+  cursor: pointer;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.back-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.property-name-section {
+  margin-bottom: 60px;
+}
+
+.property-name-display {
+  width: 100%;
+  background-color: transparent;
+  line-height: 1.2em;
+  padding: 5px 0;
+  margin-bottom: 10px;
+  font-size: 50px;
+  font-weight: bold;
+  color: #111;
+}
+
+.property-location-display {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.property-category-display {
+  font-size: 16px;
+  color: #777;
+  margin-bottom: 40px;
+  font-style: italic;
+}
+
+.image-gallery {
+  display: flex;
+  gap: 15px;
+  margin-top: 30px;
+  margin-bottom: 100px;
+  height: 400px;
+}
+
+.image-box {
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border: 1px solid #ddd;
+}
+
+.main-image {
+  flex: 2;
+  height: 100%;
+}
+
+.side-images {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  height: 100%;
+}
+
+.side-image {
+  flex: 1;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  position: absolute;
+  z-index: 0;
+}
+
+.amenities-box {
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 80px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.section-title {
+  font-size: 26px;
+  margin-bottom: 40px;
+  color: #111;
+}
+
+.amenities-list {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 25px 15%;
+}
+
+.amenity-display-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: bold;
+  color: #333;
+}
+
+.amenity-icon {
+  width: 33px;
+  height: 33px;
+  object-fit: contain;
+  margin-right: 10px;
+}
+
+.description-box {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  min-height: 250px;
+  margin-bottom: 100px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.description-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.description-tint {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 1;
+}
+
+.description-overlay {
+  position: relative;
+  z-index: 2;
+  padding: 40px;
+  color: white;
+}
+
+.property-description {
+  font-size: 16px;
+  line-height: 1.6;
+  color: white;
+  white-space: pre-line;
+}
+
+/* Floating Booking Box Styling */
+.floating-booking-box {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  padding: 20px 30px;
+  display: flex;
+  gap: 25px;
+  align-items: center; /* Ensures vertical alignment of the whole box content */
+  z-index: 1000;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.booking-inputs {
+  display: flex; /* Arranges check-in, check-out, guests in a row */
+  gap: 20px; /* Space between the input fields */
+  align-items: flex-start; /* Aligns the top of each booking field */
+}
+
+.booking-field {
+  display: flex;
+  flex-direction: column; /* Stacks label on top of input/select */
+}
+
+.booking-field label {
+  font-size: 12px;
+  color: #555;
+  margin-bottom: 4px;
+  text-align: left; /* Align label text to the left */
+}
+
+input[type="text"],
+select {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+  width: 100%; /* Make input and select take full width of their container */
+  cursor: pointer;
+}
+
+.input-with-icon {
+  position: relative;
+  width: 150px; /* Fixed width for the input fields */
+}
+
+.calendar-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+.price-book {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.price-placeholder {
+  font-size: 16px;
+  font-weight: bold;
+  color: #000;
+  white-space: nowrap; /* Prevent price from wrapping to next line */
+}
+
+.book-btn {
+  background-color: black;
+  color: white;
+  padding: 10px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.book-btn:hover {
+  background-color: #222;
+}
+
+/* Booked Date Styling for jQuery UI Datepicker - Increased Specificity */
+/* This rule applies to selectable dates that are booked (e.g., if you were to click a date that becomes booked) */
+.ui-datepicker td.booked-date a {
+  background-color: #f8d7da !important; /* Use !important to override jQuery UI's background */
+  color: #a00 !important;             /* Use !important for text color */
+  text-decoration: line-through;       /* Visually strike through the date */
+  pointer-events: none;                /* Disable clicks on this date */
+  cursor: default;                     /* Change cursor to default, not pointer */
+}
+
+/* NEW RULE: This rule specifically targets unselectable/disabled dates that are booked */
+.ui-datepicker td.booked-date span.ui-state-default {
+  background-color: #f8d7da !important;
+  color: #a00 !important;
+  text-decoration: line-through;
+  pointer-events: none;
+  cursor: default;
+}
+/* --- CSS for Reviews Section --- */
+.reviews-section {
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 20px;
+  margin-bottom: 80px; /* Provides space before the floating booking box */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08); /* Consistent shadow with other sections */
+}
+
+.reviews-section .section-title {
+  font-size: 26px; /* Keeping consistent with existing .section-title */
+  margin-bottom: 30px; /* Space below the section title for reviews */
+  color: #111;
+  font-weight: bold; /* Make titles bolder */
+}
+
+.reviews-list {
+  display: grid;
+  gap: 25px; /* Space between individual reviews */
+  /* You can add grid-template-columns here if you want multiple columns for reviews on wider screens, e.g.: */
+  /* grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); */
+}
+
+.review-item {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  border: 1px solid #eee;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Lighter shadow for individual items */
+  transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+}
+
+.review-item:hover {
+  transform: translateY(-3px); /* Slight lift on hover */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08); /* Enhance shadow on hover */
+}
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+  flex-wrap: wrap; /* Allows name and date to wrap on smaller screens if needed */
+}
+
+.guest-name {
+  font-weight: bold;
+  font-size: 18px;
+  color: #333;
+  margin-right: 15px; /* Space between name and date */
+  white-space: nowrap; /* Prevents name from breaking onto multiple lines */
+}
+
+.review-date {
+  font-size: 14px;
+  color: #777;
+  white-space: nowrap; /* Prevents date from breaking */
+}
+
+.review-rating {
+  margin-bottom: 10px;
+  color: #FFD700; /* Gold color for stars */
+  font-size: 22px; /* Slightly larger stars */
+  display: flex;
+  align-items: center;
+}
+
+.star {
+  margin-right: 2px; /* Space between stars */
+}
+
+.star.filled {
+  color: #FFD700; /* Solid gold for filled stars */
+}
+
+/* Styling for half-filled stars if you use them */
+.star.half-filled {
+  color: #FFD700;
+  position: relative;
+  width: 0.5em; /* Half the width of a full star */
+  overflow: hidden; /* Clips the other half */
+  display: inline-block; /* Required for width to take effect */
+  vertical-align: middle; /* Aligns with full stars */
+}
+
+.star.empty {
+  color: #ccc; /* Grey for empty stars */
+}
+
+.rating-number {
+  font-size: 15px;
+  color: #555;
+  margin-left: 8px; /* Space between stars and rating number */
+  font-weight: bold;
+  white-space: nowrap; /* Keeps rating number on one line */
+}
+
+.review-comment {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #444;
+  white-space: pre-line; /* Preserves line breaks from database input */
+}
+
+.no-reviews {
+  font-style: italic;
+  color: #777;
+  text-align: center;
+  padding: 20px;
+  border: 1px dashed #ddd; /* Subtle dashed border for clarity */
+  border-radius: 10px;
+  background-color: #f0f0f0;
+}
+
+/* --- Media Queries for Reviews Section (adjusted to fit your existing structure) --- */
+@media (max-width: 1024px) {
+  .review-header {
+      flex-direction: column; /* Stack guest name and date vertically */
+      align-items: flex-start; /* Align stacked items to the left */
+      gap: 5px; /* Smaller gap when stacked */
+  }
+  .guest-name {
+      margin-right: 0; /* Remove right margin when stacked */
+  }
+}
+
+@media (max-width: 768px) {
+  .review-item {
+      padding: 15px; /* Slightly less padding on smaller screens */
+  }
+  .guest-name {
+      font-size: 16px;
+  }
+  .review-date {
+      font-size: 13px;
+  }
+  .review-rating {
+      font-size: 18px;
+  }
+  .rating-number {
+      font-size: 14px;
+  }
+  .review-comment {
+      font-size: 15px;
+  }
+}

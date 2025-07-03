@@ -1,0 +1,140 @@
+/* === FILE: hostheadersheet.css === */
+
+/* === GENERAL RESET === */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'NType', sans-serif;
+}
+
+body {
+  background-color: #f9f9f9;
+  color: #111;
+}
+
+/* === HEADER STYLES === */
+header.main-header {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  background-color: white;
+  font-size: 17px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.main-header .left {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+/* --- Brand Link: Logo + WebName --- */
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+}
+
+.brand-link .logo {
+  width: 50px;
+  height: 50px;
+}
+
+.WebName {
+  font-weight: bold;
+  font-family: 'Archivo', sans-serif;
+  font-size: 24px;
+  color: #111;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.brand-link:hover .WebName {
+  color: #777;
+}
+
+/* --- Admin Navigation Styles --- */
+.admin-nav {
+  display: flex;
+  gap: 20px;
+  margin-left: 20px;
+}
+
+.admin-nav .nav-link {
+  text-decoration: none;
+  color: #555;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 5px 0;
+  position: relative;
+  transition: color 0.3s ease;
+}
+
+.admin-nav .nav-link:hover {
+  color: #007bff;
+}
+
+.admin-nav .nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: -5px;
+  left: 0;
+  background-color: #007bff;
+  transition: width 0.3s ease;
+}
+
+.admin-nav .nav-link:hover::after {
+  width: 100%;
+}
+
+.admin-nav .nav-link.current-page {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.admin-nav .nav-link.current-page::after {
+  width: 100%;
+}
+
+.main-header .right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Be a Guest Button */
+.be-a-guest-btn {
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  background-color: #28a745;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(40, 167, 69, 0.2);
+  font-family: 'Archivo', sans-serif;
+}
+
+.be-a-guest-btn:hover {
+  background-color: #218838;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(40, 167, 69, 0.3);
+}
+
+.be-a-guest-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 5px rgba(40, 167, 69, 0.3);
+}

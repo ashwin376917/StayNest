@@ -1,14 +1,12 @@
 <?php
-require_once '../../connect.php'; // Adjust path if needed
+require_once '../../connect.php'; // Path is correct
 
-// Fetch most clicked properties with their image and title
+// Fetch most clicked properties based on total_click in homestay table
 $sql = "
-    SELECT h.homestay_id, h.title, h.picture1, COUNT(c.click_id) AS click_count
-    FROM property_clicks c
-    JOIN homestay h ON c.homestay_id = h.homestay_id
-    WHERE h.homestay_status = 1
-    GROUP BY h.homestay_id
-    ORDER BY click_count DESC
+    SELECT homestay_id, title, picture1, total_click
+    FROM homestay
+    WHERE homestay_status = 1
+    ORDER BY total_click DESC
     LIMIT 6
 ";
 
@@ -20,7 +18,8 @@ if ($result && $result->num_rows > 0) {
         $data[] = [
             'homestay_id' => $row['homestay_id'],
             'title' => $row['title'],
-            'picture1' => $row['picture1'] ?? ''
+            'picture1' => $row['picture1'] ?? '',
+            'total_click' => $row['total_click']
         ];
     }
 }

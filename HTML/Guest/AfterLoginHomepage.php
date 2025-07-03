@@ -1,171 +1,148 @@
 <?php
 session_start();
-
-// Handle logout if logout button is clicked
-if (isset($_GET['logout'])) {
-    session_unset();
-    session_destroy();
-    header("Location: ../../HTML/Home/login.php");
-    exit();
-}
+require_once '../../connect.php'; // Adjust if path is different
 
 // Check if the guest is logged in
 if (!isset($_SESSION['guest_id'])) {
     header("Location: ../../HTML/Home/login.php");
     exit();
 }
+
+// Fetch Most Clicked Properties from homestay table based on total_click
+$sql = "
+    SELECT homestay_id, title, picture1, total_click
+    FROM homestay
+    WHERE homestay_status = 1
+    ORDER BY total_click DESC
+    LIMIT 10
+";
+
+$result = $conn->query($sql);
+
+$mostClicked = [];
+if ($result && $result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $mostClicked[] = $row;
+    }
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
-   <meta charset="UTF-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Homepage-Guest</title>
-   <link rel="stylesheet" href="../../CSS/Guest/AfterLoginHomepage.css?v=4">
-   <link rel="stylesheet" href="../../CSS/Guest/GuestHeader.css?v=4">
-   
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homepage - Guest</title>
+    <link rel="stylesheet" href="css/GuestHeader.css">
+    <link rel="stylesheet" href="../../include/css/footer.css">
+    <link rel="stylesheet" href="css/AfterLoginHomepage.css">
 </head>
 <body>
-    <header>
-   <!-- HEADER -->
-   <?php include('../../HTML/Guest/GuestHeader.php'); ?>
-   </header>
+<header>
+    <?php include('GuestHeader.php'); ?>
+</header>
 
-   <!-- NAVIGATION -->
-   <nav class="sub-nav">
-      <a href="#" class="tab-link active">Recommended For You</a>
-      <a href="#certified-nest" class="tab-link">Best Near You</a>
-   </nav>
+<nav class="sub-nav">
+    <a href="#" class="tab-link active">For You</a>
+    <a href="#certified-nest" class="tab-link">Category</a>
+</nav>
 
-   <!-- MAIN CONTENT -->
-   <div class="main-container">
+<div class="main-container">
 
-     <!-- RECOMMENDED SECTION -->
     <section class="recommended">
-      <div class="banner-container image-wrapper">
-        <img id="randomBanner" alt="StayNest Welcome" class="main-banner">
-
-        <div class="overlay"></div>
-        <div class="banner-label">
-            <p class="small-title">BEST EXPERIENCE</p>
-            <h2 class="main-title">StayNest</h2>
-            <p class="subtitle">Modern and affordable nest in Melaka</p>
+        <div class="banner-container image-wrapper">
+            <img id="randomBanner" alt="StayNest Welcome" class="main-banner" src="../../assets/FrontPage/mainbanner.jpg">
+            <div class="overlay"></div>
+            <div class="banner-label">
+                <p class="small-title">BEST EXPERIENCE</p>
+                <h2 class="main-title">STAYNEST</h2>
+                <p class="subtitle">Modern and affordable accommodation in Melaka</p>
+            </div>
         </div>
-      </div>
     </section>
 
-      <!-- MOST SEARCHED -->
-      <section class="most-searched">
-        <h2>Most searched for ""</h2>
+    <section class="most-searched">
+        <h2>Most Popular</h2>
         <div class="photo-searched">
-          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
-          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
-          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
-          <div class="photo-box image-wrapper"><div class="overlay"></div></div>
-          <div class="photo-box image-wrapper"><div class="overlay"></div></div> <!-- NEW -->
-          <div class="photo-box image-wrapper"><div class="overlay"></div></div> <!-- NEW -->
-        </div>
-      </section>
+            <?php
+            if (!empty($mostClicked)) {
+                foreach ($mostClicked as $property) {
+                    $homestayId = htmlspecialchars($property['homestay_id']);
+                    $title = htmlspecialchars($property['title']);
+                    $image = htmlspecialchars($property['picture1']); // e.g., 'uploads/image.jpg'
 
-      <!-- CERTIFIED NEST -->
-      <section class="certified-nest" id="certified-nest">
+                    // Corrected path for background-image
+                    $imageUrl = '/StayNest/HTML/Host/' . $image; // Assumes /StayNest/uploads/ is the correct web path
+
+                    // MODIFIED: Added &from=homepage to the URL for back button logic
+                    echo '<a href="ViewPropertyDetail.php?homestay_id=' . $homestayId . '&from=homepage" ';
+                    echo 'class="photo-box image-wrapper clickable-image" ';
+                    echo 'style="background-image: url(\'' . $imageUrl . '\');">';
+                    echo '    <div class="overlay"></div>';
+                    echo '    <div class="bottom-label">' . $title . '</div>';
+                    echo '</a>';
+                }
+            } else {
+                echo "<p>No popular properties found.</p>";
+            }
+            ?>
+        </div>
+    </section>
+
+    <section class="certified-nest" id="certified-nest">
         <h2>Explore Certified Nest Categories</h2>
         <div class="certified-grid">
-      
-          <div class="fixed-photo image-wrapper">
-            <img src="../../assets/Guest/familyfriendly.jpg" alt="Certified Nest">
-            <div class="top-label">
-               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+            <a href="SearchResult.php?category=Family Friendly" class="fixed-photo image-wrapper clickable-image">
+                <img src="../../assets/FrontPage/family.jpg" alt="Family Friendly">
+                <div class="top-label">
+                    <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+                </div>
+                <div class="bottom-label">Family Friendly</div>
+            </a>
+            <a href="SearchResult.php?category=Pet Friendly" class="fixed-photo image-wrapper clickable-image">
+                <img src="../../assets/FrontPage/pet.jpg" alt="Pet Friendly">
+                <div class="top-label">
+                    <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+                </div>
+                <div class="bottom-label">Pet Friendly</div>
+            </a>
+            <a href="SearchResult.php?category=Antique" class="fixed-photo image-wrapper clickable-image">
+                <img src="../../assets/FrontPage/antique.jpg" alt="Antique">
+                <div class="top-label">
+                    <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+                </div>
+                <div class="bottom-label">Antique</div>
+            </a>
+            <a href="SearchResult.php?category=Shared" class="fixed-photo image-wrapper clickable-image">
+                <img src="../../assets/FrontPage/shared.jpg" alt="Shared">
+                <div class="top-label">
+                    <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+                </div>
+                <div class="bottom-label">Shared</div>
+            </a>
+            <a href="SearchResult.php?category=Luxury" class="fixed-photo image-wrapper clickable-image">
+                <img src="../../assets/FrontPage/luxury.jpg" alt="Luxury">
+                <div class="top-label">
+                    <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+                </div>
+                <div class="bottom-label">Luxury</div>
+            </a>
+            <a href="SearchResult.php?category=Minimalist" class="fixed-photo image-wrapper clickable-image">
+                <img src="../../assets/FrontPage/minimal.jpg" alt="Minimalist">
+                <div class="top-label">
+                    <img src="../../assets/FrontPage/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
+                </div>
+                <div class="bottom-label">Minimalist</div>
+            </a>
             </div>
-            <div class="bottom-label">Family-Friendly</div>
-          </div>
-      
-          <div class="fixed-photo image-wrapper">
-            <img src="../../assets/Guest/petfriendly.jpeg" alt="Certified Nest">
-            <div class="top-label">
-               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
-            </div>
-            <div class="bottom-label">Pet-Friendly</div>
-          </div>
-      
-          <div class="fixed-photo image-wrapper">
-            <img src="../../assets/Guest/antique.jpg" alt="Certified Nest">
-            <div class="top-label">
-               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
-            </div>
-            <div class="bottom-label">Antique</div>
-          </div>
-      
-          <div class="fixed-photo image-wrapper">
-            <img src="../../assets/Guest/shared.avif" alt="Certified Nest">
-            <div class="top-label">
-               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
-            </div>
-            <div class="bottom-label">Shared</div>
-          </div>
-      
-          <div class="fixed-photo image-wrapper">
-            <img src="../../assets/Guest/luxury.jpg" alt="Certified Nest">
-            <div class="top-label">
-               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
-            </div>
-            <div class="bottom-label">Luxury</div>
-          </div>
-      
-          <div class="fixed-photo image-wrapper">
-            <img src="../../assets/Guest/minimalist.avif" alt="Certified Nest">
-            <div class="top-label">
-               <img src="../../assets/Guest/certified.png" class="certified-icon" alt="Certified"> CERTIFIED HOST
-            </div>
-            <div class="bottom-label">Minimalist</div>
-          </div>      
-        </div>
-      </section>
-      
+    </section>
 
-   </div> <!-- END main-container -->
- <!-- NOTIFICATION SIDEBAR -->
-<div id="notificationSidebar" class="sidebar hidden">
-   <div class="sidebar-header">
-     <h3>Notifications</h3>
-     <button onclick="closeSidebar('notificationSidebar')">✕</button>
-   </div>
-   <ul id="notificationList">
-     <!-- Notifications go here -->
-   </ul>
- </div>
- 
- <!-- MESSAGES SIDEBAR -->
- <div id="messagesSidebar" class="sidebar hidden">
-   <div class="sidebar-header">
-     <h3>Messages</h3>
-     <button onclick="closeSidebar('messagesSidebar')">✕</button>
-   </div>
-   <div id="chatList">
-     <!-- Messages go here -->
-   </div>
- </div>
- 
- 
- <!-- CHAT WINDOW -->
- <div id="chatWindow" class="chat-window hidden">
-   <div class="chat-header">
-     <span id="chatUser">Chat with Guest</span>
-     <button onclick="closeChat()">X</button>
-   </div>
-   <div class="chat-body" id="chatMessages"></div>
-   <div class="chat-input">
-     <input type="text" id="chatInputBox" placeholder="Type a message...">
-     <button onclick="sendMessage()">Send</button>
-   </div>
- </div>
- 
- 
-   <footer>
-     </footer>
-   <script src="../../JS/Guest/AfterLoginHomepage.js?t=<?= time() ?>"></script>
-   <script src="../../JS/Guest/SearchHandler.js?v=1"></script>
-  
+</div>
+
+<?php include "../../include/footer.html"; ?>
+
+<script src="../../HTML/Guest/js/AfterLoginHomepage.js?v=<?php echo time(); ?>"></script>
+<script src="js/SearchHandler.js"></script>
+
 </body>
 </html>

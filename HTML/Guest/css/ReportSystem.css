@@ -1,0 +1,105 @@
+/* @font-face {
+    font-family: 'NType';
+    src: url('../../assets/NType-Regular.ttf') format('opentype');
+}
+
+@font-face {
+    font-family: 'Archivo';
+    src: url('../../assets/archivo/Archivo-Regular.ttf') format('truetype');
+} */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: #fff;
+    color: #111;
+    /* font-family: 'Archivo', sans-serif; */
+}
+
+/* WIDTH CONTAINER */
+.main-container {
+    width: 90%;
+    margin: 0 auto;
+}
+
+/* REPORT PAGE TITLE - ONLY TITLE USES NTYPE */
+.main-container h1 {
+    margin-top: 40px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+    /* font-family: 'NType', sans-serif; */
+}
+
+/* REPORT FORM - USE ARCHIVO */
+.report-form {
+    margin-top: 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    /* font-family: 'Archivo', sans-serif; */
+}
+
+.report-form label {
+    font-weight: bold;
+    /* font-family: 'Archivo', sans-serif; */
+}
+
+.report-form input,
+.report-form select,
+.report-form textarea {
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    /* font-family: 'Archivo', sans-serif; */
+}
+
+.report-form textarea {
+    resize: vertical;
+    height: 150px;
+}
+
+.upload-container {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    /* font-family: 'Archivo', sans-serif; */
+}
+
+.upload-container input[type="file"] {
+    padding: 5px;
+    /* font-family: 'Archivo', sans-serif; */
+}
+
+.report-form button {
+    padding: 10px 20px;
+    font-size: 16px;
+    background-color: #111;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    /* font-family: 'Archivo', sans-serif; */
+}
+
+.report-form button:hover {
+    background-color: #444;
+}
+
+/* ERROR MESSAGE */
+.error-message {
+    color: red;
+    margin-bottom: 20px;
+    font-weight: bold;
+    /* font-family: 'Archivo', sans-serif; */
+}

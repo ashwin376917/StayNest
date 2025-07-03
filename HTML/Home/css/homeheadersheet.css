@@ -1,0 +1,345 @@
+/* homeheadersheet.css */
+
+/* Font imports - ensure these paths are correct relative to THIS CSS file */
+@font-face {
+  font-family: 'NType';
+  src: url('../../assets/NType-Regular.ttf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Archivo';
+  src: url('../../assets/archivo/Archivo-Regular.ttf') format('truetype');
+}
+
+/* Global reset and body styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'NType', sans-serif; /* Default font */
+}
+
+body {
+  font-family: 'NType', sans-serif;
+  background-color: #fff;
+  color: #111;
+}
+
+/* === HEADER STYLES === */
+header.main-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+  background-color: white;
+  font-size: 17px;
+  border-bottom: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  /* Removed position: relative; if it's already sticky, relative to itself usually for children */
+}
+
+.left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.left .logo {
+  width: 50px;
+  height: 50px;
+}
+
+/* Important: Changed .home-nav to .nav-link for Dashboard/My Booking */
+/* If you have a .home-nav div somewhere else, adjust accordingly */
+.nav-link { /* Targetting Dashboard and My Booking links specifically */
+  text-decoration: none;
+  color: #555;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 5px 0;
+  position: relative; /* Needed for the ::after pseudo-element */
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+.nav-link::after {
+  content: '';
+  position: absolute;
+  width: 0; /* Initial width is 0 */
+  height: 2px;
+  bottom: -5px; /* Adjust if needed, typically 0 or a small negative value */
+  left: 0;
+  background-color: #007bff;
+  transition: width 0.3s ease; /* Smooth transition for the width */
+}
+
+.nav-link:hover::after,
+.nav-link.current-page::after { /* current-page class for active link */
+  width: 100%; /* Expands to full width on hover or if active */
+}
+
+.nav-link.current-page {
+  color: #007bff;
+  font-weight: bold;
+}
+
+.WebName {
+  font-weight: bold;
+  font-family: 'Archivo', sans-serif;
+  font-size: 24px;
+  color: #111;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.WebName:hover {
+  color: #777;
+}
+
+.brand-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.brand-link:hover .WebName {
+  color: #777;
+}
+
+.search-container {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 400px;
+  border: 2px solid #726a6a;
+  border-radius: 999px; /* This makes it a pill shape */
+  background-color: white;
+  padding: 5px;
+  z-index: 10;
+}
+
+.search-bar {
+  flex: 1;
+  border: none;
+  outline: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  border-radius: 999px; /* Match container border-radius */
+  background: transparent;
+  color: #111;
+}
+
+.search-btn {
+  width: 40px;
+  height: 40px;
+  background-color: black;
+  border-radius: 50%; /* Make it a circle */
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 5px; /* Small space from the right edge */
+}
+
+.search-btn img {
+  width: 18px;
+  height: 18px;
+  /* filter: invert(100%); Make search icon white for black button */
+}
+
+.icon { /* Unused in GuestHeader HTML but good to keep if used elsewhere */
+  width: 25px;
+  height: 25px;
+  cursor: pointer;
+}
+
+/* Be a Host Button */
+.be-a-host {
+  text-decoration: none;
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: bold;
+  color: white;
+  background-color: #007bff; /* Blue button */
+  border: none;
+  border-radius: 25px; /* Pill shape */
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+  box-shadow: 0 4px 10px rgba(0, 123, 255, 0.2);
+  font-family: 'Archivo', sans-serif;
+}
+
+.be-a-host:hover {
+  background-color: #0056b3; /* Darker blue on hover */
+  transform: translateY(-1px); /* Slight lift */
+  box-shadow: 0 6px 12px rgba(0, 123, 255, 0.3);
+}
+
+.be-a-host:active {
+  transform: translateY(0); /* Press effect */
+  box-shadow: 0 2px 5px rgba(0, 123, 255, 0.3);
+}
+
+/* Profile Icon */
+.profile-wrapper {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2px solid #ddd;
+  cursor: pointer;
+  transition: border-color 0.3s ease;
+}
+
+.profile-wrapper:hover {
+  border-color: #007bff; /* Highlight border on hover */
+}
+
+.profile-icon {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+/* Responsive Adjustments - These are very important! */
+@media (max-width: 900px) {
+  header.main-header {
+      padding: 10px;
+  }
+  .left {
+      gap: 10px;
+  }
+  .right {
+      gap: 10px;
+  }
+  .WebName {
+      font-size: 20px;
+  }
+  .left .logo {
+      width: 40px;
+      height: 40px;
+  }
+  .search-container {
+      max-width: 300px;
+      padding: 3px;
+  }
+  .search-bar {
+      padding: 10px 15px;
+      font-size: 14px;
+  }
+  .search-btn {
+      width: 35px;
+      height: 35px;
+  }
+  .search-btn img {
+      width: 16px;
+      height: 16px;
+  }
+  .nav-link {
+      font-size: 14px;
+      padding: 3px 0;
+  }
+  .be-a-host {
+      padding: 8px 15px;
+      font-size: 13px;
+  }
+  .profile-wrapper {
+      width: 35px;
+      height: 35px;
+  }
+}
+
+@media (max-width: 768px) {
+  header.main-header {
+      flex-direction: column; /* Stack items vertically */
+      gap: 10px; /* Space between stacked elements */
+      padding: 10px;
+      position: static; /* No longer sticky on small screens if you want full height */
+      box-shadow: none; /* Reduce shadow on smaller screens */
+  }
+
+  .left, .right {
+      width: 100%;
+      justify-content: center; /* Center items in stacked layout */
+      gap: 15px;
+  }
+
+  .brand-link {
+      justify-content: center; /* Center brand link on small screens */
+      width: 100%;
+      margin-bottom: 5px;
+  }
+  .WebName {
+      font-size: 22px; /* Slightly larger for prominence */
+  }
+
+  .search-container {
+      position: static; /* Remove absolute positioning */
+      transform: none; /* Remove translateX */
+      width: 95%; /* Take more width */
+      margin: 10px 0; /* Add margin top/bottom */
+      order: 3; /* Push search to the end */
+  }
+
+  .nav-link {
+      /* Adjust spacing or stack if needed for very small screens */
+      margin: 0 5px; /* Smaller horizontal margin */
+  }
+  .be-a-host {
+      margin-top: 5px; /* Space between be-a-host and profile */
+      width: auto; /* Allow button to size to content */
+  }
+  .profile-wrapper {
+      margin-top: 5px;
+  }
+}
+
+@media (max-width: 480px) {
+  .left, .right {
+      flex-wrap: wrap; /* Allow nav links to wrap */
+      gap: 10px;
+  }
+  .nav-link {
+      padding: 2px 5px;
+      font-size: 13px;
+  }
+  .search-bar {
+      padding: 8px 12px;
+  }
+  .be-a-host {
+      padding: 6px 12px;
+      font-size: 12px;
+      border-radius: 20px;
+  }
+  .profile-wrapper {
+      width: 30px;
+      height: 30px;
+  }
+  .left .logo {
+      width: 35px;
+      height: 35px;
+  }
+  .WebName {
+      font-size: 18px;
+  }
+}

@@ -1,0 +1,181 @@
+/* @font-face {
+  font-family: 'Archivo';
+  src: url('../../assets/archivo/Archivo-Medium.ttf') format('truetype');
+} */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: 'Archivo', sans-serif !important; */
+}
+
+body {
+  background-color: #f0f0f0;
+  color: #111;
+}
+
+.container {
+  display: flex;
+  height: 100vh;
+}
+
+.left {
+  flex: 0.65;
+  background-color: white;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; /* Center horizontally in the left div */
+  position: relative;
+}
+
+.top-bar {
+  position: absolute;
+  top: 20px;
+  left: 40px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.top-bar img {
+  width: 50px;
+  height: 50px;
+  object-fit: contain;
+}
+
+.WebName {
+  font-size: 22px;
+  font-weight: bold;
+  color: #111;
+  letter-spacing: 1px;
+  transition: color 0.3s;
+}
+
+.WebName:hover {
+  color: #777;
+}
+
+.form-box {
+  max-width: 300px; /* Adjusted for better form appearance */
+  width: 100%;
+  margin-top: 20px;
+  transform: translateY(-30px); /* Keep it vertically centered a bit higher */
+  padding: 20px; /* Add some internal padding */
+  border-radius: 8px; /* Slightly rounded corners */
+  box-shadow: 0 4px 12px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+.form-box h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center; /* Center the heading */
+}
+
+.form-box p {
+  font-size: 15px; /* Slightly smaller for summary */
+  margin-bottom: 8px; /* Reduced margin */
+  line-height: 1.4;
+  color: #555;
+}
+
+.form-box p strong {
+  display: inline-block;
+  width: 90px; /* Adjust width to align keys */
+  color: #333;
+}
+
+
+.form-box select,
+.form-box input[type="text"] { /* Target text inputs specifically */
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  box-sizing: border-box; /* Ensures padding doesn't increase width */
+}
+
+/* Style for the select dropdown arrow */
+.form-box select {
+  appearance: none; /* Remove default arrow */
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23000%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13.2-5.6H18.8c-7.7%200-13.5%204.3-13.2%205.6s-2.9%2012.3%200%2016.9l132%20132c2.9%202.9%206.3%204.3%209.6%204.3s6.7-1.4%209.6-4.3l132-132c2.7-4.2 2.7-11.2.1-16.9z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow */
+  background-repeat: no-repeat;
+  background-position: right 10px top 50%;
+  background-size: 10px auto;
+}
+
+
+.form-box button.pay {
+  width: 100%;
+  padding: 12px;
+  background-color: #000;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  font-weight: normal;
+}
+
+.form-box button.pay:hover {
+  background-color: #333;
+}
+
+.form-box button.cancel {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  color: black;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background-color 0.3s ease;
+  font-weight: normal;
+}
+
+.form-box button.cancel:hover {
+  background-color: #eee;
+}
+
+.right {
+  flex: 1;
+  background: url('../../../assets/payment_img.jpg') center/cover no-repeat;
+  background-size: cover;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+      flex-direction: column;
+  }
+
+  .right {
+      height: 250px;
+      width: 100%; /* Take full width on smaller screens */
+  }
+
+  .left {
+      padding: 20px;
+      width: 100%; /* Take full width on smaller screens */
+      justify-content: flex-start; /* Align content to top for smaller height */
+  }
+
+  .form-box {
+      max-width: 100%; /* Allow full width */
+      margin-top: 40px; /* Adjust margin for smaller screens */
+      transform: translateY(0); /* Remove vertical shift */
+  }
+
+  .top-bar {
+      left: 20px; /* Adjust left position for smaller screens */
+  }
+}
