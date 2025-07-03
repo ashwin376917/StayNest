@@ -79,6 +79,33 @@ $stmt->close();
 
 $booked_dates = array_values(array_unique($booked_dates));
 
+// --- Start of NEW Review Fetching Logic ---
+$reviews = [];
+// Join review, booking, and guest tables to get review details and guest name
+$sql_reviews = "
+    SELECT 
+        r.rating, 
+        r.comment, 
+        r.review_date,
+        g.guest_name
+    FROM review r
+    JOIN booking b ON r.booking_id = b.booking_id
+    JOIN guest g ON r.guest_id = g.guest_id
+    WHERE b.homestay_id = ?
+    ORDER BY r.review_date DESC"; // Order by most recent review
+
+$stmt_reviews = $conn->prepare($sql_reviews);
+if ($stmt_reviews) {
+    $stmt_reviews->bind_param("s", $homestay_id);
+    $stmt_reviews->execute();
+    $result_reviews = $stmt_reviews->get_result();
+    while ($row_review = $result_reviews->fetch_assoc()) {
+        $reviews[] = $row_review;
+    }
+    $stmt_reviews->close();
+}
+// --- End of NEW Review Fetching Logic ---
+
 $view_only = isset($_GET['viewonly']);
 $offered_amenities = !empty($homestay['amenities']) ? array_map('trim', explode(',', $homestay['amenities'])) : [];
 $all_possible_amenities = ["Wifi", "Parking", "Kitchen", "Pool", "SmartTV", "PersonalWorkspace", "Washer", "HairDryer", "Dryer", "Aircond"];
@@ -150,7 +177,41 @@ $image_base_path = '/StayNest/HTML/Host/';
             <p class="property-description"> <?= nl2br(htmlspecialchars($homestay['description'])) ?> </p>
         </div>
     </div>
-</div>
+
+    <div class="reviews-section">
+        <p class="section-title">Guest Reviews</p>
+        <?php if (!empty($reviews)): ?>
+            <div class="reviews-list">
+                <?php foreach ($reviews as $review): ?>
+                    <div class="review-item shadow">
+                        <div class="review-header">
+                            <span class="guest-name"><?= htmlspecialchars($review['guest_name']) ?></span>
+                            <span class="review-date"><?= date('F j, Y', strtotime($review['review_date'])) ?></span>
+                        </div>
+                        <div class="review-rating">
+                            <?php 
+                            $full_stars = floor($review['rating']);
+                            $has_half_star = ($review['rating'] - $full_stars) >= 0.5; // Check for half star
+                            $empty_stars = 5 - ceil($review['rating']); // Calculate remaining empty stars
+                            
+                            for ($i = 0; $i < $full_stars; $i++): ?>
+                                <span class="star filled">&#9733;</span>
+                            <?php endfor; ?>
+                            <?php if ($has_half_star): ?>
+                                <span class="star half-filled">&#9733;</span> <?php endif; ?>
+                            <?php for ($i = 0; $i < $empty_stars; $i++): ?>
+                                <span class="star empty">&#9734;</span>
+                            <?php endfor; ?>
+                            <span class="rating-number"><?= (int)$review['rating'] ?>/5</span>                        </div>
+                        <p class="review-comment"><?= nl2br(htmlspecialchars($review['comment'])) ?></p>
+                    </div>
+                <?php endforeach; ?>
+            </div>
+        <?php else: ?>
+            <p class="no-reviews">No reviews yet for this homestay.</p>
+        <?php endif; ?>
+    </div>
+    </div>
 
 <?php if (!$view_only): ?>
 <div class="floating-booking-box">
